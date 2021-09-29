@@ -32,6 +32,8 @@ public class Account implements Serializable{
 	private String phone;
 	
 	private String email;
+
+	private String capcha;
 	
 	@JsonIgnore
 	@OneToMany(mappedBy = "account")
