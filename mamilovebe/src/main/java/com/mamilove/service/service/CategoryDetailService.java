@@ -1,5 +1,9 @@
 package com.mamilove.service.service;
 
-public interface CategoryDetailService {
+import java.util.List;
 
+import com.mamilove.entity.Categorydetail;
+
+public interface CategoryDetailService {
+	List<Categorydetail> findAll();
 }
