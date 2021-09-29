@@ -3,12 +3,7 @@ package com.mamilove.entity;
 import java.io.Serializable;
 import java.util.List;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -26,17 +21,11 @@ public class Customer implements Serializable{
 	
 	private String fullname;
 	
-	private String username;
-	
-	private String password;
-	
-	private String phone;
-	
-	private String email;
-	
 	private String statuscustomer;
-	
-	private Long capcha;
+
+	@OneToOne
+	@JoinColumn(name = "idaccount")
+	private  Account account;
 	
 	@JsonIgnore
 	@OneToMany(mappedBy = "customer")
