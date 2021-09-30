@@ -72,5 +72,10 @@ public interface AccountService {
 
 	<S extends Account> S save(S entity);
 
+	//
+
+	Optional<Account> findByUsername(String username);
+
+	Optional<Account> findByEmail(String email);
 
 }
