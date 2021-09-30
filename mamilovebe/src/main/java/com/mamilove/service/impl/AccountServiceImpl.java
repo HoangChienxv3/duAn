@@ -19,7 +19,17 @@ public class AccountServiceImpl implements AccountService{
 
 	@Autowired
 	AccountDao accountDao;
+	//
+	@Override
+	public Optional<Account> findByUsername(String username) {
+		return accountDao.findByUsername(username);
+	}
 
+	@Override
+	public Optional<Account> findByEmail(String email) {
+		return accountDao.findByEmail(email);
+	}
+//
 	@Override
 	public <S extends Account> S save(S entity) {
 		return accountDao.save(entity);
