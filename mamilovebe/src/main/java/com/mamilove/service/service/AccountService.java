@@ -77,5 +77,9 @@ public interface AccountService {
 	Optional<Account> findByUsername(String username);
 
 	Optional<Account> findByEmail(String email);
+	//
+	Boolean existsByUsername(String username);
+
+	Boolean existsByEmail(String email);
 
 }

@@ -29,7 +29,18 @@ public class AccountServiceImpl implements AccountService{
 	public Optional<Account> findByEmail(String email) {
 		return accountDao.findByEmail(email);
 	}
-//
+
+	@Override
+	public Boolean existsByUsername(String username) {
+		return accountDao.existsByUsername(username);
+	}
+
+	@Override
+	public Boolean existsByEmail(String email) {
+		return accountDao.existsByEmail(email);
+	}
+
+	//
 	@Override
 	public <S extends Account> S save(S entity) {
 		return accountDao.save(entity);
