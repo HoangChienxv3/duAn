@@ -17,19 +17,19 @@ public class TestController {
     }
 
     @GetMapping("/user")
-    @PreAuthorize("hasRole('CUSTOMER') or hasRole('STAFF') or hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ROLE_CUSTOMER') or hasRole('ROLE_STAFF') or hasRole('ROLE_ADMIN')")
     public String userAccess() {
         return "User Content.";
     }
 
     @GetMapping("/mod")
-    @PreAuthorize("hasRole('STAFF')")
+    @PreAuthorize("hasRole('ROLE_STAFF')")
     public String moderatorAccess() {
         return "STAFF Board.";
     }
 
     @GetMapping("/admin")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String adminAccess() {
         return "Admin Board.";
     }
