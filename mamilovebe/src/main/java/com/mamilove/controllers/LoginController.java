@@ -108,6 +108,7 @@ public class LoginController {
                 userDetails.getUsername(),
                 userDetails.getEmail(),
                 roles), "Đăng nhập thành công", true));
+  //      return ResponseEntity.ok(userDetails);
     }
 
     //create account
