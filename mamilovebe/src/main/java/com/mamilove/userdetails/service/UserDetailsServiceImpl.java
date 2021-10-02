@@ -8,6 +8,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
 
@@ -26,9 +28,11 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 //     *                                   GrantedAuthority
 //     */
     @Override
+    @Transactional
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Account account = accountDao.findByUsername(username)
                 .orElseThrow(()->new UsernameNotFoundException("User Not Found With Username: "+ username));
+
         return  UserDetailsImpl.build(account);
     }
 }

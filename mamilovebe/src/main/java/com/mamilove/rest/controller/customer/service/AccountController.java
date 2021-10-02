@@ -2,6 +2,7 @@ package com.mamilove.rest.controller.customer.service;
 
 import com.mamilove.dao.AccountDao;
 import com.mamilove.entity.Account;
+import com.mamilove.request.dto.Res;
 import com.mamilove.service.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -10,8 +11,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin("*")
 @RestController
-@RequestMapping(value = "/users")
+@RequestMapping("/users")
 public class AccountController {
     @Autowired
     AccountService accountService;
@@ -22,11 +24,11 @@ public class AccountController {
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<Account> getOne(@PathVariable("id") long id) {
+    public ResponseEntity<?> getOne(@PathVariable("id") long id) {
         if (!accountService.existsById(id)) {
             ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok(accountService.findById(id).get());
+        return ResponseEntity.ok(new Res(accountService.findById(id).get(),"thong tin tai khoan",true));
     }
     @PostMapping(value = "")
     public  ResponseEntity<Account> post(@RequestBody Account account){
