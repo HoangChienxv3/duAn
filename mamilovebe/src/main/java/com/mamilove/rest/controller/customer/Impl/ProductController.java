@@ -36,9 +36,9 @@ public class ProductController {
 		List<Product> entity = productService.findProductNew();
 		return ResponseEntity.ok(new Res( entity , "Success", true));
 	}
-	@GetMapping("/list-product/info/{id}")
-	public ResponseEntity<?> findProductById(@PathVariable("id") Long id){
-		Optional<Product> entity = productService.findById(id);
-		return ResponseEntity.ok(new Res( entity , "Success", true));
-	}
+//	@GetMapping("/list-product/info/{id}")
+//	public ResponseEntity<?> findProductById(@PathVariable("id") Long id){
+//		Optional<Product> entity = productService.findById(id);
+//		return ResponseEntity.ok(new Res( entity , "Success", true));
+//	}
 }
