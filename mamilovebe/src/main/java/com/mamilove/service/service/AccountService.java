@@ -18,6 +18,8 @@ public interface AccountService {
 
 	<S extends Account> List<S> findAll(Example<S> example);
 
+	Boolean existsByPhone(String phone);
+
 	Account getById(Long id);
 
 	void deleteAll();

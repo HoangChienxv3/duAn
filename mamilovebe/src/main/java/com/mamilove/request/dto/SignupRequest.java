@@ -23,5 +23,6 @@ public class SignupRequest {
     @NotNull(message = "Không được để trống")
     @Length(min = 6, message = "Tối thiểu mật khẩu phải 6 ký tự")
     private String password;
+    private String phone;
     private List<String> role;
 }

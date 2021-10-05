@@ -1,6 +1,7 @@
 package com.mamilove.entity;
 
 import java.io.Serializable;
+import java.sql.Date;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -42,12 +43,16 @@ public class Product implements Serializable{
 	
 	private String status;
 	
+	private Date day_update;
+	
+	private String image;
+	
 	@ManyToOne @JoinColumn(name = "idcategorydetail")
 	private Categorydetail categorydetail;
 	
 	@JsonIgnore
 	@OneToMany(mappedBy = "product")
-	private List<Image> images;
+	private List<Image> list_Images;
 	
 	@JsonIgnore
 	@OneToMany(mappedBy = "product")
