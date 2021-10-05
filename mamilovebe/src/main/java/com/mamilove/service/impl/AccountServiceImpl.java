@@ -181,6 +181,11 @@ public class AccountServiceImpl implements AccountService{
 	}
 
 	@Override
+	public Boolean existsByPhone(String phone) {
+		return accountDao.existsByPhone(phone);
+	}
+
+	@Override
 	public <S extends Account> List<S> findAll(Example<S> example, Sort sort) {
 		return accountDao.findAll(example, sort);
 	}
