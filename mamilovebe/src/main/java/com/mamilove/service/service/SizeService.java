@@ -1,5 +1,9 @@
 package com.mamilove.service.service;
 
-public interface SizeService {
+import java.util.List;
 
+import com.mamilove.entity.Size;
+
+public interface SizeService {
+	List<Size> findByName(String name);
 }
