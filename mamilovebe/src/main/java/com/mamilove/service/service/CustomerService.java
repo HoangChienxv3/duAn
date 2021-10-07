@@ -1,5 +1,8 @@
 package com.mamilove.service.service;
 
-public interface CustomerService {
+import com.mamilove.entity.Customer;
 
+import java.util.List;
+
+public interface CustomerService {
 }
