@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mamilove.entity.Bill;
 import com.mamilove.entity.Mamipay;
+import com.mamilove.request.dto.BillDto;
 import com.mamilove.request.dto.Res;
 import com.mamilove.service.impl.MamipayServiceImpl;
 import com.mamilove.service.service.BillService;
@@ -30,27 +31,27 @@ public class BillController {
 
     @PostMapping("{id}")
     public ResponseEntity<?>  BillByCustomer(@PathVariable("id") Long id){
-        return ResponseEntity.ok(new Res(billService.BillByCustomer(id),"dat",true)) ;
+        return ResponseEntity.ok(new Res(billService.BillByCustomer(id),"Thông tin đơn hàng",true)) ;
     }
     @GetMapping("/list")
     public ResponseEntity<List<Bill>> listBill(){
-        return ResponseEntity.ok(billService.FinAll());
+        return ResponseEntity.ok(billService.FindAll());
     }
 
     @PostMapping("/creat")
-    public  ResponseEntity<?> post(@RequestBody JsonNode bill){
+    public  ResponseEntity<?> post(@RequestBody BillDto bill){
         ObjectMapper mapper = new ObjectMapper();
         Bill bills = mapper.convertValue(bill, Bill.class);
         if(bills.getPayment() == false){
-            System.out.println("payment=> 0");
+            return ResponseEntity.ok(new Res("Chưa thanh toán",false));
         }else if(bills.getPayment()==true) {
-            System.out.println("payment=> 1");
+            System.out.println("Phương thức thanh toán bằng ví điện tử");
           Mamipay mm = mamipayService.ByCustomer(bills.getCustomer().getId());
             if (mm.getSurplus()>=bills.getTotal()){
-                System.out.println("toto bé");
-                return ResponseEntity.ok(billService.save(bill));
+                ResponseEntity.ok(new Res(billService.save(bill),"Đã thanh toán",false ));
             }else {
-                System.out.println("toto lớn");
+                return ResponseEntity.ok(new Res("Ví điện tử của quý khách không đủ số dư",false));
+
             }
         }
         return null;
