@@ -1,4 +1,4 @@
-package com.mamilove.rest.controller.customer.Impl;
+package com.mamilove.controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
