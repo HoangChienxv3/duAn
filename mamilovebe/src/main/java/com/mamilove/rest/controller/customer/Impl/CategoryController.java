@@ -22,4 +22,5 @@ public class CategoryController {
 	public ResponseEntity<List<Category>> findAll(){
 		return ResponseEntity.ok(categoryService.findAll());
 	}
+	
 }

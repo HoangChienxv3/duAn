@@ -26,6 +26,7 @@ public class Property implements Serializable{
 	
 	private String name;
 	
+	private String id_color;
 	@JsonIgnore
 	@OneToMany(mappedBy = "property")
 	private List<Quantity> quantities;
