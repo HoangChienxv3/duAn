@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.mamilove.entity.Product;
 import com.mamilove.request.dto.JwtResponse;
 import com.mamilove.request.dto.Res;
+import com.mamilove.service.service.CategoryDetailService;
 import com.mamilove.service.service.ImageService;
 import com.mamilove.service.service.ProductService;
 
@@ -25,6 +26,8 @@ public class ProductController {
 	ProductService productService;
 	@Autowired
 	ImageService ImageService;
+	@Autowired
+	CategoryDetailService categoryDetailService;
 	
 	@GetMapping("/list-product")
 	public ResponseEntity<?> findAll(){
@@ -36,9 +39,16 @@ public class ProductController {
 		List<Product> entity = productService.findProductNew();
 		return ResponseEntity.ok(new Res( entity , "Success", true));
 	}
-//	@GetMapping("/list-product/info/{id}")
-//	public ResponseEntity<?> findProductById(@PathVariable("id") Long id){
-//		Optional<Product> entity = productService.findById(id);
-//		return ResponseEntity.ok(new Res( entity , "Success", true));
-//	}
+	@GetMapping("/list-product/info/{id}")
+	public ResponseEntity<?> findProductById(@PathVariable("id") Long id){
+		Optional<Product> entity = productService.findById(id);
+		return ResponseEntity.ok(new Res( entity , "Success", true));
+	}
+	
+	@GetMapping("/GetProductByCategory/{id}")
+	public ResponseEntity<?> GetProductByCategory(@PathVariable("id") Long id){
+		Optional<Product> product = Optional.ofNullable(productService.findById(id).get());
+		List<Product> entity = productService.findByCategoryDetail(product.get().getCategorydetail());
+		return ResponseEntity.ok(new Res(entity,"Success",true));
+	}
 }
