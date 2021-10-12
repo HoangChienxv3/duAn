@@ -20,7 +20,7 @@ public class OrderDetailController {
     public ResponseEntity<List<Orderdetail>> listOrderdetail(){
         return ResponseEntity.ok(orderDetailService.FinAll());
     }
-    @PostMapping("{id}")
+    @PutMapping("{id}")
     public ResponseEntity<?> AllByCustomer(@PathVariable("id") Long id){
         return ResponseEntity.ok(new Res(orderDetailService.AllByCustomer(id),"dat",true)) ;
     }

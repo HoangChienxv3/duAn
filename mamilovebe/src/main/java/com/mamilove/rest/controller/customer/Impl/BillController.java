@@ -1,9 +1,9 @@
 package com.mamilove.rest.controller.customer.Impl;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mamilove.entity.Bill;
 import com.mamilove.entity.Mamipay;
+import com.mamilove.request.dto.BillDto;
 import com.mamilove.request.dto.Res;
 import com.mamilove.service.impl.MamipayServiceImpl;
 import com.mamilove.service.service.BillService;
@@ -28,9 +28,9 @@ public class BillController {
     @Autowired
     CustomerService customerService;
 
-    @PostMapping("{id}")
+    @PutMapping("{id}")
     public ResponseEntity<?>  BillByCustomer(@PathVariable("id") Long id){
-        return ResponseEntity.ok(new Res(billService.BillByCustomer(id),"dat",true)) ;
+        return ResponseEntity.ok(new Res(billService.BillByCustomer(id),"thành công",true)) ;
     }
     @GetMapping("/list")
     public ResponseEntity<List<Bill>> listBill(){
@@ -38,19 +38,15 @@ public class BillController {
     }
 
     @PostMapping("/creat")
-    public  ResponseEntity<?> post(@RequestBody JsonNode bill){
-        ObjectMapper mapper = new ObjectMapper();
-        Bill bills = mapper.convertValue(bill, Bill.class);
-        if(bills.getPayment() == false){
-            System.out.println("payment=> 0");
-        }else if(bills.getPayment()==true) {
-            System.out.println("payment=> 1");
-          Mamipay mm = mamipayService.ByCustomer(bills.getCustomer().getId());
-            if (mm.getSurplus()>=bills.getTotal()){
-                System.out.println("toto bé");
-                return ResponseEntity.ok(billService.save(bill));
+    public  ResponseEntity<?> post(@RequestBody BillDto bill){
+        if(bill.getPayment() == false){
+            return ResponseEntity.ok(new Res("Chưa thanh toán",false)) ;
+        }else if (bill.getPayment()==true){
+            Mamipay mm = mamipayService.ByCustomer(bill.getCusTomerDto().getId());
+            if(mm.getSurplus()>=bill.getTotal()){
+                return ResponseEntity.ok(new Res(billService.save(bill),"Đã thanh toán",true));
             }else {
-                System.out.println("toto lớn");
+                return ResponseEntity.ok(new Res("Số ví dư không đủ",false)) ;
             }
         }
         return null;

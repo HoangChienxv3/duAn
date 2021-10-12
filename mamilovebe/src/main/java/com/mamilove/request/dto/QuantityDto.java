@@ -7,11 +7,10 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class AccountDto {
+public class QuantityDto {
     private Long id;
-    private String username;
-    private String password;
-    private String phone;
-    private String email;
-    private String capcha;
+    private Long quantity;
+    ProductDto productDto;
+    SizeDto sizeDto;
+    PropertyDto propertyDto;
 }
