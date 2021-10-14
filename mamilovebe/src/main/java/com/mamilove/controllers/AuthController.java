@@ -4,14 +4,13 @@ import com.mamilove.common.ERole;
 import com.mamilove.common.JwtUtils;
 import com.mamilove.dao.AccountDao;
 import com.mamilove.dao.AuthorityDao;
+import com.mamilove.dao.CustomerDao;
 import com.mamilove.dao.RoleDao;
 import com.mamilove.entity.Authority;
+import com.mamilove.entity.Customer;
 import com.mamilove.entity.Role;
-import com.mamilove.request.dto.JwtResponse;
-import com.mamilove.request.dto.LoginRequest;
-import com.mamilove.request.dto.Res;
+import com.mamilove.request.dto.*;
 import com.mamilove.entity.Account;
-import com.mamilove.request.dto.SignupRequest;
 import com.mamilove.userdetails.service.UserDetailsImpl;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,11 +23,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.*;
@@ -37,12 +32,15 @@ import java.util.stream.Collectors;
 @CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/api/auth")
-public class LoginController {
+public class AuthController {
 
     @Autowired
     AuthenticationManager authenticationManager;
     @Autowired
     AccountDao accountDao;
+
+    @Autowired
+    CustomerDao customerDao;
 
     @Autowired
     AuthorityDao authorityDao;
@@ -111,7 +109,7 @@ public class LoginController {
   //      return ResponseEntity.ok(userDetails);
     }
 
-    //create account
+    //create account admin
     @PostMapping("/signup/admin")
     public ResponseEntity<?> registerAccount(@Valid @RequestBody SignupRequest signupRequest, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
@@ -151,6 +149,7 @@ public class LoginController {
             });
         }
         //
+        account.setPassword(encoder.encode(account.getPassword()));
         accountDao.save(account);
         List<Authority> authorityList = new ArrayList<>();
         roleList.forEach(role -> {
@@ -166,4 +165,63 @@ public class LoginController {
         return ResponseEntity.ok(new Res(account,"Thêm tài khoản phía quản lý thành công", true));
 
    }
+    //create account customer
+    @PostMapping("/signup/customer")
+    public ResponseEntity<?> registerCustomer(@Valid @RequestBody SignupCustomerRequest signupCustomerRequest, BindingResult bindingResult) {
+        if(bindingResult.hasErrors()){
+            return new ResponseEntity<>(bindingResult.getAllErrors(), HttpStatus.NOT_MODIFIED);
+        }
+        SignupRequest signupRequest = signupCustomerRequest.getSignupRequest();
+        if (accountDao.existsByUsername(signupRequest.getUsername())) {
+            return ResponseEntity.badRequest().body(new Res("Username đã tồn tại", false));
+        }
+        if (accountDao.existsByEmail(signupRequest.getEmail())) {
+            return ResponseEntity.badRequest().body(new Res("Email đã tồn tại", false));
+        }
+        if (accountDao.existsByPhone(signupRequest.getPhone())) {
+            return ResponseEntity.badRequest().body(new Res("SDT đã tồn tại", false));
+        }
+
+        CustomerRequest customerRequest = signupCustomerRequest.getCustomerRequest();
+
+        Account account = new Account();
+        BeanUtils.copyProperties(signupRequest, account);
+        account.setPassword(encoder.encode(account.getPassword()));
+        //
+        //
+        Set<Role> roleList = new HashSet<>();
+        //
+        Role accountRole = roleDao.findByName("ROLE_CUSTOMER")
+                .orElseThrow(() -> new RuntimeException("Không tìm thấy Role"));
+        roleList.add(accountRole);
+        //
+        accountDao.save(account);
+        List<Authority> authorityList = new ArrayList<>();
+        roleList.forEach(role -> {
+            Authority authority = new Authority();
+            authority.setAccount(account);
+            authority.setRole(role);
+            authorityList.add(authority);
+        });
+        authorityDao.saveAll(authorityList);
+        account.setAuthorities(authorityList);
+
+        Customer customer = new Customer();
+        BeanUtils.copyProperties(customerRequest, customer);
+        customer.setAccount(account);
+        customerDao.save(customer);
+
+        return ResponseEntity.ok(new Res(customer,"ok",true));
+
+    }
+//    //get id
+//    @GetMapping("/{id}")
+//    public ResponseEntity<?> getid(@PathVariable("id") Long id){
+//        Account account = accountDao.findById(id)
+//                .orElseThrow(()->
+//                    new RuntimeException("Khong tim thay account")
+//                );
+//        return ResponseEntity.ok(new Res(account,"oke",true));
+//    }
+
 }

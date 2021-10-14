@@ -49,12 +49,18 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception{
-        http.cors().and().csrf().disable()
+    	// http.cors().disable().csrf().ignoringAntMatchers("/**").and()
+		// .authorizeRequests() // yêu cầu author
+		// 	.antMatchers("/**").permitAll() 
+		// 	.anyRequest().authenticated() ;
+         http.cors().and().csrf().disable()
                 .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-                .authorizeRequests().antMatchers("/api/auth/**").permitAll()
+                .authorizeRequests().antMatchers("/api/auth/**","/api/forgotpassword/**","/swagger-ui.html").permitAll()
                 .antMatchers("/api/test/**").permitAll()
-                .anyRequest().authenticated();
+                .anyRequest().permitAll();
+//        authenticated();
+
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 

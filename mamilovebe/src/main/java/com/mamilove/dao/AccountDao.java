@@ -3,6 +3,7 @@ package com.mamilove.dao;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.mamilove.entity.Account;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
@@ -17,4 +18,6 @@ public interface AccountDao extends JpaRepository<Account, Long> {
     Boolean existsByUsername(String username);
 
     Boolean existsByEmail(String email);
+
+    Boolean existsByPhone(String phone);
 }
