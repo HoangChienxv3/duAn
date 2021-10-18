@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.mamilove.dao.ProductDao;
+import com.mamilove.entity.Categorydetail;
 import com.mamilove.entity.Product;
 import com.mamilove.service.service.ProductService;
 
@@ -29,15 +30,15 @@ public class ProductServiceImpl implements ProductService{
 	}
 
 	@Override
-	public Optional<Product> findByCategorydetail(Integer categorydetail) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public Optional<Product> findById(Long id) {
 		// TODO Auto-generated method stub
 		return productDao.findById(id);
+	}
+
+	@Override
+	public List<Product> findByCategoryDetail(Categorydetail categoryDetail) {
+		// TODO Auto-generated method stub
+		return productDao.findByCategorydetail(categoryDetail);
 	}
 	
 }
