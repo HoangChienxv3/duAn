@@ -1,4 +1,4 @@
-package com.mamilove.rest.controller.customer.Impl;
+package com.mamilove.rest.controller.customer;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
