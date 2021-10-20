@@ -1,4 +1,4 @@
-package com.mamilove.controllers;
+package com.mamilove.rest.controller.customer;
 
 import com.mamilove.dao.AccountDao;
 import com.mamilove.entity.Account;
