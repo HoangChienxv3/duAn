@@ -26,7 +26,7 @@ public class OrderdetailServiceImpl implements OrderDetailService {
 	}
 
 	@Override
-	public List<Orderdetail> FinAll() {
+	public List<Orderdetail> FindAll(){
 		return orderDetailDao.findAll();
 	}
 }
