@@ -1,4 +1,4 @@
-package com.mamilove.rest.controller.customer.Impl;
+package com.mamilove.rest.controller.customer;
 
 import com.mamilove.dao.BillDao;
 import com.mamilove.entity.Bill;

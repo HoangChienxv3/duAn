@@ -37,7 +37,7 @@ public class Account implements Serializable{
 	private String oneTimePassword;
 
 	@Column(name = "otp_requested_time")
-	private Date otpRequestedTime;
+	private Date otpRequestedTime = new Date();
 
 	@JsonIgnore
 	@OneToMany(mappedBy = "account")

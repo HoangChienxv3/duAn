@@ -31,9 +31,7 @@ public class Event implements Serializable{
 	private Date startday;
 	
 	private Date endday;
-	
-	private Boolean typeevent;
-	
+
 	private Boolean status;
 	
 	@JsonIgnore

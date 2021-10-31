@@ -1,5 +1,6 @@
 package com.mamilove.service.impl;
 
+import com.mamilove.entity.Account;
 import com.mamilove.entity.Customer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,4 +15,10 @@ public class CustomerServiceImpl implements CustomerService {
 
 	@Autowired
 	CustomerDao customerDao;
+
+
+	@Override
+	public List<Customer> findByAccount(String username) {
+		return customerDao.findByAccount(username);
+	}
 }

@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 
-public interface BillDao extends JpaRepository<Bill, Long> {
-    @Query("SELECT b FROM Bill b WHERE b.customer.id =?1")
+public interface BillDao extends JpaRepository<Bill, String> {
+    @Query("SELECT b FROM Bill b WHERE b.idCustomer =?1")
     List<Bill> BillByCustomer(Long id);
 }

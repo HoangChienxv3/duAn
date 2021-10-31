@@ -1,4 +1,4 @@
-package com.mamilove.rest.controller.customer.Impl;
+package com.mamilove.rest.controller.customer;
 
 import java.util.List;
 import java.util.Optional;
@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.mamilove.entity.Categorydetail;
 import com.mamilove.entity.Product;
 import com.mamilove.request.dto.JwtResponse;
 import com.mamilove.request.dto.Res;
@@ -51,4 +52,11 @@ public class ProductController {
 		List<Product> entity = productService.findByCategoryDetail(product.get().getCategorydetail());
 		return ResponseEntity.ok(new Res(entity,"Success",true));
 	}
+	@GetMapping("/collection/{id}")
+	public ResponseEntity<?> GetProductByCategoryDetail(@PathVariable("id") Long id){
+		Optional<Categorydetail> categories = Optional.ofNullable(categoryDetailService.findById(id).get());
+		List<Product> entity = productService.findByCategoryDetail(categories.get());
+		return ResponseEntity.ok(new Res(entity,"Success",true));
+	}
+	
 }

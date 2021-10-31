@@ -1,6 +1,7 @@
 package com.mamilove.service.impl;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,6 +19,12 @@ public class CategoryDetailServiceImpl implements CategoryDetailService{
 	@Override
 	public List<Categorydetail> findAll() {
 		return categoryDetailDao.findAll();
+	}
+
+	@Override
+	public Optional<Categorydetail> findById(Long id) {
+		// TODO Auto-generated method stub
+		return categoryDetailDao.findById(id);
 	}
 	
 	
