@@ -9,6 +9,6 @@ import java.util.List;
 public interface BillService {
     List<Bill> BillByCustomer(Long id);
     List<Bill> FindAll();
-     boolean existsById(Long id);
-    Bill save(BillDto bill);
+    boolean existsById(String id);
+    Object create(BillDto billDto);
 }

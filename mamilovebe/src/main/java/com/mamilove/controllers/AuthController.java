@@ -136,7 +136,7 @@ public class AuthController {
         } else {
             roles.forEach(role -> {
                 switch (role) {
-                    case "admin":
+                    case "ROLE_ADMIN":
                         Role adminRole = roleDao.findByName("ROLE_ADMIN")
                                 .orElseThrow(() -> new RuntimeException("Error: role is not found."));
                         roleList.add(adminRole);
@@ -214,14 +214,6 @@ public class AuthController {
         return ResponseEntity.ok(new Res(customer,"ok",true));
 
     }
-//    //get id
-//    @GetMapping("/{id}")
-//    public ResponseEntity<?> getid(@PathVariable("id") Long id){
-//        Account account = accountDao.findById(id)
-//                .orElseThrow(()->
-//                    new RuntimeException("Khong tim thay account")
-//                );
-//        return ResponseEntity.ok(new Res(account,"oke",true));
-//    }
+
 
 }

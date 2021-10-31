@@ -31,21 +31,21 @@ public class Product implements Serializable{
 	
 	private String name;
 	
-	private Double price;
+	private Double price;//giá gốc
 	
-	private Double discount;
-	
-	@Length(max = 5000)
-	private String description;
+	private Double discount;//giảm %
 	
 	@Length(max = 5000)
-	private String descriptionDetail;
+	private String description;//mô tả
 	
-	private String status;
+	@Length(max = 5000)
+	private String descriptionDetail;//mô tả chi tiết
+	
+	private String status;//trạng thái
 	
 	private Date day_update;
 	
-	private String image;
+	private String image;//hình ảnh
 	
 	@ManyToOne @JoinColumn(name = "idcategorydetail")
 	private Categorydetail categorydetail;

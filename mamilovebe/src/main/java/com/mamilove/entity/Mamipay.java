@@ -22,7 +22,7 @@ public class Mamipay implements Serializable{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long idmamipay;
 	
-	private Long surplus;
+	private Double surplus;
 	
 	@OneToOne
 	@JoinColumn(name = "idcustomer")
