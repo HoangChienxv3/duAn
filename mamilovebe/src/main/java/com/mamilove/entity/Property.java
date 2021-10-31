@@ -3,12 +3,7 @@ package com.mamilove.entity;
 import java.io.Serializable;
 import java.util.List;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -25,8 +20,10 @@ public class Property implements Serializable{
 	private Long idproperty;
 	
 	private String name;
-	
-	private String id_color;
+
+	@Column(name = "id_product")
+	private String id_product;
+
 	@JsonIgnore
 	@OneToMany(mappedBy = "property")
 	private List<Quantity> quantities;

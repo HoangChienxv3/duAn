@@ -1,9 +1,10 @@
 package com.mamilove.controllers;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mamilove.entity.Bill;
-import com.mamilove.entity.Mamipay;
+import com.mamilove.dao.AccountDao;
+import com.mamilove.entity.*;
+import com.mamilove.request.dto.QuantityRequest;
+import org.apache.commons.lang3.RandomStringUtils;
+import com.mamilove.dao.QuantityDao;
 import com.mamilove.request.dto.BillDto;
 import com.mamilove.request.dto.Res;
 import com.mamilove.service.impl.MamipayServiceImpl;
@@ -11,23 +12,31 @@ import com.mamilove.service.service.BillService;
 import com.mamilove.service.service.CustomerService;
 import com.mamilove.service.service.OrderDetailService;
 //import jdk.internal.org.objectweb.asm.TypeReference;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/bill")
-public class BillController {
+public class BillController extends BaseController{
+
     @Autowired
     BillService billService;
+    @Autowired
+    AccountDao accountDao;
     @Autowired
     OrderDetailService orderDetailService;
     @Autowired
     MamipayServiceImpl mamipayService;
     @Autowired
     CustomerService customerService;
+
+    @Autowired
+    QuantityDao quantityDao;
 
     @PostMapping("{id}")
     public ResponseEntity<?>  BillByCustomer(@PathVariable("id") Long id){
@@ -39,21 +48,7 @@ public class BillController {
     }
 
     @PostMapping("/creat")
-    public  ResponseEntity<?> post(@RequestBody BillDto bill){
-        ObjectMapper mapper = new ObjectMapper();
-        Bill bills = mapper.convertValue(bill, Bill.class);
-        if(bills.getPayment() == false){
-            return ResponseEntity.ok(new Res("Chưa thanh toán",false));
-        }else if(bills.getPayment()==true) {
-            System.out.println("Phương thức thanh toán bằng ví điện tử");
-          Mamipay mm = mamipayService.ByCustomer(bills.getCustomer().getId());
-            if (mm.getSurplus()>=bills.getTotal()){
-                ResponseEntity.ok(new Res(billService.save(bill),"Đã thanh toán",false ));
-            }else {
-                return ResponseEntity.ok(new Res("Ví điện tử của quý khách không đủ số dư",false));
-
-            }
-        }
-        return null;
+    public  ResponseEntity<?> createBill(@RequestBody BillDto billDto){
+       return ResponseEntity.ok(new Res(billService.create(billDto),"oke", true));
     }
 }

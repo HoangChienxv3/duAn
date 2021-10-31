@@ -3,15 +3,12 @@ package com.mamilove.entity;
 import java.io.Serializable;
 import java.util.List;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 
+import com.mamilove.common.EnumStatus;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -21,38 +18,60 @@ import lombok.Data;
 @SuppressWarnings("serial")
 @Data
 @Entity
+@Builder
 @Table(name = "bill")
+@AllArgsConstructor
+@NoArgsConstructor
 public class Bill implements Serializable{
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	private String id;
+
+	@Column(name = "status")
+	@Builder.Default
+	private EnumStatus status = EnumStatus.CHUA_XAC_NHAN;
+
+	private String statusshipping;//tình trạng giao hàng
+
+	@Column(name = "transport_fee")
+	private Double transportFee;//phí vận chuyển
+
+	@Column(name = "voucher_id")
+	private Long voucher_id;//mã voucher
 	
-	private String statusshipping;
+	private Double discount; // giảm giá
 	
-	private Double total;
+	private Double downtotal;// giá sau khi giảm
 	
-	private Double discount;
-	
-	private Double downtotal;
-	
-	private Boolean payment;
+	private Boolean payment;// thanh toán bằng gì flase mua hàng r thanh toán, true thanh toán bằng ví
+
+	private Double total;//thanh toán
+
+	@Length(max = 1000)
+	private String address;//địa chỉ
 	
 	@Length(max = 1000)
-	private String address;
-	
-	@Length(max = 1000)
-	private String note;
-	
-	private Boolean refund;
-	
-	@ManyToOne @JoinColumn(name = "idcustomer")
+	private String note;//ghi chú
+
+	@Column(name = "full_name")
+	private String fullname;//họ tên nhận hàng
+
+	private Boolean refund;//hoàn hàng
+
+	@ManyToOne @JoinColumn(name = "idcustomer", updatable = false, insertable = false)
 	private Customer customer;
+
+	@Column(name = "idcustomer")
+	private Long idCustomer;
 	
-	@ManyToOne @JoinColumn(name = "idvoucher")
-	private Voucher voucher;
-	
+//	@ManyToOne @JoinColumn(name = "idvoucher")
+//	private Voucher voucher;
+
+	@OneToMany(mappedBy = "product")
+	private List<Quantity> quantities;
+
 	@JsonIgnore 
 	@OneToMany(mappedBy = "bill")
 	private List<Orderdetail> orderdetails;
+
 }

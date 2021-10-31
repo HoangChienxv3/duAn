@@ -26,8 +26,7 @@ public class Customer implements Serializable{
 	@OneToOne
 	@JoinColumn(name = "idaccount")
 	private  Account account;
-	
-	@JsonIgnore
+
 	@OneToMany(mappedBy = "customer")
 	private List<Bill> bills;
 	

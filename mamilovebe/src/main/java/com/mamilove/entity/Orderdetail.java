@@ -2,13 +2,7 @@ package com.mamilove.entity;
 
 import java.io.Serializable;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import lombok.Data;
 
@@ -22,18 +16,24 @@ public class Orderdetail implements Serializable{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	private Double price;
+	private Double price;//giá gốc
 	
-	private Double downprice;
+	private Double downprice;//giá giảm
 	
-	private Long quantitydetail;
+	private Long quantitydetail;//số lượng mua
 	
-	private Double intomoney;
+	private Double intomoney;//thành tiền
 	
-	@ManyToOne @JoinColumn(name = "idquantity")
+	@ManyToOne @JoinColumn(name = "idquantity", updatable = false, insertable = false)
 	private Quantity quantity;
+
+	@Column(name = "idquantity")
+	private Long idquantity;
 	
-	@ManyToOne @JoinColumn(name = "idbill")
+	@ManyToOne @JoinColumn(name = "idbill", updatable = false, insertable = false)
 	private Bill bill;
+
+	@Column(name = "idbill")
+	private String idbill;
 	
 }

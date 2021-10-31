@@ -25,8 +25,7 @@ public class Voucher implements Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
-	
+
 	private Long amount;
 	
 	private Double discount;
@@ -36,9 +35,9 @@ public class Voucher implements Serializable{
 	@ManyToOne @JoinColumn(name = "idevent")
 	private Event event;
 	
-	@JsonIgnore
-	@OneToMany(mappedBy = "voucher")
-	private List<Bill> bills;
+//	@JsonIgnore
+//	@OneToMany(mappedBy = "voucher")
+//	private List<Bill> bills;
 	
 	
 }
