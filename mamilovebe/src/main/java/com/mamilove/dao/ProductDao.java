@@ -16,4 +16,8 @@ public interface ProductDao extends JpaRepository<Product, Long>{
 	@Query("SELECT p FROM Product p ORDER BY day_update DESC")
 	List<Product> findProductNew();
 	List<Product> findByCategorydetail(Categorydetail categorydetail);
+	Product saveAndFlush(Product product);
+	<S extends Product> List<S> saveAll(Iterable<S> entities);
+	void delete(Product product);
+	void deleteInBatch(Iterable<Product> product);
 }
