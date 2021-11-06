@@ -10,9 +10,6 @@ import com.mamilove.entity.Categorydetail;
 
 public interface CategoryDao extends JpaRepository<Category, Long>{
 	List<Category> findAll();
-//	@Query("SELECT * \r\n"
-//			+ "FROM\r\n"
-//			+ "    Category \r\n"
-//			+ "    INNER JOIN Categorydetail ON Category.id = Categorydetail.idcategory")
-//	List<Categorydetail> listMenu();
+	Category saveAndFlush(Category category);
+	void delete(Category category);
 }

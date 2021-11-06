@@ -2,10 +2,13 @@ package com.mamilove.service.impl;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.mamilove.dao.SizeDao;
+import com.mamilove.entity.Category;
 import com.mamilove.entity.Size;
 import com.mamilove.entity.Typesize;
 import com.mamilove.service.service.SizeService;
@@ -26,5 +29,19 @@ public class SizeServiceImpl implements SizeService{
 	public List<Size> findByTypeSize(Typesize typeSize) {
 		// TODO Auto-generated method stub
 		return sizeDao.findByTypesize(typeSize);
+	}
+
+	@Override
+	@Transactional
+	public List<Size> saveAll(List<Size> size) {
+		// TODO Auto-generated method stub
+		return sizeDao.saveAll(size);
+	}
+
+	@Override
+	@Transactional
+	public void deleteInBatch(List<Size> size) {
+		// TODO Auto-generated method stub
+		sizeDao.deleteInBatch(size);
 	}
 }

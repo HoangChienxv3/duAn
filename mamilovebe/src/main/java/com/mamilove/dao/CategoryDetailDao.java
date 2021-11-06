@@ -11,4 +11,6 @@ import com.mamilove.entity.Categorydetail;
 public interface CategoryDetailDao extends JpaRepository<Categorydetail, Long>{
 	List<Categorydetail> findAll();
 	Optional<Categorydetail> findById(Long id);
+	Categorydetail saveAndFlush(Categorydetail categoryDetail);
+	void delete(Categorydetail categoryDetail);
 }

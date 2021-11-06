@@ -3,6 +3,8 @@ package com.mamilove.service.impl;
 import java.util.List;
 import java.util.Optional;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -40,5 +42,27 @@ public class ProductServiceImpl implements ProductService{
 		// TODO Auto-generated method stub
 		return productDao.findByCategorydetail(categoryDetail);
 	}
+
+	@Override
+	@Transactional
+	public <S extends Product> List<S> saveAll(Iterable<S> entities) {
+		// TODO Auto-generated method stub
+		return productDao.saveAll(entities);
+	}
+	
+	@Override
+	@Transactional
+	public Product saveAndFlush(Product product) {
+		// TODO Auto-generated method stub
+		return productDao.saveAndFlush(product);
+	}
+	
+	@Override
+	@Transactional
+	public void delete(Product product) {
+		// TODO Auto-generated method stub
+		productDao.delete(product);;
+	}
+
 	
 }
