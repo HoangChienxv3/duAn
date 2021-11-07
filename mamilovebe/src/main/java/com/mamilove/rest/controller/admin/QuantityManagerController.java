@@ -1,4 +1,4 @@
-package com.mamilove.rest.controller.customer;
+package com.mamilove.rest.controller.admin;
 
 import java.util.List;
 import java.util.Optional;
@@ -20,8 +20,8 @@ import com.mamilove.service.service.QuantityService;
 
 @RestController
 @CrossOrigin("http://localhost:4200/")
-@RequestMapping("/Customer/QuantityController")
-public class QuantityController {
+@RequestMapping("/Manager/QuantityController")
+public class QuantityManagerController {
 	@Autowired
 	QuantityService quantityService;
 	@Autowired

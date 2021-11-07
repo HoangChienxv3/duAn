@@ -1,4 +1,4 @@
-package com.mamilove.rest.controller.customer;
+package com.mamilove.rest.controller.admin;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -26,8 +26,8 @@ import com.mamilove.service.service.TypeSizeService;
 
 @RestController
 @CrossOrigin("http://localhost:4200/")
-@RequestMapping("/Customer/SizeController")
-public class SizeController {
+@RequestMapping("/Manager/SizeManagerController")
+public class SizeManagerController {
 	@Autowired
 	SizeService sizeService;
 	@Autowired
@@ -43,5 +43,35 @@ public class SizeController {
 		Optional<Typesize> entity = Optional.ofNullable(typeService.findById(l).get());
 		List<Size> list = sizeService.findByTypeSize(entity.get()); 
 		return ResponseEntity.ok(new Res(list,"OK",true));
+	}
+	
+	@PostMapping("/updateInline")
+	public ResponseEntity<?> updateInline(String createdItems,
+	        @RequestParam(required = false,value ="updatedItems") String updatedItems,
+	        @RequestParam(required = false,value ="deletedItems") String deletedItems) throws IOException{
+		try {
+			ObjectMapper json = new ObjectMapper();
+			List<Size> created = new ArrayList<>();
+			List<Size> updated = new ArrayList<>();
+			List<Size> deleted = new ArrayList<>();
+			
+			created = Arrays.asList(json.readValue(createdItems,Size[].class));
+			updated = Arrays.asList(json.readValue(updatedItems,Size[].class));
+			deleted = Arrays.asList(json.readValue(deletedItems,Size[].class));
+			
+			if(created.size() > 0) {
+				sizeService.saveAll(created);
+			}
+			if(updated.size() > 0) {
+				sizeService.saveAll(updated);
+			}
+			if(deleted.size() > 0) {
+				sizeService.deleteInBatch(deleted);
+			}
+			return ResponseEntity.ok(new Res(sizeService.findAll(),"Save success",true)); 
+		} catch (Exception e) {
+			// TODO: handle exception
+			return ResponseEntity.ok(new Res("Save failed",false)); 
+		}
 	}
 }

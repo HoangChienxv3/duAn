@@ -15,18 +15,30 @@ import com.mamilove.service.service.TypeSizeService;
 public class TypeSizeServiceImpl implements TypeSizeService{
 
 	@Autowired
-	TyperSizeDao typerSizeDao;
+	TyperSizeDao typeSizeDao;
 
 	@Override
 	public List<Typesize> findAll() {
 		// TODO Auto-generated method stub
-		return typerSizeDao.findAll();
+		return typeSizeDao.findAll();
 	}
 
 	@Override
 	public Optional<Typesize> findById(Long id) {
 		// TODO Auto-generated method stub
-		return typerSizeDao.findById(id);
+		return typeSizeDao.findById(id);
+	}
+
+	@Override
+	public List<Typesize> saveAll(List<Typesize> typeSize) {
+		// TODO Auto-generated method stub
+		return typeSizeDao.saveAll(typeSize);
+	}
+
+	@Override
+	public void deleteInBatch(List<Typesize> typeSize) {
+		// TODO Auto-generated method stub
+		typeSizeDao.deleteInBatch(typeSize);
 	}
 	
 	

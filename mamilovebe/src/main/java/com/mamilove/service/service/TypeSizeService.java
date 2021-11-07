@@ -9,4 +9,6 @@ import com.mamilove.entity.Typesize;
 public interface TypeSizeService {
 	List<Typesize> findAll();
 	Optional<Typesize> findById(Long id);
+	List<Typesize> saveAll(List<Typesize> typeSize);
+	void deleteInBatch(List<Typesize> typeSize);
 }
