@@ -66,7 +66,9 @@ public class Bill implements Serializable{
 
 	@Column(name = "idcustomer")
 	private Long idCustomer;
-	
+
+	@Column(name = "isDelete")
+	private Boolean isDelete = false;
 //	@ManyToOne @JoinColumn(name = "idvoucher")
 //	private Voucher voucher;
 

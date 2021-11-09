@@ -23,7 +23,10 @@ public class Size implements Serializable{
 	
 	@ManyToOne @JoinColumn(name = "idtypesize", updatable = false, insertable = false)
 	private Typesize typesize;
-	
+
+	@Column(name = "isDelete")
+	private Boolean isDelete = false;
+
 	@JsonIgnore
 	@OneToMany(mappedBy = "size")
 	private List<Quantity> quantities;

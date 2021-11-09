@@ -3,10 +3,7 @@ package com.mamilove.entity;
 import java.io.Serializable;
 import java.util.List;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -21,7 +18,10 @@ public class Role implements Serializable{
 	@Id
 	String id;
 	String name;
-	
+
+	@Column(name = "isDelete")
+	private Boolean isDelete = false;
+
 	@JsonIgnore
 	@OneToMany(mappedBy = "role")
 	List<Authority> authorities;
