@@ -23,7 +23,11 @@ public class Orderdetail implements Serializable{
 	private Long quantitydetail;//số lượng mua
 	
 	private Double intomoney;//thành tiền
-	
+
+	@Column(name = "isDelete")
+	private Boolean isDelete = false;
+
+
 	@ManyToOne @JoinColumn(name = "idquantity", updatable = false, insertable = false)
 	private Quantity quantity;
 

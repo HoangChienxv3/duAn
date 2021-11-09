@@ -33,6 +33,8 @@ public class Account implements Serializable{
 
 	private String capcha;
 
+	@Column(name = "isDelete")
+	private Boolean isDelete = false;
 	@Column(name = "one_time_password")
 	private String oneTimePassword;
 
