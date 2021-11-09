@@ -20,7 +20,7 @@ import com.mamilove.service.service.QuantityService;
 
 @RestController
 @CrossOrigin("http://localhost:4200/")
-@RequestMapping("/Manager/QuantityController")
+@RequestMapping("/Manager/QuantityManagerController")
 public class QuantityManagerController {
 	@Autowired
 	QuantityService quantityService;

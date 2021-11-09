@@ -55,6 +55,9 @@ public class Bill implements Serializable{
 
 	@Column(name = "full_name")
 	private String fullname;//họ tên nhận hàng
+	
+	@Column(name = "phone_number")
+	private String sdt;
 
 	private Boolean refund;//hoàn hàng
 

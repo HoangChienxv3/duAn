@@ -22,7 +22,7 @@ import com.mamilove.service.service.TypeSizeService;
 
 @RestController
 @CrossOrigin("http://localhost:4200/")
-@RequestMapping("/Manager/TypeSizeController")
+@RequestMapping("/Manager/TypeSizeManagerController")
 public class TypeSizeManagerController {
 	@Autowired
 	TypeSizeService typeSizeService;

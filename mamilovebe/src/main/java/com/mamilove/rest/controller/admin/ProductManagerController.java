@@ -30,7 +30,7 @@ import com.mamilove.service.service.ProductService;
 
 @RestController
 @CrossOrigin("http://localhost:4200/")
-@RequestMapping("/Manager/ProductController")
+@RequestMapping("/Manager/ProductManagerController")
 public class ProductManagerController {
 	public String upload;
 	@Autowired
