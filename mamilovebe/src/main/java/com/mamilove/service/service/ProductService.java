@@ -11,4 +11,7 @@ public interface ProductService {
 	Optional<Product> findById(Long id);
 	List<Product> findProductNew();
 	List<Product> findByCategoryDetail(Categorydetail categoryDetail);
+	Product saveAndFlush(Product product);
+	<S extends Product> List<S> saveAll(Iterable<S> entities);
+	void delete(Product product);
 }

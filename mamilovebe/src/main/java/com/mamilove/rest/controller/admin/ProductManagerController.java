@@ -1,4 +1,4 @@
-package com.mamilove.rest.controller.customer;
+package com.mamilove.rest.controller.admin;
 
 import java.io.File;
 import java.io.IOException;
@@ -30,8 +30,8 @@ import com.mamilove.service.service.ProductService;
 
 @RestController
 @CrossOrigin("http://localhost:4200/")
-@RequestMapping("/Customer/ProductController")
-public class ProductController {
+@RequestMapping("/Manager/ProductManagerController")
+public class ProductManagerController {
 	public String upload;
 	@Autowired
 	ProductService productService;
@@ -40,11 +40,6 @@ public class ProductController {
 	@Autowired
 	CategoryDetailService categoryDetailService;
 	
-	@GetMapping("/home")
-	public ResponseEntity<?> findProductNew(){
-		List<Product> entity = productService.findProductNew();
-		return ResponseEntity.ok(new Res( entity , "Success", true));
-	}
 	@GetMapping("/findAll")
 	public ResponseEntity<?> findAll(){
 		List<Product> entity = productService.findAll();
@@ -55,16 +50,44 @@ public class ProductController {
 		Optional<Product> entity = productService.findById(id);
 		return ResponseEntity.ok(new Res( entity , "Success", true));
 	}
-	@GetMapping("/GetProductByCategory/{id}")
-	public ResponseEntity<?> GetProductByCategory(@PathVariable("id") Long id){
-		Optional<Product> product = Optional.ofNullable(productService.findById(id).get());
-		List<Product> entity = productService.findByCategoryDetail(product.get().getCategorydetail());
-		return ResponseEntity.ok(new Res(entity,"Success",true));
+	@PostMapping(value = "/uploads",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+	public ResponseEntity<?> uploads(@RequestBody MultipartFile file) throws IllegalStateException, IOException {
+		try {
+			if(!file.isEmpty()) {
+				String filename = file.getOriginalFilename();
+				UUID uuid = UUID.randomUUID();
+				filename = uuid.toString()  + ".jpg";
+				File file_upload= new File("D:\\Angular\\demo\\src\\image\\"+ filename);
+				file.transferTo(file_upload);
+				upload = filename;
+			}
+			return ResponseEntity.ok(new Res("Save success",true));
+		} catch (Exception e) {
+			// TODO: handle exception
+			return ResponseEntity.ok(new Res("Save success",true));
+		}
 	}
-	@GetMapping("/collection/{id}")
-	public ResponseEntity<?> GetProductByCategoryDetail(@PathVariable("id") Long id){
-		Optional<Categorydetail> categories = Optional.ofNullable(categoryDetailService.findById(id).get());
-		List<Product> entity = productService.findByCategoryDetail(categories.get());
-		return ResponseEntity.ok(new Res(entity,"Success",true));
+	@PostMapping("/ProductController/saveAndFlush")
+	public ResponseEntity<?> saveAndFlush(@RequestBody Product product){
+		try {
+			if(upload != null) {
+				product.setImage(upload);
+			}
+			Product entity = productService.saveAndFlush(product);
+			return ResponseEntity.ok(new Res(entity,"Save success",true));
+		} catch (Exception e) {
+			// TODO: handle exception
+			return ResponseEntity.ok(new Res("Save failed",false));
+		}
+	}
+	@PostMapping("/ProductController/deleteProduct")
+	public ResponseEntity<?> deleteProduct(@RequestBody Product product){
+		try {
+			productService.delete(product);
+			return ResponseEntity.ok(new Res(product,"Save success",true));
+		} catch (Exception e) {
+			// TODO: handle exception
+			return ResponseEntity.ok(new Res("Save failed",false));
+		}
 	}
 }

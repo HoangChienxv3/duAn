@@ -8,4 +8,6 @@ import com.mamilove.entity.Typesize;
 public interface SizeService {
 	List<Size> findAll();
 	List<Size> findByTypeSize(Typesize typeSize);
+	List<Size> saveAll(List<Size> size);
+	void deleteInBatch(List<Size> size);
 }

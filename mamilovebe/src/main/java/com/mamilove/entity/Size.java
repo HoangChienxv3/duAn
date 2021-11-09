@@ -23,9 +23,6 @@ public class Size implements Serializable{
 	
 	@ManyToOne @JoinColumn(name = "idtypesize", updatable = false, insertable = false)
 	private Typesize typesize;
-
-	@Column(name = "idtypesize")
-	private Long idtypesize;
 	
 	@JsonIgnore
 	@OneToMany(mappedBy = "size")

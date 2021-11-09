@@ -6,4 +6,8 @@ import com.mamilove.entity.Category;
 
 public interface CategoryService {
 	List<Category> findAll();
+	Category saveAndFlush(Category category);
+	List<Category> saveAll(List<Category> category);
+	void delete(Category category);
+	void deleteInBatch(List<Category> category);
 }
