@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.mamilove.common.EnumStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -22,61 +23,63 @@ import lombok.Data;
 @Table(name = "bill")
 @AllArgsConstructor
 @NoArgsConstructor
-public class Bill implements Serializable{
+public class Bill implements Serializable {
 
-	@Id
-	private String id;
+    @Id
+    private String id;
 
-	@Column(name = "status")
-	@Builder.Default
-	private EnumStatus status = EnumStatus.CHUA_XAC_NHAN;
+    @Column(name = "status")
+    @Builder.Default
+    @Enumerated(EnumType.STRING)
+    private EnumStatus status = EnumStatus.CHUA_XAC_NHAN;
 
-	private String statusshipping;//tình trạng giao hàng
+    private String statusshipping;//tình trạng giao hàng
 
-	@Column(name = "transport_fee")
-	private Double transportFee;//phí vận chuyển
+    @Column(name = "transport_fee")
+    private Double transportFee;//phí vận chuyển
 
-	@Column(name = "voucher_id")
-	private Long voucher_id;//mã voucher
-	
-	private Double discount; // giảm giá
-	
-	private Double downtotal;// giá sau khi giảm
-	
-	private Boolean payment;// thanh toán bằng gì flase mua hàng r thanh toán, true thanh toán bằng ví
+    @Column(name = "voucher_id")
+    private Long voucher_id;//mã voucher
 
-	private Double total;//thanh toán
+    private Double discount; // giảm giá
 
-	@Length(max = 1000)
-	private String address;//địa chỉ
-	
-	@Length(max = 1000)
-	private String note;//ghi chú
+    private Double downtotal;// giá sau khi giảm
 
-	@Column(name = "full_name")
-	private String fullname;//họ tên nhận hàng
-	
-	@Column(name = "phone_number")
-	private String sdt;
+    private Boolean payment;// thanh toán bằng gì flase mua hàng r thanh toán, true thanh toán bằng ví
 
-	private Boolean refund;//hoàn hàng
+    private Double total;//thanh toán
 
-	@ManyToOne @JoinColumn(name = "idcustomer", updatable = false, insertable = false)
-	private Customer customer;
+    @Length(max = 1000)
+    private String address;//địa chỉ
 
-	@Column(name = "idcustomer")
-	private Long idCustomer;
+    @Length(max = 1000)
+    private String note;//ghi chú
 
-	@Column(name = "isDelete")
-	private Boolean isDelete = false;
+    @Column(name = "full_name")
+    private String fullname;//họ tên nhận hàng
+
+    @Column(name = "phone_number")
+    private String sdt;
+
+    private Boolean refund;//hoàn hàng
+
+    @ManyToOne
+    @JoinColumn(name = "idcustomer", updatable = false, insertable = false)
+    private Customer customer;
+
+    @Column(name = "idcustomer")
+    private Long idCustomer;
+
+    @Column(name = "isDelete")
+    private Boolean isDelete = false;
 //	@ManyToOne @JoinColumn(name = "idvoucher")
 //	private Voucher voucher;
 
-	@OneToMany(mappedBy = "product")
-	private List<Quantity> quantities;
+    @OneToMany(mappedBy = "product")
+    private List<Quantity> quantities;
 
-	@JsonIgnore 
-	@OneToMany(mappedBy = "bill")
-	private List<Orderdetail> orderdetails;
+    @JsonIgnore
+    @OneToMany(mappedBy = "bill")
+    private List<Orderdetail> orderdetails;
 
 }
