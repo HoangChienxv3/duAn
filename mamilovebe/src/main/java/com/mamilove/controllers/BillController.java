@@ -16,7 +16,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/bill")
+@RequestMapping("/api/bill")
+@CrossOrigin("http://localhost:4200/")
 public class BillController extends BaseController{
 
     @Autowired
