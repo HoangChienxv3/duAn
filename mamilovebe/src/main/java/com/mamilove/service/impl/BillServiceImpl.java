@@ -25,6 +25,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -38,6 +39,8 @@ public class BillServiceImpl implements BillService{
 	OrderDetailDao orderDetailDao;
 	@Autowired
 	AccountDao accountDao;
+	@Autowired 
+	CustomerDao customerDao;
 	@Autowired
 	OrderDetailService orderDetailService;
 	@Autowired
@@ -75,8 +78,10 @@ public class BillServiceImpl implements BillService{
 	@Override
 	public Object create(BillDto billDto){
 		//tim kiem nguoi dung
-		List<Customer> cus = customerService.findByAccount(billDto.getUsername());
-		Customer customer = cus.get(0);
+		Optional<Account> getAccount = accountDao.findByUsername(billDto.getUsername());
+		
+//		List<Customer> cus = customerService.findByAccount(billDto.getUsername());
+		Customer customer = customerDao.findByAccount(getAccount.get());
 		//
 		Bill bill = objectMapper.convertValue(billDto, Bill.class);
 		bill.setIdCustomer(customer.getId());
