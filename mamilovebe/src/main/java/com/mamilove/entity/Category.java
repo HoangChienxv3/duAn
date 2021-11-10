@@ -3,12 +3,7 @@ package com.mamilove.entity;
 import java.io.Serializable;
 import java.util.List;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -25,7 +20,9 @@ public class Category implements Serializable{
 	private Long id;
 	
 	private String name;
-	
+
+	@Column(name = "isDelete")
+	private Boolean isDelete = false;
 	@JsonIgnore
 	@OneToMany(mappedBy = "category")
 	List<Categorydetail> categorydetails;
