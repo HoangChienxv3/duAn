@@ -4,14 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import org.hibernate.validator.constraints.Length;
 
@@ -46,7 +39,10 @@ public class Product implements Serializable{
 	private Date day_update;
 	
 	private String image;//hình ảnh
-	
+
+	@Column(name = "isDelete")
+	private Boolean isDelete = false;
+
 	@ManyToOne @JoinColumn(name = "idcategorydetail")
 	private Categorydetail categorydetail;
 	

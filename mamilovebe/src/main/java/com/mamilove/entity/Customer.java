@@ -23,6 +23,8 @@ public class Customer implements Serializable{
 	
 	private String statuscustomer;
 
+	@Column(name = "isDelete")
+	private Boolean isDelete = false;
 	@OneToOne
 	@JoinColumn(name = "idaccount")
 	private  Account account;

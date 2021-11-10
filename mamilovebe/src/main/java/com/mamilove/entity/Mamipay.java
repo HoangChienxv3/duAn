@@ -2,13 +2,7 @@ package com.mamilove.entity;
 
 import java.io.Serializable;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import lombok.Data;
 
@@ -23,7 +17,10 @@ public class Mamipay implements Serializable{
 	private Long idmamipay;
 	
 	private Double surplus;
-	
+
+	@Column(name = "isDelete")
+	private Boolean isDelete = false;
+
 	@OneToOne
 	@JoinColumn(name = "idcustomer")
 	private Customer customer;
