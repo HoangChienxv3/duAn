@@ -85,6 +85,7 @@ public class BillServiceImpl implements BillService{
 		//
 		Bill bill = objectMapper.convertValue(billDto, Bill.class);
 		bill.setIdCustomer(customer.getId());
+		bill.setSdt(billDto.getSdt());
 		//
 		bill.setId(RandomStringUtils.randomNumeric(8));
 		while (billDao.existsById(bill.getId())){
