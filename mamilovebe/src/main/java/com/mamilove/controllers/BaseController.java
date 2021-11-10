@@ -1,20 +1,19 @@
 package com.mamilove.controllers;
 
-import com.mamilove.entity.Account;
+import com.mamilove.userdetails.service.UserDetailsImpl;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-import java.util.Optional;
 
 public class BaseController {
     public Long getAuthUID() {
-        return getAuthCredentials().map(Account::getId).orElse(null);
+        return getAuthCredentials().getId();
     }
 
     public String getAuthUsername() {
-        return getAuthCredentials().map(Account::getUsername).orElse(null);
+        return getAuthCredentials().getUsername();
     }
 
-    public Optional<Account> getAuthCredentials() {
-        return Optional.ofNullable((Account) SecurityContextHolder.getContext().getAuthentication().getCredentials());
+    public UserDetailsImpl getAuthCredentials() {
+        return (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
 }
