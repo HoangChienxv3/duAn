@@ -4,40 +4,51 @@ import java.io.Serializable;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @SuppressWarnings("serial")
 @Data
 @Entity
 @Table(name = "orderdetail")
-public class Orderdetail implements Serializable{
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class Orderdetail implements Serializable {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
-	
-	private Double price;//giá gốc
-	
-	private Double downprice;//giá giảm
-	
-	private Long quantitydetail;//số lượng mua
-	
-	private Double intomoney;//thành tiền
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-	@Column(name = "isDelete")
-	private Boolean isDelete = false;
+    private Double price;//giá gốc
 
+    private Double downprice;//giá giảm
 
-	@ManyToOne @JoinColumn(name = "idquantity", updatable = false, insertable = false)
-	private Quantity quantity;
+    private Long quantitydetail;//số lượng mua
 
-	@Column(name = "idquantity")
-	private Long idquantity;
-	
-	@ManyToOne @JoinColumn(name = "idbill", updatable = false, insertable = false)
-	private Bill bill;
+    private Double intomoney;//thành tiền
 
-	@Column(name = "idbill")
-	private String idbill;
-	
+    @Column(name = "isDelete")
+    @Builder.Default
+    private Boolean isDelete = false;
+
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "idquantity", updatable = false, insertable = false)
+    private Quantity quantity;
+
+    @Column(name = "idquantity")
+    private Long idquantity;
+
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "idbill", updatable = false, insertable = false)
+    private Bill bill;
+
+    @Column(name = "idbill")
+    private String idbill;
+
 }
