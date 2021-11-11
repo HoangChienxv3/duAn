@@ -1,9 +1,12 @@
 package com.mamilove.service.impl;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.transaction.Transactional;
 
+import com.mamilove.entity.Account;
+import com.mamilove.entity.Categorydetail;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,12 +25,6 @@ public class CategoryServiceImpl implements CategoryService {
 		return categoryDao.findAll();
 	}
 
-	@Override
-	@Transactional
-	public Category saveAndFlush(Category category) {
-		// TODO Auto-generated method stub
-		return categoryDao.saveAndFlush(category);
-	}
 
 	@Override
 	@Transactional
@@ -37,7 +34,12 @@ public class CategoryServiceImpl implements CategoryService {
 		return response;
 	}
 
-	
+	@Override
+	@Transactional
+	public <S extends Category> S save(S entity) {
+		return categoryDao.save(entity);
+	}
+
 	@Override
 	@Transactional
 	public void delete(Category category) {
@@ -45,12 +47,27 @@ public class CategoryServiceImpl implements CategoryService {
 		categoryDao.delete(category);
 	}
 
+
 	@Override
 	@Transactional
-	public void deleteInBatch(List<Category> category) {
-		// TODO Auto-generated method stub
-		categoryDao.deleteInBatch(category);
+	public List<Category> getAllListCategory(){
+	    return categoryDao.listCategoriesIsDeleteTrue();
 	}
 
-	
+	@Override
+	@Transactional
+	public  List<Category> listCategoryById(Long id){
+		return  categoryDao.listCategoryById(id);
+	}
+
+	@Override
+	@Transactional
+	public Optional<Category> findById(Long id) {
+		// TODO Auto-generated method stub
+		return categoryDao.findById(id);
+	}
+
+
+
+
 }
