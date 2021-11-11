@@ -1,5 +1,6 @@
-package com.mamilove.controllers;
+package com.mamilove.rest.controller.customer;
 
+import com.mamilove.controllers.BaseController;
 import com.mamilove.dao.AccountDao;
 import com.mamilove.entity.*;
 import com.mamilove.dao.QuantityDao;
@@ -18,7 +19,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/bill")
 @CrossOrigin("http://localhost:4200/")
-public class BillController extends BaseController{
+public class BillController extends BaseController {
 
     @Autowired
     BillService billService;
