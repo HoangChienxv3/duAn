@@ -6,15 +6,10 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+import com.mamilove.request.dto.SizeRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mamilove.entity.Category;
@@ -73,5 +68,19 @@ public class SizeManagerController {
 			// TODO: handle exception
 			return ResponseEntity.ok(new Res("Save failed",false)); 
 		}
+	}
+	//code chien
+	@PostMapping("/create")
+	public ResponseEntity<Res> createSize(@RequestBody SizeRequest sizeRequest){
+		return ResponseEntity.ok(new Res(sizeService.create(sizeRequest),"Đã thêm thành công", true));
+	}
+	@PostMapping("/update/{idsize}")
+	public ResponseEntity<Res> updateSize(@PathVariable("idsize")Long idsize, @RequestBody SizeRequest sizeRequest){
+		return ResponseEntity.ok(new Res(sizeService.update(idsize,sizeRequest),"Đã update thành công", true));
+	}
+
+	@PostMapping("/dalete/{idsize}")
+	public ResponseEntity<Res> daleteSize(@PathVariable("idsize")Long idsize){
+		return ResponseEntity.ok(new Res(sizeService.delete(idsize),"Đã update thành công", true));
 	}
 }

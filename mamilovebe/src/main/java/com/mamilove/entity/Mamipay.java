@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 @SuppressWarnings("serial")
@@ -21,8 +22,12 @@ public class Mamipay implements Serializable{
 	@Column(name = "isDelete")
 	private Boolean isDelete = false;
 
+	@JsonIgnore
 	@OneToOne
-	@JoinColumn(name = "idcustomer")
+	@JoinColumn(name = "idcustomer", updatable = false, insertable = false)
 	private Customer customer;
+
+	@Column(name = "idcustomer")
+	private Long idcustomer;
 	
 }

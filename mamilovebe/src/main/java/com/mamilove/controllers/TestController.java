@@ -1,5 +1,7 @@
 package com.mamilove.controllers;
 
+import com.mamilove.request.dto.Res;
+import com.mamilove.userdetails.service.UserDetailsImpl;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -10,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/api/test")
-public class TestController extends BaseController{
+public class TestController extends BaseController {
 
     @GetMapping("/all")
     public String allAccess() {
@@ -35,8 +37,8 @@ public class TestController extends BaseController{
         return "Admin Board.";
     }
 
-    @GetMapping("/get-account")
-    public ResponseEntity<?> getAccount() {
-        return ResponseEntity.ok(getAuthUsername());
+    @GetMapping("/getAuth")
+    public ResponseEntity<Res> getAuth() {
+        return ResponseEntity.ok(new Res(getAuthCredentials().get(),"oke", true));
     }
 }

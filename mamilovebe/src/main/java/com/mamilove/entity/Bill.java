@@ -1,6 +1,7 @@
 package com.mamilove.entity;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.*;
@@ -55,6 +56,9 @@ public class Bill implements Serializable {
     @Length(max = 1000)
     private String note;//ghi chú
 
+    @Column(name = "create_at")
+    private Date createAt = new Date();
+
     @Column(name = "full_name")
     private String fullname;//họ tên nhận hàng
 
@@ -63,6 +67,7 @@ public class Bill implements Serializable {
 
     private Boolean refund;//hoàn hàng
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "idcustomer", updatable = false, insertable = false)
     private Customer customer;

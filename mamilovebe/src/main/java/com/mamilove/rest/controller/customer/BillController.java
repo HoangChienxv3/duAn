@@ -1,10 +1,12 @@
-package com.mamilove.controllers;
+package com.mamilove.rest.controller.customer;
 
+import com.mamilove.controllers.BaseController;
 import com.mamilove.dao.AccountDao;
 import com.mamilove.entity.*;
 import com.mamilove.dao.QuantityDao;
 import com.mamilove.request.dto.BillDto;
 import com.mamilove.request.dto.Res;
+import com.mamilove.request.dto.UpdateBillCutomer;
 import com.mamilove.service.impl.MamipayServiceImpl;
 import com.mamilove.service.service.BillService;
 import com.mamilove.service.service.CustomerService;
@@ -18,7 +20,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/bill")
 @CrossOrigin("http://localhost:4200/")
-public class BillController extends BaseController{
+public class BillController extends BaseController {
 
     @Autowired
     BillService billService;
@@ -46,5 +48,15 @@ public class BillController extends BaseController{
     @PostMapping("/creat")
     public  ResponseEntity<?> createBill(@RequestBody BillDto billDto){
        return ResponseEntity.ok(new Res(billService.create(billDto),"oke", true));
+    }
+
+    @PostMapping("/update/{id}")
+    public ResponseEntity<Res> updateBill(@RequestBody UpdateBillCutomer updateBillCutomer,@PathVariable("id")String idbill){
+        return ResponseEntity.ok(new Res(billService.updateBillCustomer(updateBillCutomer, idbill),"ok", true));
+    }
+
+    @GetMapping("/cancel/{id}")
+    public ResponseEntity<Res> cancelBill(@PathVariable("id")String idbill){
+        return ResponseEntity.ok(new Res(billService.cancelBill(idbill),"Đã Hủy", true));
     }
 }
