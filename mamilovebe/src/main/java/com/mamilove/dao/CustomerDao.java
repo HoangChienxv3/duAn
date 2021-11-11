@@ -11,7 +11,7 @@ import java.util.List;
 public interface CustomerDao extends JpaRepository<Customer, Long>{
 
     @Query("select c from Customer c " +
-            "where c.account.username = ?1 ")
-    List<Customer> findByAccount(String username);
+            "where c.account.id = ?1 ")
+    Customer findByAccount(Long idAccout);
 
 }

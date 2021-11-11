@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mamilove.config.AuthEntryPointJwt;
+import com.mamilove.controllers.BaseController;
 import com.mamilove.dao.*;
 import com.mamilove.entity.*;
 import com.mamilove.request.dto.BillDto;
@@ -28,7 +29,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class BillServiceImpl implements BillService{
+public class BillServiceImpl extends BaseController implements BillService{
 
 	private static final Logger logger = LoggerFactory.getLogger(BillServiceImpl.class);
 
@@ -75,8 +76,7 @@ public class BillServiceImpl implements BillService{
 	@Override
 	public Object create(BillDto billDto){
 		//tim kiem nguoi dung
-		List<Customer> cus = customerService.findByAccount(billDto.getUsername());
-		Customer customer = cus.get(0);
+		Customer customer = customerService.findByAccount(getAuthUID());
 		//
 		Bill bill = objectMapper.convertValue(billDto, Bill.class);
 		bill.setIdCustomer(customer.getId());
