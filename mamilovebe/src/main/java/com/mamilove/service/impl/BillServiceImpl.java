@@ -26,6 +26,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -39,6 +40,8 @@ public class BillServiceImpl extends BaseController implements BillService{
 	OrderDetailDao orderDetailDao;
 	@Autowired
 	AccountDao accountDao;
+	@Autowired
+	CustomerDao customerDao;
 	@Autowired
 	OrderDetailService orderDetailService;
 	@Autowired
