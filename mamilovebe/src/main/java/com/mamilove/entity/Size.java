@@ -24,6 +24,9 @@ public class Size implements Serializable{
 	@ManyToOne @JoinColumn(name = "idtypesize", updatable = false, insertable = false)
 	private Typesize typesize;
 
+	@Column(name = "idtypesize")
+	private Long idtypesize;
+
 	@Column(name = "isDelete")
 	private Boolean isDelete = false;
 

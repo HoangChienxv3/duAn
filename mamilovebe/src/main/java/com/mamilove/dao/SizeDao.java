@@ -15,4 +15,6 @@ public interface SizeDao extends JpaRepository<Size, Long>{
 	List<Size> findAll();
 	List<Size> findByTypesize(Typesize typesize);
 	void delete(Size size);
+
+	Optional<Size> findByNameAndAndIdtypesize(String name, Long idtypesite);
 }
