@@ -3,14 +3,10 @@ package com.mamilove.rest.controller.admin;
 import java.util.List;
 import java.util.Optional;
 
+import com.mamilove.request.dto.CreateQuantityDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.mamilove.entity.Product;
 import com.mamilove.entity.Quantity;
@@ -36,5 +32,12 @@ public class QuantityManagerController {
 		Optional<Product> product = Optional.ofNullable(productService.findById(id).get());
 		List<Quantity> list = quantityService.findByProduct(product.get());
 		return ResponseEntity.ok(new Res(list,"success",true));
+	}
+	///code chien
+	@PostMapping("/createOrUpdate/{idpoduct}/{idsize}")
+	public ResponseEntity<Res> createQty(@PathVariable("idpoduct") Long idpoduct,
+										 @PathVariable("idsize") Long idsize,
+										 @RequestBody CreateQuantityDto createQuantity){
+		return ResponseEntity.ok(new Res(quantityService.createQty(idpoduct,idsize,createQuantity),"ok", true));
 	}
 }

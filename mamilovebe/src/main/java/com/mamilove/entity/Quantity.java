@@ -19,7 +19,7 @@ public class Quantity implements Serializable{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	private Long quantity;
+	private long quantity;
 
 	@JsonIgnore
 	@ManyToOne @JoinColumn(name = "idproduct", updatable = false, insertable = false)
@@ -27,12 +27,18 @@ public class Quantity implements Serializable{
 
 	@Column(name = "idproduct")
 	private Long idProduct;
-	
-	@ManyToOne @JoinColumn(name = "idsize")
+
+	@ManyToOne @JoinColumn(name = "idsize", updatable = false, insertable = false)
 	private Size size;
-	
-	@ManyToOne @JoinColumn(name = "idproperty")
+
+	@Column(name = "idsize")
+	private Long idsize;
+
+	@ManyToOne @JoinColumn(name = "idproperty", updatable = false, insertable = false)
 	private Property property;
+
+	@Column(name = "idproperty")
+	private Long idproperty;
 
 	@Column(name = "isDelete")
 	private Boolean isDelete = false;
