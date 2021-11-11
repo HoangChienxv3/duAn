@@ -15,4 +15,14 @@ public interface BillService {
     Bill updateBillCustomer(UpdateBillCutomer updateBillCutomer, String idbill);
 
     Bill cancelBill(String idbill);
+
+    Bill cancelBillManager(String idbill);
+
+    Bill confirmBillManager(String idbill);
+
+    Bill shipBillManager(String idbill);
+
+    Bill receivedBillManager(String idbill);
+
+    Bill refundBillManager(String idbill);
 }
