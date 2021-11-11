@@ -185,7 +185,21 @@ public class BillServiceImpl extends BaseController implements BillService {
         } else {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"Không thể hủy đơn");
         }
+        //hoàn số lượng về kho nếu thanh toán qua ví
+        List<Quantity> quantities = new ArrayList<>();
+        if(bill.getPayment()){
+            List<Orderdetail> orderdetails = bill.getOrderdetails();
+            orderdetails.forEach(orderdetail -> {
+               Quantity quantity =  orderdetail.getQuantity();
+               quantity.setQuantity(quantity.getQuantity() + orderdetail.getQuantitydetail());
+               quantities.add(quantity);
+            });
+            Mamipay mamipay = mamipayService.ByCustomer(customer.getId());
+            mamipay.setSurplus(mamipay.getSurplus() + bill.getTotal());
+            mamiPayDao.save(mamipay);
+            quantityDao.saveAll(quantities);
 
+        }
         return billDao.save(bill);
     }
 
