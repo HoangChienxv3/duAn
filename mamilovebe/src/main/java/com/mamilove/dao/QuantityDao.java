@@ -11,10 +11,13 @@ import org.springframework.data.jpa.repository.Query;
 
 public interface QuantityDao extends JpaRepository<Quantity, Long>{
 	List<Quantity> findAll();
-	List<Quantity> findByProduct(Product product);
+	List<Quantity> findByProductAndIsDeleteFalse(Product product);
+
+	List<Quantity> findAllByIsDeleteFalse();
 
 	@Query("select q from Quantity q " +
 			" where q.idsize = ?1 AND q.idproperty = ?2 and q.idProduct = ?3")
 	Optional<Quantity> checkQty(Long idsize, Long idproperty, Long idProduct);
+
 
 }
