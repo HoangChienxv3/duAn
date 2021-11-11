@@ -10,8 +10,6 @@ import java.util.List;
 @AllArgsConstructor
 public class BillDto {
 
-    private String username;//ma nguoi dung
-
     private String statusshipping;//tình trạng giao hàng
 
     private Double transportFee;//phí vận chuyển

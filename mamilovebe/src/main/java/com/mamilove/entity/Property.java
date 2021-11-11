@@ -24,6 +24,9 @@ public class Property implements Serializable{
 	@Column(name = "id_product")
 	private String id_product;
 
+	@Column(name = "isDelete")
+	private Boolean isDelete = false;
+
 	@JsonIgnore
 	@OneToMany(mappedBy = "property")
 	private List<Quantity> quantities;

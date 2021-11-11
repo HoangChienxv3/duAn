@@ -33,7 +33,10 @@ public class Quantity implements Serializable{
 	
 	@ManyToOne @JoinColumn(name = "idproperty")
 	private Property property;
-	
+
+	@Column(name = "isDelete")
+	private Boolean isDelete = false;
+
 	@JsonIgnore
 	@OneToMany(mappedBy = "quantity")
 	private List<Orderdetail> orderdetails;
