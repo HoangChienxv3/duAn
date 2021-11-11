@@ -67,6 +67,7 @@ public class Bill implements Serializable {
 
     private Boolean refund;//hoàn hàng
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "idcustomer", updatable = false, insertable = false)
     private Customer customer;
