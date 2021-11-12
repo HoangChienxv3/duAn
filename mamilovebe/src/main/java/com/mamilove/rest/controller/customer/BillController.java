@@ -1,3 +1,4 @@
+
 package com.mamilove.rest.controller.customer;
 
 import com.mamilove.controllers.BaseController;
@@ -47,7 +48,7 @@ public class BillController extends BaseController {
 
     @PostMapping("/creat")
     public  ResponseEntity<?> createBill(@RequestBody BillDto billDto){
-       return ResponseEntity.ok(new Res(billService.create(billDto),"oke", true));
+        return ResponseEntity.ok(new Res(billService.create(billDto),"oke", true));
     }
 
     @PostMapping("/update/{id}")
