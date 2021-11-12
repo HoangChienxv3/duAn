@@ -23,13 +23,17 @@ public class Voucher implements Serializable{
 	
 	private Double discount;
 
-	private String descriptionvoucher;
+	@Column(name = "name")
+	private String name;
 
 	@Column(name = "isDelete")
 	private Boolean isDelete = false;
 
-	@ManyToOne @JoinColumn(name = "idevent")
+	@ManyToOne @JoinColumn(name = "idevent", updatable = false, insertable = false)
 	private Event event;
+
+	@Column(name = "idevent")
+	private Long idevent;
 
 //	@JsonIgnore
 //	@OneToMany(mappedBy = "voucher")

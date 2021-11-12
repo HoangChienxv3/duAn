@@ -1,6 +1,5 @@
 package com.mamilove.rest.controller.admin;
 
-import com.mamilove.dao.EventDao;
 import com.mamilove.request.dto.EventRequest;
 import com.mamilove.request.dto.Res;
 import com.mamilove.service.service.EventService;
@@ -11,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.text.ParseException;
 
 @RestController
-@RequestMapping("/Manager/BillManagerController")
+@RequestMapping("/Manager/EventManagerController")
 public class EventManagerController {
 
     @Autowired
