@@ -10,7 +10,7 @@ public interface BillService {
     List<Bill> BillByCustomer(Long id);
     List<Bill> FindAll();
     boolean existsById(String id);
-    Object create(BillDto billDto);
+    Bill create(BillDto billDto);
 
     Bill updateBillCustomer(UpdateBillCutomer updateBillCutomer, String idbill);
 
