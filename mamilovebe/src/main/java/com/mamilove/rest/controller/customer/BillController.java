@@ -43,7 +43,7 @@ public class BillController extends BaseController {
     }
     @GetMapping("/list")
     public ResponseEntity<List<Bill>> listBill(){
-        return ResponseEntity.ok(billService.FindAll());
+        return ResponseEntity.ok(billService.findAllCustomer());
     }
 
     @PostMapping("/creat")
