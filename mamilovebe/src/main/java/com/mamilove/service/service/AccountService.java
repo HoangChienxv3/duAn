@@ -17,8 +17,9 @@ public interface AccountService {
 	List<Account> findAll();
 	<S extends Account> S save(S entity);
 
-
-	Optional<Account> findById(Long id);
-
+    Boolean existsByEmail(String email);
+	Boolean existsByUsername(String username);
+	Account findById(Long id);
+	List<Account> findAllFalse();
 
 }

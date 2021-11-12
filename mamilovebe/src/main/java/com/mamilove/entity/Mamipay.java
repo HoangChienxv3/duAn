@@ -1,9 +1,11 @@
 package com.mamilove.entity;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 @SuppressWarnings("serial")
@@ -24,5 +26,6 @@ public class Mamipay implements Serializable{
 	@OneToOne
 	@JoinColumn(name = "idcustomer")
 	private Customer customer;
+
 	
 }

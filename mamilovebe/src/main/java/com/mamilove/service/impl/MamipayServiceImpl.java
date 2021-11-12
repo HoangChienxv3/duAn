@@ -21,7 +21,17 @@ public class MamipayServiceImpl implements MamiPayService{
 	}
 
 	@Override
+	public List<Mamipay> findAll() {
+		return mamiPayDao.findAll();
+	}
+
+	@Override
 	public Mamipay ByCustomer(Long id) {
 		return mamiPayDao.BillByCustomer(id);
+	}
+
+	@Override
+	public Mamipay create(Mamipay mamipay) {
+		return mamiPayDao.save(mamipay);
 	}
 }

@@ -52,18 +52,18 @@ public class ProductController {
 	}	
 	@GetMapping("/findProductById/{id}")
 	public ResponseEntity<?> findProductById(@PathVariable("id") Long id){
-		Optional<Product> entity = productService.findById(id);
+		Product entity = productService.findById(id);
 		return ResponseEntity.ok(new Res( entity , "Success", true));
 	}
 	@GetMapping("/GetProductByCategory/{id}")
 	public ResponseEntity<?> GetProductByCategory(@PathVariable("id") Long id){
-		Optional<Product> product = Optional.ofNullable(productService.findById(id).get());
+		Optional<Product> product = Optional.ofNullable(productService.findById(id));
 		List<Product> entity = productService.findByCategoryDetail(product.get().getCategorydetail());
 		return ResponseEntity.ok(new Res(entity,"Success",true));
 	}
 	@GetMapping("/collection/{id}")
 	public ResponseEntity<?> GetProductByCategoryDetail(@PathVariable("id") Long id){
-		Optional<Categorydetail> categories = Optional.ofNullable(categoryDetailService.findById(id).get());
+		Optional<Categorydetail> categories = Optional.ofNullable(categoryDetailService.findById(id));
 		List<Product> entity = productService.findByCategoryDetail(categories.get());
 		return ResponseEntity.ok(new Res(entity,"Success",true));
 	}

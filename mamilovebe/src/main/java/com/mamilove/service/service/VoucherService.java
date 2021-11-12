@@ -1,7 +1,5 @@
 package com.mamilove.service.service;
-
 import java.util.List;
-
 import com.mamilove.entity.Voucher;
 
 public interface VoucherService {
@@ -9,4 +7,7 @@ public interface VoucherService {
 	List<Voucher> findVoucherByAmount();
 	List<Voucher> saveAll(List<Voucher> voucher);
 	void deleteInBatch(List<Voucher> voucher);
+	Voucher findById(Long id);
+	Voucher create(Voucher voucher);
+	List<Voucher> findAllFalse();
 }

@@ -24,9 +24,9 @@ public class CategoryDetailServiceImpl implements CategoryDetailService{
 	}
 
 	@Override
-	public Optional<Categorydetail> findById(Long id) {
+	public Categorydetail findById(Long id) {
 		// TODO Auto-generated method stub
-		return categoryDetailDao.findById(id);
+		return categoryDetailDao.findById(id).get();
 	}
 
 	@Override

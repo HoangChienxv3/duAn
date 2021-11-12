@@ -1,5 +1,13 @@
 package com.mamilove.service.service;
 
-public interface EventService {
+import com.mamilove.entity.Event;
 
+import java.util.List;
+
+public interface EventService {
+    List<Event> findAllFalse();
+
+    Event create(Event event);
+
+    Event findById(Long id);
 }

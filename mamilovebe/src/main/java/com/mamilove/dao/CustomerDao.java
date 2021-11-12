@@ -14,4 +14,7 @@ public interface CustomerDao extends JpaRepository<Customer, Long>{
             "where c.account.username = ?1 ")
     List<Customer> findByAccount(String username);
 
+    @Query("select c from Customer c where c.isDelete = false and c.account.isDelete=false ")
+    List<Customer> findAllFalse();
+
 }

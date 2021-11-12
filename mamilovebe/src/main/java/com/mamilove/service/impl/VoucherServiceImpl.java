@@ -42,5 +42,20 @@ public class VoucherServiceImpl implements VoucherService{
 		// TODO Auto-generated method stub
 		voucherDao.deleteInBatch(voucher);
 	}
-	
+
+	@Override
+	public Voucher findById(Long id) {
+		return voucherDao.findById(id).get();
+	}
+
+	@Override
+	public Voucher create(Voucher voucher) {
+		return voucherDao.save(voucher);
+	}
+
+	@Override
+	public List<Voucher> findAllFalse() {
+		return voucherDao.findAllFalse();
+	}
+
 }
