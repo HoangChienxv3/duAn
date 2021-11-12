@@ -1,7 +1,9 @@
 package com.mamilove.controllers;
 
+import com.mamilove.dao.CustomerDao;
 import com.mamilove.request.dto.Res;
 import com.mamilove.userdetails.service.UserDetailsImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -13,6 +15,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/test")
 public class TestController extends BaseController {
+
+    @Autowired
+    CustomerDao customerDao;
 
     @GetMapping("/all")
     public String allAccess() {
@@ -39,6 +44,6 @@ public class TestController extends BaseController {
 
     @GetMapping("/getAuth")
     public ResponseEntity<Res> getAuth() {
-        return ResponseEntity.ok(new Res(getAuthCredentials().get(),"oke", true));
+        return ResponseEntity.ok(new Res(customerDao.findByIdaccount(getAuthUID()),"oke", true));
     }
 }

@@ -77,7 +77,7 @@ public class BillServiceImpl extends BaseController implements BillService {
     @Override
     public Bill create(BillDto billDto) {
         //tim kiem nguoi dung
-        Customer customer = customerService.findByAccount(getAuthUID());
+        Customer customer = customerDao.findByIdaccount(getAuthUID());
         //
         Bill bill = objectMapper.convertValue(billDto, Bill.class);
         bill.setIdCustomer(customer.getId());
