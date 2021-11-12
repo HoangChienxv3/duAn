@@ -25,4 +25,6 @@ public interface BillService {
     Bill receivedBillManager(String idbill);
 
     Bill refundBillManager(String idbill);
+
+    List<Bill> findAllCustomer();
 }

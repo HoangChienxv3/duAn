@@ -20,6 +20,8 @@ public interface CategoryDao extends JpaRepository<Category, Long>{
 	Category saveAndFlush(Category category);
 	void delete(Category category);
 
+	List<Category> findAllByIsDeleteFalse();
+
 
 
 }
