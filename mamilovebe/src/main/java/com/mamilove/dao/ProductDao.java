@@ -20,4 +20,6 @@ public interface ProductDao extends JpaRepository<Product, Long>{
 	<S extends Product> List<S> saveAll(Iterable<S> entities);
 	void delete(Product product);
 	void deleteInBatch(Iterable<Product> product);
+
+	List<Product> findAllByIsDeleteFalse();
 }

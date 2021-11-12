@@ -335,5 +335,10 @@ public class BillServiceImpl extends BaseController implements BillService {
         return billDao.save(bill);
     }
 
+    @Override
+    public List<Bill> findAllCustomer() {
+        return billDao.findAllByIdCustomerOrderByCreateAtDesc(getAuthUID());
+    }
+
 
 }

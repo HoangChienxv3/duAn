@@ -10,4 +10,6 @@ import java.util.List;
 public interface BillDao extends JpaRepository<Bill, String> {
     @Query("SELECT b FROM Bill b WHERE b.idCustomer =?1")
     List<Bill> BillByCustomer(Long id);
+
+    List<Bill> findAllByIdCustomerOrderByCreateAtDesc(Long id);
 }
