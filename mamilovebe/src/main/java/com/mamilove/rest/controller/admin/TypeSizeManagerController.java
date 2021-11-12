@@ -5,14 +5,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import com.mamilove.request.dto.TypeSizeRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mamilove.entity.Size;
@@ -60,5 +56,20 @@ public class TypeSizeManagerController {
 			// TODO: handle exception
 			return ResponseEntity.ok(new Res("Save failed",false)); 
 		}
+	}
+	//code chien
+	@PostMapping("/create")
+	public ResponseEntity<Res> createTypeSize(@RequestBody TypeSizeRequest typeSizeRequest){
+		return ResponseEntity.ok(new Res(typeSizeService.create(typeSizeRequest),"Thêm thành công",true));
+	}
+
+	@PostMapping("/update/{id}")
+	public ResponseEntity<Res> updateTypeSize(@PathVariable("id") Long id,@RequestBody TypeSizeRequest typeSizeRequest){
+		return ResponseEntity.ok(new Res(typeSizeService.update(id,typeSizeRequest),"Thêm thành công",true));
+	}
+
+	@GetMapping("/delete/{id}")
+	public ResponseEntity<Res> deleteTypeSize(@PathVariable("id") Long id){
+		return ResponseEntity.ok(new Res(typeSizeService.delete(id),"Thêm thành công",true));
 	}
 }

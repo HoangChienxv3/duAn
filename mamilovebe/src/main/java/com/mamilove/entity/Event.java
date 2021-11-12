@@ -8,6 +8,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+import lombok.Builder;
 import lombok.Data;
 
 @SuppressWarnings("serial")
@@ -21,18 +22,20 @@ public class Event implements Serializable{
 	private Long id;
 	
 	private String name;
-	
-	private Date startday;
-	
+
+	private Date startday = new Date();
+
 	private Date endday;
 
-	private Boolean status;
+//	@Builder.Default
+//	private Boolean status = false;
 
 	@Column(name = "isDelete")
 	private Boolean isDelete = false;
-	@JsonIgnore
-	@OneToMany(mappedBy = "event")
-	private List<ImageEvent> imageevents;
+
+//	@JsonIgnore
+//	@OneToMany(mappedBy = "event")
+//	private List<ImageEvent> imageevents;
 	
 	@JsonIgnore
 	@OneToMany(mappedBy = "event")
