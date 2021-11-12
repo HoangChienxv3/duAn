@@ -30,9 +30,10 @@ public class Event implements Serializable{
 
 	@Column(name = "isDelete")
 	private Boolean isDelete = false;
-	@JsonIgnore
-	@OneToMany(mappedBy = "event")
-	private List<ImageEvent> imageevents;
+
+//	@JsonIgnore
+//	@OneToMany(mappedBy = "event")
+//	private List<ImageEvent> imageevents;
 	
 	@JsonIgnore
 	@OneToMany(mappedBy = "event")
