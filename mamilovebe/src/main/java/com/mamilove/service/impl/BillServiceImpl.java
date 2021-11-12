@@ -46,6 +46,9 @@ public class BillServiceImpl extends BaseController implements BillService {
     CustomerService customerService;
 
     @Autowired
+    VoucherDao voucherDao;
+
+    @Autowired
     ObjectMapper objectMapper;
 
     @Autowired
@@ -108,6 +111,8 @@ public class BillServiceImpl extends BaseController implements BillService {
                 orderdetails.add(orderdetail);
             }
             //
+                bill.setDiscount(null);
+            bill.setVoucher_id(null);
             billDao.save(bill);
             orderDetailDao.saveAll(orderdetails);
         } else {//thanh toan bang vi
@@ -139,6 +144,21 @@ public class BillServiceImpl extends BaseController implements BillService {
                 quantities.add(quantity);
                 orderdetails.add(orderdetail);
             }
+            Voucher voucher;
+            if(billDto.getVoucher_id() != null){
+                voucher = voucherDao.findByIdIsAndIsDeleteFalse(billDto.getVoucher_id()).orElseThrow(() -> {
+                    throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"Không tìm thấy voucher");
+                });
+
+                if(voucher.getAmount()<= 0){
+                    throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"VOucher đã hết");
+                }
+                bill.setDiscount(voucher.getDiscount());
+                bill.setVoucher_id(voucher.getId());
+                voucher.setAmount(voucher.getAmount() - 1l);
+                voucherDao.save(voucher);
+            }
+
             mamipay.setSurplus(mamipay.getSurplus() - billDto.getTotal());
             mamiPayDao.save(mamipay);
             billDao.save(bill);
