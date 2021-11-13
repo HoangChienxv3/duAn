@@ -63,7 +63,7 @@ public class ProductController {
 	}
 	@GetMapping("/collection/{id}")
 	public ResponseEntity<?> GetProductByCategoryDetail(@PathVariable("id") Long id){
-		Optional<Categorydetail> categories = Optional.ofNullable(categoryDetailService.findById(id));
+		Optional<Categorydetail> categories = categoryDetailService.findById(id);
 		List<Product> entity = productService.findByCategoryDetail(categories.get());
 		return ResponseEntity.ok(new Res(entity,"Success",true));
 	}

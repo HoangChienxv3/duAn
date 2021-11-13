@@ -1,8 +1,7 @@
-package com.mamilove.service.impl;
+package com.mamilove.vnpay;
 
 import com.mamilove.dao.HistoryDao;
 import com.mamilove.entity.History;
-import com.mamilove.service.service.HistoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

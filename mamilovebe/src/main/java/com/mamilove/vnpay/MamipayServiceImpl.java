@@ -1,11 +1,10 @@
-package com.mamilove.service.impl;
+package com.mamilove.vnpay;
 
 import com.mamilove.entity.Mamipay;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.mamilove.dao.MamiPayDao;
-import com.mamilove.service.service.MamiPayService;
 
 import java.util.List;
 

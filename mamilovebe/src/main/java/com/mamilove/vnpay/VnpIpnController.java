@@ -1,12 +1,12 @@
-package com.mamilove.controllers;
+package com.mamilove.vnpay;
 
 import com.mamilove.config.VnpayConfig;
 import com.mamilove.entity.Customer;
 import com.mamilove.entity.History;
 import com.mamilove.entity.Mamipay;
 import com.mamilove.service.service.CustomerService;
-import com.mamilove.service.service.HistoryService;
-import com.mamilove.service.service.MamiPayService;
+import com.mamilove.vnpay.HistoryService;
+import com.mamilove.vnpay.MamiPayService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;

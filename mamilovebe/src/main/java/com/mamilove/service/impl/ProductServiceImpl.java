@@ -19,16 +19,21 @@ public class ProductServiceImpl implements ProductService{
 	@Autowired
 	ProductDao productDao;
 
-	@Override
-	public List<Product> findAll() {
-		// TODO Auto-generated method stub
-		return productDao.findAllByIsDeleteFalse();
-	}
+//	@Override
+//	public List<Product> findAll() {
+//		// TODO Auto-generated method stub
+//		return productDao.findAllByIsDeleteFalse();
+//	}
 
 	@Override
 	public List<Product> findProductNew() {
 		// TODO Auto-generated method stub
 		return productDao.findProductNew();
+	}
+
+	@Override
+	public List<Product> findAll() {
+		return productDao.findAll();
 	}
 
 	@Override
