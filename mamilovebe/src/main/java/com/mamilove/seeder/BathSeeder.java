@@ -7,7 +7,8 @@ public class BathSeeder implements Seeder {
 
     private final Seeder[] seeders = new Seeder[]{
             new RoleSeeder(),
-            new AccountSeeder()
+            new AccountSeeder(),
+            new SizeSeeder()
     };
 
     @Override
