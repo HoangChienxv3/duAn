@@ -45,6 +45,7 @@ public class Account implements Serializable{
 	@OneToMany(mappedBy = "account")
 	List<Authority> authorities;
 
+	@JsonIgnore
 	public boolean isOTPRequired() {
 		if (this.getOneTimePassword() == null) {
 			return false;
@@ -62,6 +63,7 @@ public class Account implements Serializable{
 	}
 
 	//check neu ton tai ma se gui sau 1 phut
+	@JsonIgnore
 	public boolean isOTPGenerrate() {
 
 		long currentTimeInMillis = System.currentTimeMillis();

@@ -18,8 +18,8 @@ public class CustomerServiceImpl implements CustomerService {
 
 
 	@Override
-	public List<Customer> findByAccount(String username) {
-		return customerDao.findByAccount(username);
+	public Customer findByAccount(Long idAccout) {
+		return customerDao.findByAccount(idAccout);
 	}
 
 	@Override

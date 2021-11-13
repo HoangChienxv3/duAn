@@ -18,19 +18,20 @@ public class Customer implements Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
 	private String fullname;
-	
+
 	private String statuscustomer;
 
 	@Column(name = "isDelete")
 	private Boolean isDelete = false;
-	@JsonIgnore
+
 	@OneToOne
 	@JoinColumn(name = "idaccount")
 	private  Account account;
 
 	@OneToMany(mappedBy = "customer")
+	@JsonIgnore
 	private List<Bill> bills;
-	
+
 }
