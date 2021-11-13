@@ -17,4 +17,6 @@ public interface SizeDao extends JpaRepository<Size, Long>{
 	void delete(Size size);
 
 	Optional<Size> findByNameAndAndIdtypesize(String name, Long idtypesite);
+
+	Optional<Size> findByName(String name);
 }
