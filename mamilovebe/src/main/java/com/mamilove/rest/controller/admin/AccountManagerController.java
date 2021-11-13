@@ -13,16 +13,15 @@ import java.util.List;
 
 @CrossOrigin("http://localhost:4200/")
 @RestController
-@RequestMapping("/Manager/AccountController")
+@RequestMapping("/Manager/AccountManagerController")
 public class AccountManagerController {
     @Autowired
     AccountService accountService;
 
-    @GetMapping(value = "")
-    public ResponseEntity<List<Account>> getUserList(Model model) {
-        return ResponseEntity.ok(accountService.findAll());
+    @GetMapping(value = "/findAll")
+    public ResponseEntity<?> getUserList() {
+        return ResponseEntity.ok( new Res(accountService.findAll(),"Save Success",true));
     }
-
     @GetMapping(value = "/{id}")
     public ResponseEntity<?> getOne(@PathVariable("id") long id) {
         if (!accountService.existsById(id)) {
@@ -30,21 +29,9 @@ public class AccountManagerController {
         }
         return ResponseEntity.ok(new Res(accountService.findById(id).get(),"thong tin tai khoan",true));
     }
-    @PostMapping(value = "")
-    public  ResponseEntity<Account> post(@RequestBody Account account){
-        if(accountService.existsById(account.getId())){
-            return ResponseEntity.badRequest().build();
-        }
+    @PostMapping(value = "/saveAndFlush")
+    public  ResponseEntity<?> saveAndFlush(@RequestBody Account account){
         accountService.save(account);
-        return ResponseEntity.ok(account);
-    }
-    @PutMapping(value = "/{id}")
-    public ResponseEntity<Account> updateAccount(@PathVariable("id") long id,@RequestBody Account account){
-        if(!accountService.existsById(id)){
-          return  ResponseEntity.notFound().build();
-        }
-        accountService.save(account);
-        return ResponseEntity.ok(account);
-
+        return ResponseEntity.ok( new Res(account,"Save Success",true));
     }
 }

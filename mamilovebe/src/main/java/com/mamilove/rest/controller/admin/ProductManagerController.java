@@ -85,7 +85,6 @@ public class ProductManagerController {
 	public ResponseEntity<?> deleteProduct(@RequestBody Product product){
 		try {
 			product.setIsDelete(true);
-//			productService.delete(product);
 			return ResponseEntity.ok(new Res(product,"Save success",true));
 		} catch (Exception e) {
 			// TODO: handle exception

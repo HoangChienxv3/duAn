@@ -49,7 +49,10 @@ public class TypeSizeManagerController {
 				typeSizeService.saveAll(updated);
 			}
 			if(deleted.size() > 0) {
-				typeSizeService.deleteInBatch(deleted);
+				for(Typesize entity: deleted) {
+					entity.setIsDelete(true);
+				}
+//				typeSizeService.deleteInBatch(deleted);
 			}
 			return ResponseEntity.ok(new Res(typeSizeService.findAll(),"Save success",true)); 
 		} catch (Exception e) {

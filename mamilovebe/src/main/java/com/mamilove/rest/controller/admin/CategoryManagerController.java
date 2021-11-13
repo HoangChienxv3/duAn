@@ -53,7 +53,7 @@ public class CategoryManagerController {
 			return ResponseEntity.ok(new Res("Không thấy sản phẩm,Sản phẩm không tồn tại",false));
 		}
 	}
-	@PutMapping(value = "/update/{id}")
+    @PostMapping(value = "/update/{id}")
 	public ResponseEntity<?> update (@PathVariable("id") Long id, @RequestBody CategoryRequest categoryRequest){
 		Optional<Category> category = categoryService.findById(id);
 		if(category.get().getIsDelete() == true){
@@ -64,7 +64,7 @@ public class CategoryManagerController {
 		Category cate  = categoryService.save(ct);
 		return  ResponseEntity.ok(new Res(cate,"Cập nhật thành công",true));
 	}
-	@PutMapping(value = "delete/{id}")
+	@PostMapping(value = "delete/{id}")
 	public ResponseEntity<Res> delete(@PathVariable("id") Long id, Category category){
 	     category = categoryService.findById(id).orElseThrow(
 				 () -> {
@@ -76,46 +76,36 @@ public class CategoryManagerController {
 				 return  ResponseEntity.ok(new Res(categoryService.save(category),"Xóa thành công",true));
 
 	}
-//	@PostMapping("/deleteInBatch")
-//	public ResponseEntity<?> deleteInBatch(@RequestBody String category){
-//		try {
-//			ObjectMapper json = new ObjectMapper();
-//			List<Category> entity = new ArrayList<>();
-//			entity = Arrays.asList(json.readValue(category, Category[].class));
-//			categoryService.deleteInBatch(entity);
-//			return ResponseEntity.ok(new Res("Save success",true));
-//		} catch (Exception e) {
-//			// TODO: handle exception
-//			return ResponseEntity.ok(new Res("Save failed",false));
-//		}
-//	}
-//	@PostMapping("/updateInline")
-//	public ResponseEntity<?> updateInline(String createdItems,
-//	        @RequestParam(required = false,value ="updatedItems") String updatedItems,
-//	        @RequestParam(required = false,value ="deletedItems") String deletedItems) throws IOException{
-//		try {
-//			ObjectMapper json = new ObjectMapper();
-//			List<Category> created = new ArrayList<>();
-//			List<Category> updated = new ArrayList<>();
-//			List<Category> deleted = new ArrayList<>();
-//
-//			created = Arrays.asList(json.readValue(createdItems,Category[].class));
-//			updated = Arrays.asList(json.readValue(updatedItems,Category[].class));
-//			deleted = Arrays.asList(json.readValue(deletedItems,Category[].class));
-//
-//			if(created.size() > 0) {
-//				categoryService.saveAll(created);
-//			}
-//			if(updated.size() > 0) {
-//				categoryService.saveAll(updated);
-//			}
-//			if(deleted.size() > 0) {
+	@PostMapping("/updateInline")
+	public ResponseEntity<?> updateInline(String createdItems,
+	        @RequestParam(required = false,value ="updatedItems") String updatedItems,
+	        @RequestParam(required = false,value ="deletedItems") String deletedItems) throws IOException{
+		try {
+			ObjectMapper json = new ObjectMapper();
+			List<Category> created = new ArrayList<>();
+			List<Category> updated = new ArrayList<>();
+			List<Category> deleted = new ArrayList<>();
+
+			created = Arrays.asList(json.readValue(createdItems,Category[].class));
+			updated = Arrays.asList(json.readValue(updatedItems,Category[].class));
+			deleted = Arrays.asList(json.readValue(deletedItems,Category[].class));
+
+			if(created.size() > 0) {
+				categoryService.saveAll(created);
+			}
+			if(updated.size() > 0) {
+				categoryService.saveAll(updated);
+			}
+			if(deleted.size() > 0) {
+				for(Category entity: deleted) {
+					entity.setIsDelete(true);
+				}
 //				categoryService.deleteInBatch(deleted);
-//			}
-//			return ResponseEntity.ok(new Res(categoryService.findAll(),"Save success",true));
-//		} catch (Exception e) {
-//			// TODO: handle exception
-//			return ResponseEntity.ok(new Res("Save failed",false));
-//		}
-//	}
+			}
+			return ResponseEntity.ok(new Res(categoryService.findAll(),"Save success",true));
+		} catch (Exception e) {
+			// TODO: handle exception
+			return ResponseEntity.ok(new Res("Save failed",false));
+		}
+	}
 }

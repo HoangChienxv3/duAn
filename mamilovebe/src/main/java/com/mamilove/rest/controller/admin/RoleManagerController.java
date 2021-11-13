@@ -9,13 +9,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/role")
-public class RoleController {
+@RequestMapping("/Manager/RoleManagerController")
+public class RoleManagerController {
 
     @Autowired
     RoleDao roleDao;
 
-    @GetMapping("/all")
+    @GetMapping("/findAll")
     public ResponseEntity<Res> getAllRole(){
         return ResponseEntity.ok(new Res(roleDao.findAll(),"Thành công",true));
     }
