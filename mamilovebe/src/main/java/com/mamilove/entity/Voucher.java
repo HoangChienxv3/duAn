@@ -13,28 +13,31 @@ import lombok.Data;
 @Data
 @Entity
 @Table(name = "voucher")
-public class Voucher implements Serializable {
+public class Voucher implements Serializable{
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 
-    private Long amount;
+	private Long amount;
+	
+	private Double discount;
 
-    private Double discount;
+	@Column(name = "name")
+	private String name;
 
-    private String descriptionvoucher;
+	@Column(name = "isDelete")
+	private Boolean isDelete = false;
 
-    @Column(name = "isDelete")
-    private Boolean isDelete = false;
-    @JsonIgnore
-    @ManyToOne
-    @JoinColumn(name = "idevent")
-    private Event event;
+	@ManyToOne @JoinColumn(name = "idevent", updatable = false, insertable = false)
+	private Event event;
+
+	@Column(name = "idevent")
+	private Long idevent;
 
 //	@JsonIgnore
 //	@OneToMany(mappedBy = "voucher")
 //	private List<Bill> bills;
-
-
+	
+	
 }

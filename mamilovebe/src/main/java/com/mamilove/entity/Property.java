@@ -21,9 +21,6 @@ public class Property implements Serializable{
 	
 	private String name;
 
-	@Column(name = "id_product")
-	private String id_product;
-
 	@Column(name = "isDelete")
 	private Boolean isDelete = false;
 

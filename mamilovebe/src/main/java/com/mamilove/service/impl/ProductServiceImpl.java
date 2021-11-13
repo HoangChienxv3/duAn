@@ -22,7 +22,7 @@ public class ProductServiceImpl implements ProductService{
 	@Override
 	public List<Product> findAll() {
 		// TODO Auto-generated method stub
-		return productDao.findAll();
+		return productDao.findAllByIsDeleteFalse();
 	}
 
 	@Override
