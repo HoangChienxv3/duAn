@@ -1,4 +1,4 @@
-package com.mamilove.controllers;
+package com.mamilove.rest.controller.admin;
 
 import com.mamilove.dao.AccountDao;
 import com.mamilove.entity.Account;
@@ -11,10 +11,10 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@CrossOrigin("*")
+@CrossOrigin("http://localhost:4200/")
 @RestController
-@RequestMapping("/users")
-public class AccountController {
+@RequestMapping("/Manager/AccountController")
+public class AccountManagerController {
     @Autowired
     AccountService accountService;
 
