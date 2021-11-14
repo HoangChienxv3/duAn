@@ -3,10 +3,12 @@ package com.mamilove.seeder;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class BathSeeder implements Seeder{
+public class BathSeeder implements Seeder {
 
     private final Seeder[] seeders = new Seeder[]{
-        new RoleSeeder()
+            new RoleSeeder(),
+            new AccountSeeder(),
+            new SizeSeeder()
     };
 
     @Override

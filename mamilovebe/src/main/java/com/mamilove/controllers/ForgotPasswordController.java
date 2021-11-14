@@ -15,7 +15,7 @@ import javax.mail.MessagingException;
 import java.io.UnsupportedEncodingException;
 import java.util.Date;
 
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "http://localhost:4200/")
 @RestController
 @RequestMapping("/api/forgotpassword")
 public class ForgotPasswordController {
@@ -29,7 +29,7 @@ public class ForgotPasswordController {
     @Autowired
     ForgotPasswordServices forgotPasswordServices;
 
-    @PutMapping("")
+    @PostMapping("")
     public ResponseEntity<?> generateCapchar(@RequestBody ForgotPasswordRequest forgotPasswordRequest) throws MessagingException, UnsupportedEncodingException {
 
         Account account =  accountDao.findByEmail(forgotPasswordRequest.getEmail())
@@ -44,7 +44,7 @@ public class ForgotPasswordController {
 
     }
 
-    @PutMapping("/change")
+    @PostMapping("/change")
     public ResponseEntity<?> updatePassword(@RequestBody ForgotPasswordRequest forgotPasswordRequest) throws MessagingException, UnsupportedEncodingException {
 
         if(!forgotPasswordRequest.getPassword().equals(forgotPasswordRequest.getPasswordConfirm())){

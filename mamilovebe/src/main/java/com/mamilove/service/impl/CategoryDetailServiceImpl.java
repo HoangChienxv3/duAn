@@ -63,7 +63,7 @@ public class CategoryDetailServiceImpl implements CategoryDetailService{
 	}
 
 	public  List<Categorydetail> getAllListDetailCategory(){
-		return  categoryDetailDao.listCategoryDetailIsDeleteTrue();
+		return  categoryDetailDao.listCategoryDetailIsDeleteFalse();
 	}
 
 	@Override
