@@ -27,7 +27,7 @@ public class AccountManagerController {
         if (!accountService.existsById(id)) {
             ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok(new Res(accountService.findById(id).get(),"thong tin tai khoan",true));
+        return ResponseEntity.ok(new Res(accountService.findById(id),"thong tin tai khoan",true));
     }
     @PostMapping(value = "/saveAndFlush")
     public  ResponseEntity<?> saveAndFlush(@RequestBody Account account){
