@@ -38,11 +38,9 @@ public class QuantityManagerController {
 		return ResponseEntity.ok(new Res(list,"success",true));
 	}
 	///code chien
-	@PostMapping("/createOrUpdate/{idpoduct}/{idsize}")
-	public ResponseEntity<Res> createQty(@PathVariable("idpoduct") Long idpoduct,
-										 @PathVariable("idsize") Long idsize,
-										 @RequestBody CreateQuantityDto createQuantity){
-		return ResponseEntity.ok(new Res(quantityService.createQty(idpoduct,idsize,createQuantity),"ok", true));
+	@PostMapping("/createOrUpdate")
+	public ResponseEntity<Res> createQty( @RequestBody CreateQuantityDto createQuantity){
+		return ResponseEntity.ok(new Res(quantityService.createQty(createQuantity),"ok", true));
 	}
 
 	//xoa quantity

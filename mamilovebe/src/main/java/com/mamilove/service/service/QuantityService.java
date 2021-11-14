@@ -10,7 +10,7 @@ public interface QuantityService {
 	List<Quantity> findAll();
 	List<Quantity> findByProduct(Product product);
 
-	List<Quantity> createQty(Long idpoduct, Long idsize, CreateQuantityDto createQuantity);
+	List<Quantity> createQty(CreateQuantityDto createQuantity);
 
 	Quantity deleteQty(Long idqty);
 }
