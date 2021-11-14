@@ -34,16 +34,16 @@ public class QuantityServiceImpl implements QuantityService{
 	}
 
 	@Override
-	public List<Quantity> createQty(Long idpoduct, Long idsize, CreateQuantityDto createQuantity) {
+	public List<Quantity> createQty(CreateQuantityDto createQuantity) {
 		List<Quantity> quantities = new ArrayList<>();
 		createQuantity.getPropertyrequests().forEach(property -> {
 			Quantity quantity = new Quantity();
-			Optional<Quantity> qty = quantityDao.checkQty(idsize,property.getIdproperty(),idpoduct);
+			Optional<Quantity> qty = quantityDao.checkQty(createQuantity.getIdsize(),property.getIdproperty(),createQuantity.getIdpoduct());
 			if(qty.isPresent()){
 				quantity = qty.get();
 			} else {
-				quantity.setIdProduct(idpoduct);
-				quantity.setIdsize(idsize);
+				quantity.setIdProduct(createQuantity.getIdpoduct());
+				quantity.setIdsize(createQuantity.getIdsize());
 				quantity.setIdproperty(property.getIdproperty());
 			}
 			quantity.setIsDelete(false);

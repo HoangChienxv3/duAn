@@ -29,7 +29,7 @@ import javax.validation.Valid;
 import java.util.*;
 import java.util.stream.Collectors;
 
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "http://localhost:4200/")
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
@@ -173,13 +173,13 @@ public class AuthController {
         }
         SignupRequest signupRequest = signupCustomerRequest.getSignupRequest();
         if (accountDao.existsByUsername(signupRequest.getUsername())) {
-            return ResponseEntity.badRequest().body(new Res("Username đã tồn tại", false));
+            return ResponseEntity.ok(new Res("Username đã tồn tại", false));
         }
         if (accountDao.existsByEmail(signupRequest.getEmail())) {
-            return ResponseEntity.badRequest().body(new Res("Email đã tồn tại", false));
+            return ResponseEntity.ok(new Res("Email đã tồn tại", false));
         }
         if (accountDao.existsByPhone(signupRequest.getPhone())) {
-            return ResponseEntity.badRequest().body(new Res("SDT đã tồn tại", false));
+            return ResponseEntity.ok(new Res("SDT đã tồn tại", false));
         }
 
         CustomerRequest customerRequest = signupCustomerRequest.getCustomerRequest();
@@ -209,6 +209,7 @@ public class AuthController {
         Customer customer = new Customer();
         BeanUtils.copyProperties(customerRequest, customer);
         customer.setAccount(account);
+        customer.setStatuscustomer("");
         customerDao.save(customer);
 
         return ResponseEntity.ok(new Res(customer,"ok",true));
