@@ -47,6 +47,11 @@ public class CategoryServiceImpl implements CategoryService {
 		categoryDao.delete(category);
 	}
 
+	@Override
+	public void deleteInBatch(List<Category> category) {
+
+	}
+
 
 	@Override
 	@Transactional

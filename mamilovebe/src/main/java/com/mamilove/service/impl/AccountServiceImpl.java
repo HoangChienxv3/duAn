@@ -26,13 +26,29 @@ public class AccountServiceImpl implements AccountService{
 	}
 
 	@Override
+	public Boolean existsByEmail(String email) {
+		return accountDao.existsByEmail(email);
+	}
+
+	@Override
+	public Boolean existsByUsername(String username) {
+		return accountDao.existsByUsername(username);
+	}
+
+	@Override
 	public List<Account> findAll() {
 		return accountDao.findAll();
 	}
 	@Override
-	public Optional<Account> findById(Long id) {
-		return accountDao.findById(id);
+	public Account findById(Long id) {
+		return accountDao.findById(id).get();
 	}
+
+	@Override
+	public List<Account> findAllFalse() {
+		return accountDao.findAllFalse();
+	}
+
 	@Override
 	public boolean existsById(Long id) {
 		return accountDao.existsById(id);

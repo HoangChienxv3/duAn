@@ -8,7 +8,7 @@ import com.mamilove.dao.QuantityDao;
 import com.mamilove.request.dto.BillDto;
 import com.mamilove.request.dto.Res;
 import com.mamilove.request.dto.UpdateBillCutomer;
-import com.mamilove.service.impl.MamipayServiceImpl;
+import com.mamilove.vnpay.MamipayServiceImpl;
 import com.mamilove.service.service.BillService;
 import com.mamilove.service.service.CustomerService;
 import com.mamilove.service.service.OrderDetailService;

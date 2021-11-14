@@ -28,7 +28,7 @@ public class ImageController {
 	
 	@GetMapping("/findByProduct/{productId}")
 	public ResponseEntity<?> findByProduct(@PathVariable("productId") Long id){
-		Product product = productService.findById(id).get();
+		Product product = productService.findById(id);
 		List<Image> entity = imageService.findByProduct(product);
 		return ResponseEntity.ok(new Res( entity , "Success", true));
 	}
