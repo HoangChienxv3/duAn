@@ -1,6 +1,5 @@
 package com.mamilove.controllers;
 
-import com.mamilove.dao.AccountDao;
 import com.mamilove.entity.Account;
 import com.mamilove.request.dto.Res;
 import com.mamilove.service.service.AccountService;
