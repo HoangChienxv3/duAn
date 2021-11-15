@@ -362,5 +362,19 @@ public class BillServiceImpl extends BaseController implements BillService {
         return GetBillShiping.getStatusShip(bill.getStatusshipping());
     }
 
+    @Override
+    public List<BillShiping> getShipingBillCustomer(String idBill) throws IOException {
+        Bill bill = billDao.findById(idBill).orElseThrow(() -> {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Không tìm thấy đơn hàng");
+        });
+
+        //tim kiem nguoi dung
+        Customer customer = customerService.findByAccount(getAuthUID());
+        if (customer.getId() != bill.getIdCustomer()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Không có quyền sửa đơn này");
+        }
+        return GetBillShiping.getStatusShip(bill.getStatusshipping());
+    }
+
 
 }

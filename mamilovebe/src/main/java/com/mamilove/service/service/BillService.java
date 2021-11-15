@@ -34,4 +34,6 @@ public interface BillService {
     Bill shipingBill(ShipingRequest shipingRequest);
 
     List<BillShiping> getShipingBill(String idBill) throws IOException;
+
+    List<BillShiping> getShipingBillCustomer(String idBill) throws IOException;
 }
