@@ -9,4 +9,6 @@ public interface MamiPayService {
    List<Mamipay> findAll();
    Mamipay ByCustomer(Long id);
    Mamipay create(Mamipay mamipay);
+
+   Mamipay getMamiPayCustomer(Long authUID);
 }

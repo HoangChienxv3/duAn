@@ -1,5 +1,8 @@
 package com.mamilove.vnpay;
 
+import com.mamilove.dao.CustomerDao;
+import com.mamilove.entity.Account;
+import com.mamilove.entity.Customer;
 import com.mamilove.entity.Mamipay;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,6 +16,9 @@ public class MamipayServiceImpl implements MamiPayService{
 
 	@Autowired
 	MamiPayDao mamiPayDao;
+
+	@Autowired
+	CustomerDao customerDao;
 
 	@Override
 	public List<Mamipay> fill() {
@@ -32,5 +38,12 @@ public class MamipayServiceImpl implements MamiPayService{
 	@Override
 	public Mamipay create(Mamipay mamipay) {
 		return mamiPayDao.save(mamipay);
+	}
+
+	@Override
+	public Mamipay getMamiPayCustomer(Long authUID) {
+		Customer customer =  customerDao.findByIdaccount(authUID);
+
+		return mamiPayDao.BillByCustomer(customer.getId());
 	}
 }
