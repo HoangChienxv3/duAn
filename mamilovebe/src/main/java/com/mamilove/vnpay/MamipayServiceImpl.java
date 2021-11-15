@@ -46,4 +46,15 @@ public class MamipayServiceImpl implements MamiPayService{
 
 		return mamiPayDao.BillByCustomer(customer.getId());
 	}
+
+	@Override
+	public Mamipay creteMamiPay(Long authUID) {
+		Customer customer =  customerDao.findByIdaccount(authUID);
+
+		Mamipay mamipay = new Mamipay();
+		mamipay.setSurplus(0d);
+		mamipay.setIdcustomer(customer.getId());
+
+		return mamiPayDao.save(mamipay);
+	}
 }
