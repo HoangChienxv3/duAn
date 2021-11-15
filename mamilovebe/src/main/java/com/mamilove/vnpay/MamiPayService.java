@@ -11,4 +11,6 @@ public interface MamiPayService {
    Mamipay create(Mamipay mamipay);
 
    Mamipay getMamiPayCustomer(Long authUID);
+
+   Mamipay creteMamiPay(Long authUID);
 }
