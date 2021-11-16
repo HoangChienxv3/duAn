@@ -21,7 +21,8 @@ public class Authority implements Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
+
 	@ManyToOne @JoinColumn(name = "idaccount")
 	private Account account;
 	

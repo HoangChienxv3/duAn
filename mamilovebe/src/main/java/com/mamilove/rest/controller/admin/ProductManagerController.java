@@ -47,7 +47,7 @@ public class ProductManagerController {
 	}	
 	@GetMapping("/findProductById/{id}")
 	public ResponseEntity<?> findProductById(@PathVariable("id") Long id){
-		Optional<Product> entity = productService.findById(id);
+		Product entity = productService.findById(id);
 		return ResponseEntity.ok(new Res( entity , "Success", true));
 	}
 	@PostMapping(value = "/uploads",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
@@ -67,12 +67,13 @@ public class ProductManagerController {
 			return ResponseEntity.ok(new Res("Save success",true));
 		}
 	}
-	@PostMapping("/ProductController/saveAndFlush")
+	@PostMapping("/saveAndFlush")
 	public ResponseEntity<?> saveAndFlush(@RequestBody Product product){
 		try {
 			if(upload != null) {
 				product.setImage(upload);
 			}
+			product.setIsDelete(false);
 			Product entity = productService.saveAndFlush(product);
 			return ResponseEntity.ok(new Res(entity,"Save success",true));
 		} catch (Exception e) {
@@ -80,10 +81,10 @@ public class ProductManagerController {
 			return ResponseEntity.ok(new Res("Save failed",false));
 		}
 	}
-	@PostMapping("/ProductController/deleteProduct")
+	@PostMapping("/deleteProduct")
 	public ResponseEntity<?> deleteProduct(@RequestBody Product product){
 		try {
-			productService.delete(product);
+			product.setIsDelete(true);
 			return ResponseEntity.ok(new Res(product,"Save success",true));
 		} catch (Exception e) {
 			// TODO: handle exception

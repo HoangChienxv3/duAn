@@ -15,4 +15,5 @@ public interface CategoryService {
 	List<Category> saveAll(List<Category> category);
 	<S extends Category> S save(S entity);
 	void delete(Category category);
+	void deleteInBatch(List<Category> category);
 }

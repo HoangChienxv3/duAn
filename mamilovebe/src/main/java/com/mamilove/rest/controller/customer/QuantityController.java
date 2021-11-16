@@ -33,7 +33,7 @@ public class QuantityController {
 	}
 	@GetMapping("/findQuantityByProduct/{id}")
 	public ResponseEntity<?> findQuantityByProduct(@PathVariable("id") Long id){
-		Optional<Product> product = Optional.ofNullable(productService.findById(id).get());
+		Optional<Product> product = Optional.ofNullable(productService.findById(id));
 		List<Quantity> list = quantityService.findByProduct(product.get());
 		return ResponseEntity.ok(new Res(list,"success",true));
 	}

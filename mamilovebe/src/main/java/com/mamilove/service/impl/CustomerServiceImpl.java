@@ -21,4 +21,19 @@ public class CustomerServiceImpl implements CustomerService {
 	public Customer findByAccount(Long idAccout) {
 		return customerDao.findByAccount(idAccout);
 	}
+
+	@Override
+	public List<Customer> findAllFalse() {
+		return customerDao.findAllFalse();
+	}
+
+	@Override
+	public Customer findById(Long id) {
+		return customerDao.findById(id).get();
+	}
+
+	@Override
+	public Customer update(Customer ct) {
+		return customerDao.save(ct);
+	}
 }

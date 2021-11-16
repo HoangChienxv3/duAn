@@ -11,5 +11,7 @@ public interface TyperSizeDao extends JpaRepository<Typesize, Long>{
 	List<Typesize> findAll();
 	Optional<Typesize> findById(Long id);
 
+	Optional<Typesize> findByName(String name);
+
 	List<Typesize> findAllByIsDeleteFalse();
 }

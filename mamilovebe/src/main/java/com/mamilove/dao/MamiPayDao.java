@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.mamilove.entity.Mamipay;
 import org.springframework.data.jpa.repository.Query;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface MamiPayDao extends JpaRepository<Mamipay, Long> {
@@ -13,4 +14,6 @@ public interface MamiPayDao extends JpaRepository<Mamipay, Long> {
     Mamipay BillByCustomer(Long id);
 
     Optional<Mamipay> findByIdcustomer(Long idcustomer);
+
+    List<Mamipay> findAllByIsDeleteFalse();
 }

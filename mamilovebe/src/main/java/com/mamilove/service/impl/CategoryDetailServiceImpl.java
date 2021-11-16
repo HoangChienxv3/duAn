@@ -5,7 +5,6 @@ import java.util.Optional;
 
 import javax.transaction.Transactional;
 
-import com.mamilove.entity.Category;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -58,8 +57,13 @@ public class CategoryDetailServiceImpl implements CategoryDetailService{
 		categoryDetailDao.deleteInBatch(categoryDetail);
 	}
 
+	@Override
+	public Categorydetail findByIds(Long id) {
+		return null;
+	}
+
 	public  List<Categorydetail> getAllListDetailCategory(){
-		return  categoryDetailDao.listCategoryDetailIsDeleteTrue();
+		return  categoryDetailDao.listCategoryDetailIsDeleteFalse();
 	}
 
 	@Override

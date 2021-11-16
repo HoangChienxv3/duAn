@@ -1,6 +1,5 @@
 package com.mamilove.controllers;
 
-import com.mamilove.dao.AccountDao;
 import com.mamilove.entity.Account;
 import com.mamilove.request.dto.Res;
 import com.mamilove.service.service.AccountService;
@@ -28,7 +27,7 @@ public class AccountController {
         if (!accountService.existsById(id)) {
             ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok(new Res(accountService.findById(id).get(),"thong tin tai khoan",true));
+        return ResponseEntity.ok(new Res(accountService.findById(id),"thong tin tai khoan",true));
     }
     @PostMapping(value = "")
     public  ResponseEntity<Account> post(@RequestBody Account account){

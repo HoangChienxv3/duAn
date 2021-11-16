@@ -57,7 +57,10 @@ public class PropertyManagerController {
 				propertyService.saveAll(updated);
 			}
 			if(deleted.size() > 0) {
-				propertyService.deleteInBatch(deleted);
+				for(Property entity: deleted) {
+					entity.setIsDelete(true);
+				}
+//				propertyService.deleteInBatch(deleted);
 			}
 			return ResponseEntity.ok(new Res(propertyService.findAll(),"Save success",true)); 
 		} catch (Exception e) {

@@ -29,5 +29,5 @@ public class Mamipay implements Serializable{
 
 	@Column(name = "idcustomer")
 	private Long idcustomer;
-	
+
 }
