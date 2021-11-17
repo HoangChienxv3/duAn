@@ -65,5 +65,15 @@ public class QuantityServiceImpl implements QuantityService{
 		return quantityDao.save(quantity);
 	}
 
+	@Override
+	public Quantity quantityReady(Long idproduct, Long idsize, Long idproperty) {
+		Optional<Quantity> quantity = quantityDao.checkQty(idsize, idproperty, idproduct);
+		if(!quantity.isEmpty()) {
+			return quantity.get();
+		}else {
+			return null;
+		}
+	}
+
 
 }

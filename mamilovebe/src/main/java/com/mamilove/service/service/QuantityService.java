@@ -11,6 +11,7 @@ public interface QuantityService {
 	List<Quantity> findByProduct(Product product);
 
 	List<Quantity> createQty(Long idpoduct, Long idsize, CreateQuantityDto createQuantity);
-
+	
+	Quantity quantityReady(Long idproduct,Long idsize,Long idproperty);
 	Quantity deleteQty(Long idqty);
 }

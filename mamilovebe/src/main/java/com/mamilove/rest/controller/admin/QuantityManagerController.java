@@ -3,8 +3,11 @@ package com.mamilove.rest.controller.admin;
 import java.util.List;
 import java.util.Optional;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mamilove.dao.QuantityDao;
 import com.mamilove.request.dto.CreateQuantityDto;
+import com.mamilove.request.dto.QuantityDto;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -36,6 +39,30 @@ public class QuantityManagerController {
 		Optional<Product> product = Optional.ofNullable(productService.findById(id).get());
 		List<Quantity> list = quantityService.findByProduct(product.get());
 		return ResponseEntity.ok(new Res(list,"success",true));
+	}
+	
+	@PostMapping("/saveAndFlush")
+	public ResponseEntity<?> saveAndFlush(@RequestBody QuantityDto quantity){
+		Quantity obj = new Quantity();
+		for(Product x : quantity.getProduct()) {
+			Quantity entity = quantityService.quantityReady(x.getId(), quantity.getSize().getId(), quantity.getProperty().getIdproperty());
+			if(entity == null) {
+				obj.setIdProduct(x.getId());
+				obj.setIdproperty(quantity.getProperty().getIdproperty());
+				obj.setIdsize(quantity.getSize().getId());
+				obj.setProduct(x);
+				obj.setProperty(quantity.getProperty());
+				obj.setSize(quantity.getSize());
+				obj.setQuantity(Math.round(quantity.getQuantity()));
+				obj.setIsDelete(false);
+				quantityDao.save(obj);
+			}else {
+				long updateQuantity = entity.getQuantity() + Math.round(quantity.getQuantity());
+				entity.setQuantity(updateQuantity);
+				quantityDao.saveAndFlush(entity);
+			}
+		}
+		return ResponseEntity.ok(new Res(quantityService.findAll(),"Save success",true));
 	}
 	///code chien
 	@PostMapping("/createOrUpdate/{idpoduct}/{idsize}")
