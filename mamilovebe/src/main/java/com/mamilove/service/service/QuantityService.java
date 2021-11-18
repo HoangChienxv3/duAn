@@ -13,5 +13,8 @@ public interface QuantityService {
 	List<Quantity> createQty(Long idpoduct, Long idsize, CreateQuantityDto createQuantity);
 	
 	Quantity quantityReady(Long idproduct,Long idsize,Long idproperty);
+
+	List<Quantity> createQty(CreateQuantityDto createQuantity);
+
 	Quantity deleteQty(Long idqty);
 }

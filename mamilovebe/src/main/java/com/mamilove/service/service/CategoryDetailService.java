@@ -15,4 +15,5 @@ public interface CategoryDetailService {
 	List<Categorydetail> saveAll(List<Categorydetail> categoryDetail);
 	void delete(Categorydetail categoryDeatail);
 	void deleteInBatch(List<Categorydetail> categoryDetail);
+	Categorydetail findByIds(Long id);
 }

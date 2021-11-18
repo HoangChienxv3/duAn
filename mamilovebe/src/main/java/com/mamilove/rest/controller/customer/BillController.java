@@ -8,7 +8,7 @@ import com.mamilove.dao.QuantityDao;
 import com.mamilove.request.dto.BillDto;
 import com.mamilove.request.dto.Res;
 import com.mamilove.request.dto.UpdateBillCutomer;
-import com.mamilove.service.impl.MamipayServiceImpl;
+import com.mamilove.vnpay.MamipayServiceImpl;
 import com.mamilove.service.service.BillService;
 import com.mamilove.service.service.CustomerService;
 import com.mamilove.service.service.OrderDetailService;
@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -59,5 +60,10 @@ public class BillController extends BaseController {
     @GetMapping("/cancel/{id}")
     public ResponseEntity<Res> cancelBill(@PathVariable("id")String idbill){
         return ResponseEntity.ok(new Res(billService.cancelBill(idbill),"Đã Hủy", true));
+    }
+
+    @GetMapping("/shiping/{idBill}")
+    public ResponseEntity<Res> shipingBill(@PathVariable("idBill")String idBill) throws IOException {
+        return ResponseEntity.ok(new Res(billService.getShipingBillCustomer(idBill),"Thành công",true));
     }
 }

@@ -10,5 +10,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CreateQuantityDto {
+    private Long idpoduct;
+    private Long idsize;
     private List<Propertyrequest> propertyrequests;
 }

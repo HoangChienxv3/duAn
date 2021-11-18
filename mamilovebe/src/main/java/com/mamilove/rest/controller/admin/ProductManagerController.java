@@ -47,7 +47,7 @@ public class ProductManagerController {
 	}	
 	@GetMapping("/findProductById/{id}")
 	public ResponseEntity<?> findProductById(@PathVariable("id") Long id){
-		Optional<Product> entity = productService.findById(id);
+		Product entity = productService.findById(id);
 		return ResponseEntity.ok(new Res( entity , "Success", true));
 	}
 	@PostMapping(value = "/uploads",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)

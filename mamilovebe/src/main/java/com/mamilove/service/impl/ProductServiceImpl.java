@@ -19,11 +19,11 @@ public class ProductServiceImpl implements ProductService{
 	@Autowired
 	ProductDao productDao;
 
-	@Override
-	public List<Product> findAll() {
-		// TODO Auto-generated method stub
-		return productDao.findAllByIsDeleteFalse();
-	}
+//	@Override
+//	public List<Product> findAll() {
+//		// TODO Auto-generated method stub
+//		return productDao.findAllByIsDeleteFalse();
+//	}
 
 	@Override
 	public List<Product> findProductNew() {
@@ -32,9 +32,14 @@ public class ProductServiceImpl implements ProductService{
 	}
 
 	@Override
-	public Optional<Product> findById(Long id) {
+	public List<Product> findAll() {
+		return productDao.findAll();
+	}
+
+	@Override
+	public Product findById(Long id) {
 		// TODO Auto-generated method stub
-		return productDao.findById(id);
+		return productDao.findById(id).get();
 	}
 
 	@Override
@@ -64,5 +69,15 @@ public class ProductServiceImpl implements ProductService{
 		productDao.delete(product);;
 	}
 
-	
+	@Override
+	public Product create(Product product) {
+		return productDao.save(product);
+	}
+
+	@Override
+	public List<Product> findAllFalse() {
+		return productDao.findAllFalse();
+	}
+
+
 }
