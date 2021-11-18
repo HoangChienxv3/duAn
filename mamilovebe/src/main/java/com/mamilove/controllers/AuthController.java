@@ -208,7 +208,7 @@ public class AuthController {
 
         Customer customer = new Customer();
         BeanUtils.copyProperties(customerRequest, customer);
-        customer.setAccount(account);
+        customer.setIdaccount(account.getId());
         customer.setStatuscustomer("");
         customerDao.save(customer);
 

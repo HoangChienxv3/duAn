@@ -35,7 +35,6 @@ public class Orderdetail implements Serializable {
     @Builder.Default
     private Boolean isDelete = false;
 
-    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "idquantity", updatable = false, insertable = false)
     private Quantity quantity;

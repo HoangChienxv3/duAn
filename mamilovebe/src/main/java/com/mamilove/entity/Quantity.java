@@ -21,7 +21,6 @@ public class Quantity implements Serializable{
 	
 	private long quantity;
 
-	@JsonIgnore
 	@ManyToOne @JoinColumn(name = "idproduct", updatable = false, insertable = false)
 	private Product product;
 

@@ -2,6 +2,8 @@ package com.mamilove.controllers;
 
 import com.mamilove.userdetails.service.UserDetailsImpl;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Optional;
 
