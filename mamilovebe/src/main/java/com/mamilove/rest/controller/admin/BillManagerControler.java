@@ -6,6 +6,8 @@ import com.mamilove.request.dto.ShipingRequest;
 import com.mamilove.service.service.BillService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+
+import java.io.IOException;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,9 +15,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.io.IOException;
-
 
 @CrossOrigin("http://localhost:4200/")
 @RestController
@@ -29,7 +28,7 @@ public class BillManagerControler {
     BillService billService;
 
     //lấy tất cả đơn hàng
-    @GetMapping("/findAll")
+    @GetMapping("/all")
     public ResponseEntity<?> getAllBill(){
         return ResponseEntity.ok(new Res(billDao.findAll(),"Thành công", true));
     }

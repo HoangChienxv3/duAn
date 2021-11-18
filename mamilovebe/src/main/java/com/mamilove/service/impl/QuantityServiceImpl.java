@@ -75,11 +75,5 @@ public class QuantityServiceImpl implements QuantityService{
 		}
 	}
 
-	@Override
-	public List<Quantity> createQty(Long idpoduct, Long idsize, CreateQuantityDto createQuantity) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 
 }
