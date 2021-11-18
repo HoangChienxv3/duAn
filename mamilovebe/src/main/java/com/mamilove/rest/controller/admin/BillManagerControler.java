@@ -28,7 +28,7 @@ public class BillManagerControler {
     BillService billService;
 
     //lấy tất cả đơn hàng
-    @GetMapping("/all")
+    @GetMapping("/findAll")
     public ResponseEntity<?> getAllBill(){
         return ResponseEntity.ok(new Res(billDao.findAll(),"Thành công", true));
     }

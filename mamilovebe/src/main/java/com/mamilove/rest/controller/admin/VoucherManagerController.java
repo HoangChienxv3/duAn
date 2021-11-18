@@ -12,6 +12,8 @@ import java.text.ParseException;
 
 @RestController
 @RequestMapping("/Manager/VoucherManagerController")
+@CrossOrigin("http://localhost:4200/")
+
 public class VoucherManagerController {
 
     @Autowired

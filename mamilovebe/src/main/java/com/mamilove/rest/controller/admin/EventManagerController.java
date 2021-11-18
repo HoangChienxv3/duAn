@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
 
+@CrossOrigin("http://localhost:4200/")
 @RestController
 @RequestMapping("/Manager/EventManagerController")
 public class EventManagerController {

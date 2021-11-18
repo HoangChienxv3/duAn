@@ -18,6 +18,8 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/account")
+@CrossOrigin("http://localhost:4200/")
+
 public class AccountsController {
     @Autowired
     PasswordEncoder encoder;

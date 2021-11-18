@@ -57,9 +57,15 @@ public class QuantityManagerController {
 				obj.setIsDelete(false);
 				quantityDao.save(obj);
 			}else {
-				long updateQuantity = entity.getQuantity() + Math.round(quantity.getQuantity());
-				entity.setQuantity(updateQuantity);
-				quantityDao.saveAndFlush(entity);
+				if(entity.getIdProduct() == x.getId() && entity.getIdproperty() == quantity.getProperty().getIdproperty() 
+						&& entity.getIdsize() == quantity.getSize().getId()) {
+					entity.setIsDelete(true);
+					quantityDao.saveAndFlush(entity);	
+				}else {
+					long updateQuantity = entity.getQuantity() + Math.round(quantity.getQuantity());
+					entity.setQuantity(updateQuantity);
+					quantityDao.saveAndFlush(entity);	
+				}
 			}
 		}
 		return ResponseEntity.ok(new Res(quantityService.findAll(),"Save success",true));
