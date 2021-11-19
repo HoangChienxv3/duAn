@@ -17,13 +17,14 @@ public class MamipayServiceImpl implements MamiPayService{
 	@Autowired
 	MamiPayDao mamiPayDao;
 
+
 	@Autowired
 	CustomerDao customerDao;
 
-	@Override
-	public List<Mamipay> fill() {
-		return mamiPayDao.findAll();
-	}
+//	@Override
+//	public List<Mamipay> fill() {
+//		return mamiPayDao.findAll();
+//	}
 
 	@Override
 	public List<Mamipay> findAll() {
@@ -56,5 +57,15 @@ public class MamipayServiceImpl implements MamiPayService{
 		mamipay.setIdcustomer(customer.getId());
 
 		return mamiPayDao.save(mamipay);
+	}
+
+	@Override
+	public Mamipay MamipayIdCt(Long id) {
+		return mamiPayDao.MamipayIdCt(id);
+	}
+
+	@Override
+	public Mamipay finById(Long id) {
+		return mamiPayDao.findById(id).get();
 	}
 }

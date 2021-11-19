@@ -18,6 +18,9 @@ public class History implements Serializable {
     private Double surplus;//số dư ví
     private String description;//nội dung giao dịch
     private Date time;
+    private Boolean status;
+    private String Content;//nạp tiền vào ví
+    private Double amounts;//số tiền nạp
 
     @OneToOne
     @JoinColumn(name = "idmamipay")

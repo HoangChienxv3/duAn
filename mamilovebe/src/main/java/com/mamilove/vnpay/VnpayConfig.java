@@ -1,4 +1,4 @@
-package com.mamilove.config;
+package com.mamilove.vnpay;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 import java.net.URLEncoder;
