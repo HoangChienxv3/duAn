@@ -51,6 +51,9 @@ public class PropertyManagerController {
 			deleted = Arrays.asList(json.readValue(deletedItems,Property[].class));
 			
 			if(created.size() > 0) {
+				for(Property entity: created) {
+					entity.setIsDelete(false);
+				}
 				propertyService.saveAll(created);
 			}
 			if(updated.size() > 0) {

@@ -14,7 +14,7 @@ public class SizeSeeder implements Seeder {
         SizeDao sizeDao = BeanUtil.getBean(SizeDao.class);
         TyperSizeDao typerSizeDao = BeanUtil.getBean(TyperSizeDao.class);
 
-        if(!sizeDao.findByName("size áo").isPresent()){
+        if(!typerSizeDao.findByName("size áo").isPresent()){
             Typesize typesize = new Typesize();
             typesize.setName("size áo");
 
@@ -31,7 +31,7 @@ public class SizeSeeder implements Seeder {
             }
             sizeDao.saveAll(sizes);
         }
-        if(!sizeDao.findByName("size quần").isPresent()){
+        if(!typerSizeDao.findByName("size quần").isPresent()){
             Typesize typesize = new Typesize();
             typesize.setName("size quần");
 

@@ -55,6 +55,9 @@ public class SizeManagerController {
 			deleted = Arrays.asList(json.readValue(deletedItems,Size[].class));
 			
 			if(created.size() > 0) {
+				for(Size entity: created) {
+					entity.setIsDelete(false);
+				}
 				sizeService.saveAll(created);
 			}
 			if(updated.size() > 0) {

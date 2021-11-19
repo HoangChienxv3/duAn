@@ -10,4 +10,8 @@ public interface MamiPayService {
    Mamipay create(Mamipay mamipay);
    Mamipay MamipayIdCt(Long id);
    Mamipay finById(Long id);
+
+   Mamipay getMamiPayCustomer(Long authUID);
+
+   Mamipay creteMamiPay(Long authUID);
 }
