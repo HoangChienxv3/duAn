@@ -49,7 +49,7 @@ public class MamipayServiceImpl implements MamiPayService{
 	}
 
 	@Override
-	public Mamipay creteMamiPay(Long authUID) {
+	public Mamipay createMamiPay(Long authUID) {
 		Customer customer =  customerDao.findByIdaccount(authUID);
 
 		Mamipay mamipay = new Mamipay();

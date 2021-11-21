@@ -22,6 +22,8 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 @RestController
+@CrossOrigin("http://localhost:4200/")
+@RequestMapping("/Customer/VnpayController")
 public class VnpayController extends BaseController {
     @Autowired
     MamiPayService mamiPayService;
