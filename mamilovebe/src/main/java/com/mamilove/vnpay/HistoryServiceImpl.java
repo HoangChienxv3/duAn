@@ -27,5 +27,10 @@ public class HistoryServiceImpl implements HistoryService {
         return historyDao.findAll();
     }
 
+    @Override
+    public List<History> findAllByCustomerId(long id) {
+        return historyDao.findAllByCustomerId(id);
+    }
+
 
 }
