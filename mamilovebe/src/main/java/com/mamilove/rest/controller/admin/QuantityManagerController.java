@@ -59,9 +59,6 @@ public class QuantityManagerController {
 			}else {
 				if(entity.getIdProduct() == x.getId() && entity.getIdproperty() == quantity.getProperty().getIdproperty() 
 						&& entity.getIdsize() == quantity.getSize().getId()) {
-					entity.setIsDelete(true);
-					quantityDao.saveAndFlush(entity);	
-				}else {
 					long updateQuantity = entity.getQuantity() + Math.round(quantity.getQuantity());
 					entity.setQuantity(updateQuantity);
 					quantityDao.saveAndFlush(entity);	
