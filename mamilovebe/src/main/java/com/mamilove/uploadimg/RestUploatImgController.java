@@ -21,6 +21,8 @@ public class RestUploatImgController {
     @Autowired
     FilesSerivce storageService;
 
+    @Autowired
+    FilesServiceImpl filesService;
     @PostMapping("/upload")
     public ResponseEntity<ResponeMess> uploadFiles(@RequestParam("files") MultipartFile[] files) {
         String message = "";
@@ -33,7 +35,10 @@ public class RestUploatImgController {
             });
 
             message = "Tải các tệp ảnh thành công: " + fileNames;
-            //sử lý khi thêm ảnh thành công thêm ảnh vào đb + fileNames; Lấy tên ảnh từ mutipart sau khi thêm theo dạng list
+            //sử lý khi thêm ảnh thành công thêm ảnh vào đb + fileNames;
+            // Lấy tên ảnh từ mutipart sau khi thêm theo dạng list
+            // file name là cái thêm vào database
+
 
             return ResponseEntity.status(HttpStatus.OK).body(new ResponeMess(message));
         } catch (Exception e) {
@@ -54,6 +59,11 @@ public class RestUploatImgController {
         }).collect(Collectors.toList());
 
         return ResponseEntity.status(HttpStatus.OK).body(fileInfos);
+    }
+    // lấy ảnh muốn lấy
+    @GetMapping("/get/{fileName}")
+    public ResponseEntity get(@PathVariable("fileName") String fileName) {
+        return filesService.get(fileName);
     }
    // lấy thông tin của một file ảnh
     @GetMapping("/files/{filename:.+}")
