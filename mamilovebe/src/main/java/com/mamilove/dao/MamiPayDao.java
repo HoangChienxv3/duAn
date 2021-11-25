@@ -15,5 +15,8 @@ public interface MamiPayDao extends JpaRepository<Mamipay, Long> {
 
     Optional<Mamipay> findByIdcustomer(Long idcustomer);
 
+    @Query("SELECT m FROM Mamipay m WHERE m.idcustomer =?1")
+    Mamipay MamipayIdCt(long id);
+
     List<Mamipay> findAllByIsDeleteFalse();
 }

@@ -1,5 +1,10 @@
 package com.mamilove.vnpay;
-import com.mamilove.config.VnpayConfig;
+
+import com.mamilove.controllers.BaseController;
+import com.mamilove.dao.CustomerDao;
+import com.mamilove.entity.Customer;
+import com.mamilove.entity.History;
+import com.mamilove.entity.Mamipay;
 import com.mamilove.request.dto.PaymenDto;
 import com.mamilove.request.dto.Res;
 import com.mamilove.response.dto.VnpayDto;
@@ -15,12 +20,19 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.*;
+
 @RestController
-public class VnpayController {
+@CrossOrigin("http://localhost:4200/")
+@RequestMapping("/Customer/VnpayController")
+public class VnpayController extends BaseController {
     @Autowired
     MamiPayService mamiPayService;
     @Autowired
     CustomerService customerService;
+    @Autowired
+    HistoryService historyService;
+    @Autowired
+    CustomerDao customerDao;
 
     @PostMapping("/vnpay")
     public ResponseEntity<?> thanhtoan(@RequestBody PaymenDto paymenDto) throws IOException {
@@ -88,6 +100,31 @@ public class VnpayController {
         String vnp_SecureHash = VnpayConfig.hmacSHA512(VnpayConfig.vnp_HashSecret, hashData.toString());
         queryUrl += "&vnp_SecureHash=" + vnp_SecureHash;
         String paymentUrl = VnpayConfig.vnp_PayUrl + "?" + queryUrl;
+        ///thêm vào db
+        Customer customer = customerService.findByAccount(getAuthUID());
+        Long idcustormer = customer.getId(); //idcustormer
+        //kiểm tra đã có account => mamipay
+        Mamipay mm = mamiPayService.MamipayIdCt(idcustormer);
+        if (mm == null) {
+            return ResponseEntity.ok(new Res(null, "Bạn chưa có  tài khoản", true));
+        }
+        //else
+        Long trading_code = Long.parseLong((String) vnp_Params.get("vnp_TxnRef"));
+        Double amounts = Double.parseDouble((String) vnp_Params.get("vnp_Amount"));
+        String description = (String) vnp_Params.get("vnp_OrderInfo");
+        History history = new History();
+
+        history.setDescription(description);
+        history.setSurplus(mm.getSurplus() + amounts);
+        Date date = new Date();
+        history.setTime(date);
+        history.setTrading_code(trading_code);
+        history.setMamipay(mm);
+        history.setContent("Nap tien vao vi");
+        history.setStatus(false);
+        history.setAmounts(amounts);
+        historyService.creat(history);
+        ///
         return ResponseEntity.ok(new Res(paymentUrl, "thành công", true));
     }
 

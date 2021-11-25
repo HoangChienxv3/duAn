@@ -91,6 +91,9 @@ public class CategoryManagerController {
 			deleted = Arrays.asList(json.readValue(deletedItems,Category[].class));
 
 			if(created.size() > 0) {
+				for(Category entity: created) {
+					entity.setIsDelete(false);
+				}
 				categoryService.saveAll(created);
 			}
 			if(updated.size() > 0) {

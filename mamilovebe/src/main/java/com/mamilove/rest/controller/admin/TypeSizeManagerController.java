@@ -43,6 +43,9 @@ public class TypeSizeManagerController {
 			deleted = Arrays.asList(json.readValue(deletedItems,Typesize[].class));
 			
 			if(created.size() > 0) {
+				for(Typesize entity: created) {
+					entity.setIsDelete(false);
+				}
 				typeSizeService.saveAll(created);
 			}
 			if(updated.size() > 0) {

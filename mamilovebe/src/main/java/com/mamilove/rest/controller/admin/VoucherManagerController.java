@@ -1,5 +1,8 @@
 package com.mamilove.rest.controller.admin;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.mamilove.entity.Categorydetail;
+import com.mamilove.entity.Voucher;
 import com.mamilove.request.dto.Res;
 import com.mamilove.request.dto.VoucherRequest;
 import com.mamilove.service.service.VoucherService;
@@ -7,11 +10,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 
 @RestController
 @RequestMapping("/Manager/VoucherManagerController")
+@CrossOrigin("http://localhost:4200/")
+
 public class VoucherManagerController {
 
     @Autowired
@@ -46,5 +55,40 @@ public class VoucherManagerController {
         return ResponseEntity.ok(new Res(voucherService.findById(id),"thành công", true));
     }
 //
+    @PostMapping("/updateInline")
+	public ResponseEntity<?> updateInline(String createdItems,
+	        @RequestParam(required = false,value ="updatedItems") String updatedItems,
+	        @RequestParam(required = false,value ="deletedItems") String deletedItems) throws IOException{
+		try {
+			ObjectMapper json = new ObjectMapper();
+			List<Voucher> created = new ArrayList<>();
+			List<Voucher> updated = new ArrayList<>();
+			List<Voucher> deleted = new ArrayList<>();
 
+			created = Arrays.asList(json.readValue(createdItems,Voucher[].class));
+			updated = Arrays.asList(json.readValue(updatedItems,Voucher[].class));
+			deleted = Arrays.asList(json.readValue(deletedItems,Voucher[].class));
+
+			if(created.size() > 0) {
+				for(Voucher entity: created) {
+					entity.setDiscount(Double.valueOf(entity.getDiscount()));
+					entity.setIsDelete(false);
+				}
+				voucherService.saveAll(created);
+			}
+			if(updated.size() > 0) {
+				voucherService.saveAll(updated);
+			}
+			if(deleted.size() > 0) {
+				for(Voucher entity: deleted) {
+					entity.setIsDelete(true);
+				}
+//				categoryDetailService.deleteInBatch(deleted);
+			}
+			return ResponseEntity.ok(new Res(voucherService.findAll(),"Save success",true));
+		} catch (Exception e) {
+			// TODO: handle exception
+			return ResponseEntity.ok(new Res("Save failed",false));
+		}
+	}
 }

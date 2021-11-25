@@ -9,8 +9,11 @@ import com.mamilove.request.dto.CreateQuantityDto;
 public interface QuantityService {
 	List<Quantity> findAll();
 	List<Quantity> findByProduct(Product product);
+	
+	Quantity quantityReady(Long idproduct,Long idsize,Long idproperty);
 
 	List<Quantity> createQty(CreateQuantityDto createQuantity);
+
 
 	Quantity deleteQty(Long idqty);
 }
