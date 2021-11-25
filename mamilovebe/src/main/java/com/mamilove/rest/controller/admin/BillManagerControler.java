@@ -43,38 +43,38 @@ public class BillManagerControler {
 
     @GetMapping("/cancel/{idbill}")
     public ResponseEntity<Res> cancelBill(@PathVariable("idbill") String idbill){
-        return ResponseEntity.ok(new Res(billService.cancelBillManager(idbill),"Thành công", true));
+        return ResponseEntity.ok(new Res(billService.cancelBillManager(idbill),"Save success", true));
     }
 
     @GetMapping("/confirm/{idbill}")
     public ResponseEntity<Res> confirmBill(@PathVariable("idbill") String idbill){
-        return ResponseEntity.ok(new Res(billService.confirmBillManager(idbill),"Thành công", true));
+        return ResponseEntity.ok(new Res(billService.confirmBillManager(idbill),"Save success", true));
     }
 
     @GetMapping("/ship/{idbill}")
     public ResponseEntity<Res> shipBill(@PathVariable("idbill") String idbill){
-        return ResponseEntity.ok(new Res(billService.shipBillManager(idbill),"Thành công", true));
+        return ResponseEntity.ok(new Res(billService.shipBillManager(idbill),"Save success", true));
     }
 
     @GetMapping("/received/{idbill}")
     public ResponseEntity<Res> receivedBill(@PathVariable("idbill") String idbill){
-        return ResponseEntity.ok(new Res(billService.receivedBillManager(idbill),"Thành công", true));
+        return ResponseEntity.ok(new Res(billService.receivedBillManager(idbill),"Save success", true));
     }
 
     @GetMapping("/refund/{idbill}")
     public ResponseEntity<Res> refundBill(@PathVariable("idbill") String idbill){
-        return ResponseEntity.ok(new Res(billService.refundBillManager(idbill),"Thành công", true));
+        return ResponseEntity.ok(new Res(billService.refundBillManager(idbill),"Save success", true));
     }
 
     //thông tin đơn hàng bên vận chuyển
     @PostMapping("/shiping")
     public ResponseEntity<Res> shipingBill(@RequestBody ShipingRequest shipingRequest){
-        return ResponseEntity.ok(new Res(billService.shipingBill(shipingRequest),"Thành công",true));
+        return ResponseEntity.ok(new Res(billService.shipingBill(shipingRequest),"Save success",true));
     }
 
     @GetMapping("/shiping/{idBill}")
     public ResponseEntity<Res> shipingBill(@PathVariable("idBill") String idBill) throws IOException {
-        return ResponseEntity.ok(new Res(billService.getShipingBill(idBill),"Thành công",true));
+        return ResponseEntity.ok(new Res(billService.getShipingBill(idBill),"Save success",true));
     }
     
     @PostMapping("/updateInline")
