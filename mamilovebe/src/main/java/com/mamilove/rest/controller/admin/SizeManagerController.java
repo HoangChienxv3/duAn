@@ -67,6 +67,7 @@ public class SizeManagerController {
 				for(Size entity: deleted) {
 					entity.setIsDelete(true);
 				}
+				sizeService.saveAll(deleted);
 //				sizeService.deleteInBatch(deleted);
 			}
 			return ResponseEntity.ok(new Res(sizeService.findAll(),"Save success",true)); 

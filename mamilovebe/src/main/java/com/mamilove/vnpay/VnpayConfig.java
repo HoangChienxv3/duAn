@@ -13,7 +13,7 @@ import javax.crypto.spec.SecretKeySpec;
 public class VnpayConfig {
     public static String getIpAddress="0:0:0:0:0:0:0:1";
     public static String vnp_PayUrl = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
-    public static String vnp_Returnurl = "http://localhost:8080/VnPayReturn";
+    public static String vnp_Returnurl = "http://localhost:8080/VnPayIPN";
     public static String vnp_TmnCode = "NX9UGL9F";
     public static String vnp_HashSecret = "GLFQNNQIXLEAKTJFAQOLMSNIIHBRNISG";
     public static String hmacSHA512(final String key, final String data) {

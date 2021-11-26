@@ -38,7 +38,7 @@ public class BillController extends BaseController {
     @Autowired
     QuantityDao quantityDao;
 
-    @PostMapping("{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<?>  BillByCustomer(@PathVariable("id") Long id){
         return ResponseEntity.ok(new Res(billService.BillByCustomer(id),"Thông tin đơn hàng",true)) ;
     }
