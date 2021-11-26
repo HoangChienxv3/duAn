@@ -57,6 +57,9 @@ public class PropertyManagerController {
 				propertyService.saveAll(created);
 			}
 			if(updated.size() > 0) {
+				for(Property entity: updated) {
+					entity.setIsDelete(false);
+				}
 				propertyService.saveAll(updated);
 			}
 			if(deleted.size() > 0) {

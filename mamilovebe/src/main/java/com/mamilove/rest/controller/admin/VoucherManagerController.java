@@ -71,12 +71,14 @@ public class VoucherManagerController {
 
 			if(created.size() > 0) {
 				for(Voucher entity: created) {
-					entity.setDiscount(Double.valueOf(entity.getDiscount()));
 					entity.setIsDelete(false);
 				}
 				voucherService.saveAll(created);
 			}
 			if(updated.size() > 0) {
+				for(Voucher entity: updated) {
+					entity.setIsDelete(false);
+				}
 				voucherService.saveAll(updated);
 			}
 			if(deleted.size() > 0) {

@@ -101,6 +101,9 @@ public class CategoryDetailManagerController {
 				categoryDetailService.saveAll(created);
 			}
 			if(updated.size() > 0) {
+				for(Categorydetail entity: updated) {
+					entity.setIsDelete(false);
+				}
 				categoryDetailService.saveAll(updated);
 			}
 			if(deleted.size() > 0) {

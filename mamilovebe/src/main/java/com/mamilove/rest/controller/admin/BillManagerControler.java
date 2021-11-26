@@ -98,6 +98,9 @@ public class BillManagerControler {
 				billDao.saveAll(created);
 			}
 			if(updated.size() > 0) {
+				for(Bill entity: created) {
+					entity.setIsDelete(false);
+				}
 				billDao.saveAll(updated);
 			}
 			if(deleted.size() > 0) {

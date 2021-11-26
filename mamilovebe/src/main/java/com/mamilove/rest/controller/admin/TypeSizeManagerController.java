@@ -49,6 +49,9 @@ public class TypeSizeManagerController {
 				typeSizeService.saveAll(created);
 			}
 			if(updated.size() > 0) {
+				for(Typesize entity: updated) {
+					entity.setIsDelete(false);
+				}
 				typeSizeService.saveAll(updated);
 			}
 			if(deleted.size() > 0) {

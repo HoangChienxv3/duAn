@@ -97,6 +97,9 @@ public class CategoryManagerController {
 				categoryService.saveAll(created);
 			}
 			if(updated.size() > 0) {
+				for(Category entity: updated) {
+					entity.setIsDelete(false);
+				}
 				categoryService.saveAll(updated);
 			}
 			if(deleted.size() > 0) {
