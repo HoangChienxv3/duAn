@@ -34,6 +34,7 @@ public class VnpayController extends BaseController {
 
     @PostMapping("/vnpay")
     public ResponseEntity<?> thanhtoan(@RequestBody PaymenDto paymenDto) throws IOException {
+
         String vnp_Version = "2.1.0";
         String vnp_Command = "pay";
         String vnp_OrderInfo = paymenDto.getDescription(); //Mô tả
@@ -108,7 +109,7 @@ public class VnpayController extends BaseController {
         }
         //else
         Long trading_code = Long.parseLong((String) vnp_Params.get("vnp_TxnRef"));
-        Double amounts = Double.parseDouble((String) vnp_Params.get("vnp_Amount"));
+        Double amounts = Double.parseDouble((String) vnp_Params.get("vnp_Amount")) / 100;
         String description = (String) vnp_Params.get("vnp_OrderInfo");
         History history = new History();
 
@@ -127,8 +128,41 @@ public class VnpayController extends BaseController {
     }
 
 
+    //    @GetMapping("/VnPayReturn")
+//    public ResponseEntity<?> VnPayReturn(HttpServletRequest req) throws UnsupportedEncodingException {
+//        Map fields = new HashMap();
+//        for (Enumeration params = req.getParameterNames(); params.hasMoreElements(); ) {
+//            String fieldName = (String) params.nextElement();
+//            String fieldValue = req.getParameter(fieldName);
+//            if ((fieldValue != null) && (fieldValue.length() > 0)) {
+//                fields.put(fieldName, fieldValue);
+//            }
+//        }
+//        String vnp_SecureHash = req.getParameter("vnp_SecureHash");
+//        if (fields.containsKey("vnp_SecureHashType")) {
+//            fields.remove("vnp_SecureHashType");
+//        }
+//        if (fields.containsKey("vnp_SecureHash")) {
+//            fields.remove("vnp_SecureHash");
+//        }
+//        String signValue = VnpayConfig.hashAllFields(fields);
+//        if (signValue.equals(vnp_SecureHash)) {
+//            if ("00".equals(req.getParameter("vnp_ResponseCode"))) {
+//                Long amount = Long.parseLong((String) fields.get("vnp_Amount"));
+//                Integer status = Integer.parseInt((String) fields.get("vnp_ResponseCode"));
+//                VnpayDto vnPpay = new VnpayDto();
+//                vnPpay.setAmount(amount);
+//                vnPpay.setDescription((String) fields.get("vnp_OrderInfo"));
+//                vnPpay.setStatus(status);
+//                return ResponseEntity.ok(new Res(vnPpay, "dat", true));
+//            } else {
+//                System.out.print("GD Khong thanh cong");
+//            }
+//        }
+//        return ResponseEntity.ok(new Res(null, "Chữ ký không hợp lệ", true));
+//    }
     @GetMapping("/VnPayReturn")
-    public ResponseEntity<?> VnPayReturn(HttpServletRequest req) throws UnsupportedEncodingException {
+    public ResponseEntity<?> VnPayIPN(HttpServletRequest req) throws UnsupportedEncodingException {
         Map fields = new HashMap();
         for (Enumeration params = req.getParameterNames(); params.hasMoreElements(); ) {
             String fieldName = (String) params.nextElement();
@@ -147,13 +181,32 @@ public class VnpayController extends BaseController {
         String signValue = VnpayConfig.hashAllFields(fields);
         if (signValue.equals(vnp_SecureHash)) {
             if ("00".equals(req.getParameter("vnp_ResponseCode"))) {
-                Long amount = Long.parseLong((String) fields.get("vnp_Amount"));
-                Integer status = Integer.parseInt((String) fields.get("vnp_ResponseCode"));
-                VnpayDto vnPpay = new VnpayDto();
-                vnPpay.setAmount(amount);
-                vnPpay.setDescription((String) fields.get("vnp_OrderInfo"));
-                vnPpay.setStatus(status);
-                return ResponseEntity.ok(new Res(vnPpay, "dat", true));
+                Long trading_code = Long.parseLong((String) fields.get("vnp_TxnRef"));
+                History htr = historyService.FinbyTrading_code(trading_code);
+                if (htr.getStatus().equals(false)) {
+                    //cập nhật history
+                    htr.setIdhistory(htr.getIdhistory());
+                    htr.setStatus(true);
+                    historyService.creat(htr);
+
+                    //thêm vào mamipay
+                    Double amounts = Double.parseDouble((String) fields.get("vnp_Amount")) / 100;
+                    Mamipay mamipay = mamiPayService.finById(htr.getMamipay().getIdmamipay());
+                    mamipay.setIdmamipay(htr.getMamipay().getIdmamipay());
+                    mamipay.setSurplus(mamipay.getSurplus() + amounts);
+                    mamiPayService.create(mamipay);
+                    //fe
+                    Long amount = Long.parseLong((String) fields.get("vnp_Amount"));
+                    Integer status = Integer.parseInt((String) fields.get("vnp_ResponseCode"));
+                    VnpayDto vnPpay = new VnpayDto();
+                    vnPpay.setAmount(amount);
+                    vnPpay.setDescription((String) fields.get("vnp_OrderInfo"));
+                    vnPpay.setStatus(status);
+                    return ResponseEntity.ok(new Res(vnPpay, "dat", true));
+                }
+                else {
+                    return ResponseEntity.ok(new Res(null, "Đã cộng tiền vào tk", true));
+                }
             } else {
                 System.out.print("GD Khong thanh cong");
             }
