@@ -104,6 +104,7 @@ public class BillManagerControler {
 				for(Bill entity: deleted) {
 					entity.setIsDelete(true);
 				}
+				billDao.saveAll(deleted);
 //				categoryDetailService.deleteInBatch(deleted);
 			}
 			return ResponseEntity.ok(new Res(billDao.findAll(),"Save success",true));

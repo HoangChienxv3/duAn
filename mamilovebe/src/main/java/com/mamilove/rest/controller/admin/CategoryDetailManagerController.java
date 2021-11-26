@@ -107,6 +107,7 @@ public class CategoryDetailManagerController {
 				for(Categorydetail entity: deleted) {
 					entity.setIsDelete(true);
 				}
+				categoryDetailService.saveAll(deleted);
 //				categoryDetailService.deleteInBatch(deleted);
 			}
 			return ResponseEntity.ok(new Res(categoryDetailService.findAll(),"Save success",true));

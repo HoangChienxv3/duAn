@@ -55,6 +55,7 @@ public class TypeSizeManagerController {
 				for(Typesize entity: deleted) {
 					entity.setIsDelete(true);
 				}
+				typeSizeService.saveAll(deleted);
 //				typeSizeService.deleteInBatch(deleted);
 			}
 			return ResponseEntity.ok(new Res(typeSizeService.findAll(),"Save success",true)); 

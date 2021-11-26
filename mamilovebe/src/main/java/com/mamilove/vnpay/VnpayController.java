@@ -22,7 +22,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 @RestController
-@CrossOrigin("http://localhost:4200/")
+@CrossOrigin("*")
 @RequestMapping("/Customer/VnpayController")
 public class VnpayController extends BaseController {
     @Autowired
@@ -104,7 +104,7 @@ public class VnpayController extends BaseController {
         Customer customer = customerService.findByAccount(getAuthUID());
         Long idcustormer = customer.getId(); //idcustormer
         //kiểm tra đã có account => mamipay
-        Mamipay mm = mamiPayService.MamipayIdCt(idcustormer);
+		Mamipay mm = mamiPayService.MamipayIdCt(idcustormer);
         if (mm == null) {
             return ResponseEntity.ok(new Res(null, "Bạn chưa có  tài khoản", true));
         }

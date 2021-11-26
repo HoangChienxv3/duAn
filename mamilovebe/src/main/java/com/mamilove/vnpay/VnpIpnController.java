@@ -6,11 +6,16 @@ import com.mamilove.entity.History;
 import com.mamilove.entity.Mamipay;
 import com.mamilove.service.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import java.io.UnsupportedEncodingException;
+import java.net.URI;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
@@ -27,7 +32,7 @@ public class VnpIpnController {
     CustomerDao customerDao;
 
     @GetMapping("/VnPayIPN")
-    public String VnPayIPN(HttpServletRequest req) throws UnsupportedEncodingException {
+    public ResponseEntity<?> VnPayIPN(HttpServletRequest req,HttpServletResponse httpServletResponse) throws UnsupportedEncodingException {
         Map fields = new HashMap();
         for (Enumeration params = req.getParameterNames(); params.hasMoreElements(); ) {
             String fieldName = (String) params.nextElement();
@@ -58,12 +63,13 @@ public class VnpIpnController {
                         Double amounts = Double.parseDouble((String) fields.get("vnp_Amount"));
                         Mamipay mamipay = mamiPayService.finById(htr.getMamipay().getIdmamipay());
                         mamipay.setIdmamipay(htr.getMamipay().getIdmamipay());
-                        mamipay.setSurplus(mamipay.getSurplus() + amounts);
+                        mamipay.setSurplus(mamipay.getSurplus() + amounts/100);
                         mamiPayService.create(mamipay);
-                        return "forward:/VnPayReturn";
                     }
                 }
-                return "forward:/VnPayReturn";
+                return ResponseEntity.status(HttpStatus.FOUND)
+                        .location(URI.create("http://localhost:4200/history-and-wallet"))
+                        .build();
             } else {
                 System.out.print("GD Khong thanh cong");
             }

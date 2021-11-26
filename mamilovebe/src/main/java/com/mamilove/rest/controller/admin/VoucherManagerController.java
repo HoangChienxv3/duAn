@@ -83,6 +83,7 @@ public class VoucherManagerController {
 				for(Voucher entity: deleted) {
 					entity.setIsDelete(true);
 				}
+				voucherService.saveAll(deleted);
 //				categoryDetailService.deleteInBatch(deleted);
 			}
 			return ResponseEntity.ok(new Res(voucherService.findAll(),"Save success",true));

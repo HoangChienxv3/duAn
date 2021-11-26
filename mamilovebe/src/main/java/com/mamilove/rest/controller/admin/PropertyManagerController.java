@@ -63,6 +63,7 @@ public class PropertyManagerController {
 				for(Property entity: deleted) {
 					entity.setIsDelete(true);
 				}
+				propertyService.saveAll(deleted);
 //				propertyService.deleteInBatch(deleted);
 			}
 			return ResponseEntity.ok(new Res(propertyService.findAll(),"Save success",true)); 
