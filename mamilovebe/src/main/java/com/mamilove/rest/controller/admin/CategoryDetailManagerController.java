@@ -101,12 +101,16 @@ public class CategoryDetailManagerController {
 				categoryDetailService.saveAll(created);
 			}
 			if(updated.size() > 0) {
+				for(Categorydetail entity: updated) {
+					entity.setIsDelete(false);
+				}
 				categoryDetailService.saveAll(updated);
 			}
 			if(deleted.size() > 0) {
 				for(Categorydetail entity: deleted) {
 					entity.setIsDelete(true);
 				}
+				categoryDetailService.saveAll(deleted);
 //				categoryDetailService.deleteInBatch(deleted);
 			}
 			return ResponseEntity.ok(new Res(categoryDetailService.findAll(),"Save success",true));

@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import javax.servlet.ServletContext;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
@@ -34,6 +36,8 @@ import com.mamilove.service.service.ProductService;
 public class ProductManagerController {
 	public String upload;
 	@Autowired
+	ServletContext application;
+	@Autowired
 	ProductService productService;
 	@Autowired
 	ImageService ImageService;
@@ -57,7 +61,7 @@ public class ProductManagerController {
 				String filename = file.getOriginalFilename();
 				UUID uuid = UUID.randomUUID();
 				filename = uuid.toString()  + ".jpg";
-				File file_upload= new File("D:\\Angular\\demo\\src\\image\\"+ filename);
+				File file_upload= new File(application.getRealPath("/image/"+filename));
 				file.transferTo(file_upload);
 				upload = filename;
 			}

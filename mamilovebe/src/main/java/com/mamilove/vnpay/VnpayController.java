@@ -22,7 +22,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 @RestController
-@CrossOrigin("http://localhost:4200/")
+@CrossOrigin("*")
 @RequestMapping("/Customer/VnpayController")
 public class VnpayController extends BaseController {
     @Autowired
@@ -36,6 +36,7 @@ public class VnpayController extends BaseController {
 
     @PostMapping("/vnpay")
     public ResponseEntity<?> thanhtoan(@RequestBody PaymenDto paymenDto) throws IOException {
+
         String vnp_Version = "2.1.0";
         String vnp_Command = "pay";
         String vnp_OrderInfo = paymenDto.getDescription(); //Mô tả
@@ -104,13 +105,13 @@ public class VnpayController extends BaseController {
         Customer customer = customerService.findByAccount(getAuthUID());
         Long idcustormer = customer.getId(); //idcustormer
         //kiểm tra đã có account => mamipay
-        Mamipay mm = mamiPayService.MamipayIdCt(idcustormer);
+		Mamipay mm = mamiPayService.MamipayIdCt(idcustormer);
         if (mm == null) {
             return ResponseEntity.ok(new Res(null, "Bạn chưa có  tài khoản", true));
         }
         //else
         Long trading_code = Long.parseLong((String) vnp_Params.get("vnp_TxnRef"));
-        Double amounts = Double.parseDouble((String) vnp_Params.get("vnp_Amount"));
+        Double amounts = Double.parseDouble((String) vnp_Params.get("vnp_Amount")) / 100;
         String description = (String) vnp_Params.get("vnp_OrderInfo");
         History history = new History();
 
@@ -129,7 +130,7 @@ public class VnpayController extends BaseController {
     }
 
 
-    @GetMapping("/VnPayReturn")
+        @GetMapping("/VnPayReturn")
     public ResponseEntity<?> VnPayReturn(HttpServletRequest req) throws UnsupportedEncodingException {
         Map fields = new HashMap();
         for (Enumeration params = req.getParameterNames(); params.hasMoreElements(); ) {
