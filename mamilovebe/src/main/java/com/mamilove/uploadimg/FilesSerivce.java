@@ -5,6 +5,7 @@ import java.nio.file.Path;
 import java.util.stream.Stream;
 
 import org.springframework.core.io.Resource;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
 
 public interface FilesSerivce {
@@ -17,4 +18,5 @@ public interface FilesSerivce {
     public void deleteAll();
 
     public Stream<Path> loadAll();
+    public ResponseEntity get(String filename);
 }

@@ -33,8 +33,9 @@ public class RestUploatImgController {
             });
 
             message = "Tải các tệp ảnh thành công: " + fileNames;
-            //sử lý khi thêm ảnh thành công thêm ảnh vào đb + fileNames; Lấy tên ảnh từ mutipart sau khi thêm theo dạng list
-
+            //sử lý khi thêm ảnh thành công thêm ảnh vào đb + fileNames;
+            // Lấy tên ảnh từ mutipart sau khi thêm theo dạng list
+            // file name là tên ảnh
             return ResponseEntity.status(HttpStatus.OK).body(new ResponeMess(message));
         } catch (Exception e) {
             message = "Tải các tệp ảnh không thành công!";
@@ -61,4 +62,10 @@ public class RestUploatImgController {
         Resource file = storageService.load(filename);
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\"").body(file);
-    }}
+    }
+    //Hiện thị ảnh từ mutipath lên trên localhost
+    @GetMapping("/get/{fileName}")
+    public ResponseEntity get(@PathVariable("fileName") String fileName) {
+        return storageService.get(fileName);
+    }
+}
