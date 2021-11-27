@@ -16,7 +16,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.mail.MessagingException;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 @RestController
@@ -48,7 +50,7 @@ public class BillController extends BaseController {
     }
 
     @PostMapping("/creat")
-    public  ResponseEntity<?> createBill(@RequestBody BillDto billDto){
+    public  ResponseEntity<?> createBill(@RequestBody BillDto billDto) throws MessagingException, UnsupportedEncodingException {
         return ResponseEntity.ok(new Res(billService.create(billDto),"oke", true));
     }
 
