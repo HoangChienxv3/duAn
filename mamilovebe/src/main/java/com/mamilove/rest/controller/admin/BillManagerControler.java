@@ -98,12 +98,16 @@ public class BillManagerControler {
 				billDao.saveAll(created);
 			}
 			if(updated.size() > 0) {
+				for(Bill entity: created) {
+					entity.setIsDelete(false);
+				}
 				billDao.saveAll(updated);
 			}
 			if(deleted.size() > 0) {
 				for(Bill entity: deleted) {
 					entity.setIsDelete(true);
 				}
+				billDao.saveAll(deleted);
 //				categoryDetailService.deleteInBatch(deleted);
 			}
 			return ResponseEntity.ok(new Res(billDao.findAll(),"Save success",true));

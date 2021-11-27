@@ -97,12 +97,16 @@ public class CategoryManagerController {
 				categoryService.saveAll(created);
 			}
 			if(updated.size() > 0) {
+				for(Category entity: updated) {
+					entity.setIsDelete(false);
+				}
 				categoryService.saveAll(updated);
 			}
 			if(deleted.size() > 0) {
 				for(Category entity: deleted) {
 					entity.setIsDelete(true);
 				}
+				categoryService.saveAll(deleted);
 //				categoryService.deleteInBatch(deleted);
 			}
 			return ResponseEntity.ok(new Res(categoryService.findAll(),"Save success",true));

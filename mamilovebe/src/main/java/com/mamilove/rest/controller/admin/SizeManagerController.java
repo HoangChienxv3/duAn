@@ -61,12 +61,16 @@ public class SizeManagerController {
 				sizeService.saveAll(created);
 			}
 			if(updated.size() > 0) {
+				for(Size entity: updated) {
+					entity.setIsDelete(false);
+				}
 				sizeService.saveAll(updated);
 			}
 			if(deleted.size() > 0) {
 				for(Size entity: deleted) {
 					entity.setIsDelete(true);
 				}
+				sizeService.saveAll(deleted);
 //				sizeService.deleteInBatch(deleted);
 			}
 			return ResponseEntity.ok(new Res(sizeService.findAll(),"Save success",true)); 
