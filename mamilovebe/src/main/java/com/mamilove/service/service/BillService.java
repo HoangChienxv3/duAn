@@ -6,14 +6,16 @@ import com.mamilove.request.dto.ShipingRequest;
 import com.mamilove.request.dto.UpdateBillCutomer;
 import com.mamilove.shiping.BillShiping;
 
+import javax.mail.MessagingException;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 public interface BillService {
     List<Bill> BillByCustomer(Long id);
     List<Bill> FindAll();
     boolean existsById(String id);
-    Bill create(BillDto billDto);
+    Bill create(BillDto billDto) throws MessagingException, UnsupportedEncodingException;
 
     Bill updateBillCustomer(UpdateBillCutomer updateBillCutomer, String idbill);
 
