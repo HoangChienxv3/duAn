@@ -13,14 +13,15 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/customer")
-public class CustomersController {
+@CrossOrigin("http://localhost:4200/")
+@RequestMapping("/Manager/CustomersManagerController")
+public class CustomersManagerController {
     @Autowired
     CustomerService customerService;
     @Autowired
     AccountService accountService;
 
-    @GetMapping("/all")
+    @GetMapping("/findAll")
     public ResponseEntity<?> getAll() {
         List<Customer> customer = customerService.findAllFalse();
         return ResponseEntity.ok(new Res(customer, "dat", true));

@@ -76,12 +76,16 @@ public class VoucherManagerController {
 				voucherService.saveAll(created);
 			}
 			if(updated.size() > 0) {
+				for(Voucher entity: updated) {
+					entity.setIsDelete(false);
+				}
 				voucherService.saveAll(updated);
 			}
 			if(deleted.size() > 0) {
 				for(Voucher entity: deleted) {
 					entity.setIsDelete(true);
 				}
+				voucherService.saveAll(deleted);
 //				categoryDetailService.deleteInBatch(deleted);
 			}
 			return ResponseEntity.ok(new Res(voucherService.findAll(),"Save success",true));
