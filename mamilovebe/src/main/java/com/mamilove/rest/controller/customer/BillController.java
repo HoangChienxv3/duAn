@@ -41,31 +41,32 @@ public class BillController extends BaseController {
     QuantityDao quantityDao;
 
     @GetMapping("/{id}")
-    public ResponseEntity<?>  BillByCustomer(@PathVariable("id") Long id){
-        return ResponseEntity.ok(new Res(billService.BillByCustomer(id),"Thông tin đơn hàng",true)) ;
+    public ResponseEntity<?> BillByCustomer(@PathVariable("id") Long id) {
+        return ResponseEntity.ok(new Res(billService.BillByCustomer(id), "Thông tin đơn hàng", true));
     }
+
     @GetMapping("/list")
-    public ResponseEntity<List<Bill>> listBill(){
+    public ResponseEntity<List<Bill>> listBill() {
         return ResponseEntity.ok(billService.findAllCustomer());
     }
 
     @PostMapping("/creat")
-    public  ResponseEntity<?> createBill(@RequestBody BillDto billDto) throws MessagingException, UnsupportedEncodingException {
-        return ResponseEntity.ok(new Res(billService.create(billDto),"oke", true));
+    public ResponseEntity<?> createBill(@RequestBody BillDto billDto) throws MessagingException, UnsupportedEncodingException {
+        return ResponseEntity.ok(new Res(billService.create(billDto), "oke", true));
     }
 
     @PostMapping("/update/{id}")
-    public ResponseEntity<Res> updateBill(@RequestBody UpdateBillCutomer updateBillCutomer,@PathVariable("id")String idbill){
-        return ResponseEntity.ok(new Res(billService.updateBillCustomer(updateBillCutomer, idbill),"ok", true));
+    public ResponseEntity<Res> updateBill(@RequestBody UpdateBillCutomer updateBillCutomer, @PathVariable("id") String idbill) {
+        return ResponseEntity.ok(new Res(billService.updateBillCustomer(updateBillCutomer, idbill), "ok", true));
     }
 
     @GetMapping("/cancel/{id}")
-    public ResponseEntity<Res> cancelBill(@PathVariable("id")String idbill){
-        return ResponseEntity.ok(new Res(billService.cancelBill(idbill),"Đã Hủy", true));
+    public ResponseEntity<Res> cancelBill(@PathVariable("id") String idbill) {
+        return ResponseEntity.ok(new Res(billService.cancelBill(idbill), "Đã Hủy", true));
     }
 
     @GetMapping("/shiping/{idBill}")
-    public ResponseEntity<Res> shipingBill(@PathVariable("idBill")String idBill) throws IOException {
-        return ResponseEntity.ok(new Res(billService.getShipingBillCustomer(idBill),"Thành công",true));
+    public ResponseEntity<Res> shipingBill(@PathVariable("idBill") String idBill) throws IOException {
+        return ResponseEntity.ok(new Res(billService.getShipingBillCustomer(idBill), "Thành công", true));
     }
 }

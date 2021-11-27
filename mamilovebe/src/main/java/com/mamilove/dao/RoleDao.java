@@ -9,6 +9,6 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface RoleDao extends JpaRepository<Role, String>{
+public interface RoleDao extends JpaRepository<Role, String> {
     Optional<Role> findByName(String name);
 }

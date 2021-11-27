@@ -13,22 +13,23 @@ import lombok.Data;
 @Data
 @Entity
 @Table(name = "categorydetail")
-public class Categorydetail implements Serializable{
+public class Categorydetail implements Serializable {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
-	
-	private String name;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-	@Column(name = "isDelete")
-	private Boolean isDelete = false;
-	@ManyToOne @JoinColumn(name = "idcategory")
-	private Category category;
+    private String name;
 
-	@JsonIgnore
-	@OneToMany(mappedBy = "categorydetail")
-	private List<Product> products;
-	
-	
+    @Column(name = "isDelete")
+    private Boolean isDelete = false;
+    @ManyToOne
+    @JoinColumn(name = "idcategory")
+    private Category category;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "categorydetail")
+    private List<Product> products;
+
+
 }

@@ -10,7 +10,7 @@ import com.mamilove.entity.Authority;
 import com.mamilove.entity.Customer;
 import com.mamilove.entity.Role;
 
-public class AccountSeeder implements Seeder{
+public class AccountSeeder implements Seeder {
 
     @Override
     public void seed() {
@@ -19,12 +19,12 @@ public class AccountSeeder implements Seeder{
         CustomerDao customerDao = BeanUtil.getBean(CustomerDao.class);
         AuthorityDao authorityDao = BeanUtil.getBean(AuthorityDao.class);
 
-        if(!accountDao.findByUsername("admin").isPresent()) {
+        if (accountDao.findByUsername("admin").isEmpty()) {
             Account account = new Account();
             account.setPassword("$2a$12$xV/HkPLgQhhC3HTA5jcgse6Ruu2OPaBcq.A.ckpbfdBGz89troxx.");
             account.setUsername("admin");
 
-            Role role  = roleDao.findByName(ERole.ROLE_ADMIN.toString()).get();
+            Role role = roleDao.findByName(ERole.ROLE_ADMIN.toString()).get();
             Authority authority = new Authority();
             authority.setRole(role);
             authority.setAccount(account);
@@ -33,12 +33,12 @@ public class AccountSeeder implements Seeder{
             authorityDao.save(authority);
 
         }
-        if(!accountDao.findByUsername("staff").isPresent()) {
+        if (accountDao.findByUsername("staff").isEmpty()) {
             Account account = new Account();
             account.setPassword("$2a$12$xV/HkPLgQhhC3HTA5jcgse6Ruu2OPaBcq.A.ckpbfdBGz89troxx.");
             account.setUsername("staff");
 
-            Role role  = roleDao.findByName(ERole.ROLE_STAFF.toString()).get();
+            Role role = roleDao.findByName(ERole.ROLE_STAFF.toString()).get();
             Authority authority = new Authority();
             authority.setRole(role);
             authority.setAccount(account);
@@ -47,12 +47,12 @@ public class AccountSeeder implements Seeder{
             authorityDao.save(authority);
 
         }
-        if(!accountDao.findByUsername("customer").isPresent()) {
+        if (accountDao.findByUsername("customer").isEmpty()) {
             Account account = new Account();
             account.setPassword("$2a$12$xV/HkPLgQhhC3HTA5jcgse6Ruu2OPaBcq.A.ckpbfdBGz89troxx.");
             account.setUsername("customer");
 
-            Role role  = roleDao.findByName(ERole.ROLE_CUSTOMER.toString()).get();
+            Role role = roleDao.findByName(ERole.ROLE_CUSTOMER.toString()).get();
             Authority authority = new Authority();
             authority.setRole(role);
             authority.setAccount(account);

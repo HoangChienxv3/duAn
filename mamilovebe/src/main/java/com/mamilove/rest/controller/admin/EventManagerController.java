@@ -19,26 +19,26 @@ public class EventManagerController {
 
     @PostMapping("/create")
     public ResponseEntity<Res> cteateEvent(@RequestBody EventRequest eventRequest) throws ParseException {
-        return ResponseEntity.ok(new Res(eventService.create(eventRequest),"Thêm thành công", true));
+        return ResponseEntity.ok(new Res(eventService.create(eventRequest), "Thêm thành công", true));
     }
 
     @PostMapping("/update/{id}")
-    public ResponseEntity<Res> updateEvent(@PathVariable("id")Long id, @RequestBody EventRequest eventRequest) throws ParseException {
-        return ResponseEntity.ok(new Res(eventService.update(id,eventRequest),"Thêm thành công", true));
+    public ResponseEntity<Res> updateEvent(@PathVariable("id") Long id, @RequestBody EventRequest eventRequest) throws ParseException {
+        return ResponseEntity.ok(new Res(eventService.update(id, eventRequest), "Thêm thành công", true));
     }
 
     @GetMapping("/detele/{id}")
-    public ResponseEntity<Res> deteleEvent(@PathVariable("id")Long id){
-        return ResponseEntity.ok(new Res(eventService.detele(id),"Xóa thành công", true));
+    public ResponseEntity<Res> deteleEvent(@PathVariable("id") Long id) {
+        return ResponseEntity.ok(new Res(eventService.detele(id), "Xóa thành công", true));
     }
 
     @GetMapping("/findAll")
-    public ResponseEntity<Res> findAll(){
-        return ResponseEntity.ok(new Res(eventService.findAll(),"thành công", true));
+    public ResponseEntity<Res> findAll() {
+        return ResponseEntity.ok(new Res(eventService.findAll(), "thành công", true));
     }
 
     @GetMapping("/get/{id}")
-    public ResponseEntity<Res> findById(@PathVariable("id")Long id){
-        return ResponseEntity.ok(new Res(eventService.findById(id),"thành công", true));
+    public ResponseEntity<Res> findById(@PathVariable("id") Long id) {
+        return ResponseEntity.ok(new Res(eventService.findById(id), "thành công", true));
     }
 }

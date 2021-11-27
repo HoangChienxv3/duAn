@@ -7,9 +7,9 @@ import com.mamilove.dao.AuthorityDao;
 import com.mamilove.service.service.AuthorityService;
 
 @Service
-public class AuthorityServiceImpl implements AuthorityService{
+public class AuthorityServiceImpl implements AuthorityService {
 
-	@Autowired
-	AuthorityDao authorityDao;
-	
+    @Autowired
+    AuthorityDao authorityDao;
+
 }

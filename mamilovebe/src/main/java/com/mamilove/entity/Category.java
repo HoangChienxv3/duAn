@@ -13,17 +13,17 @@ import lombok.Data;
 @Data
 @Entity
 @Table(name = "category")
-public class Category implements Serializable{
+public class Category implements Serializable {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
-	
-	private String name;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-	@Column(name = "isDelete")
-	private Boolean isDelete = false;
-	@JsonIgnore
-	@OneToMany(mappedBy = "category")
-	List<Categorydetail> categorydetails;
+    private String name;
+
+    @Column(name = "isDelete")
+    private Boolean isDelete = false;
+    @JsonIgnore
+    @OneToMany(mappedBy = "category")
+    List<Categorydetail> categorydetails;
 }

@@ -14,10 +14,10 @@ import com.mamilove.entity.Product;
 import com.mamilove.service.service.ProductService;
 
 @Service
-public class ProductServiceImpl implements ProductService{
+public class ProductServiceImpl implements ProductService {
 
-	@Autowired
-	ProductDao productDao;
+    @Autowired
+    ProductDao productDao;
 
 //	@Override
 //	public List<Product> findAll() {
@@ -25,59 +25,60 @@ public class ProductServiceImpl implements ProductService{
 //		return productDao.findAllByIsDeleteFalse();
 //	}
 
-	@Override
-	public List<Product> findProductNew() {
-		// TODO Auto-generated method stub
-		return productDao.findProductNew();
-	}
+    @Override
+    public List<Product> findProductNew() {
+        // TODO Auto-generated method stub
+        return productDao.findProductNew();
+    }
 
-	@Override
-	public List<Product> findAll() {
-		return productDao.findAll();
-	}
+    @Override
+    public List<Product> findAll() {
+        return productDao.findAll();
+    }
 
-	@Override
-	public Product findById(Long id) {
-		// TODO Auto-generated method stub
-		return productDao.findById(id).get();
-	}
+    @Override
+    public Product findById(Long id) {
+        // TODO Auto-generated method stub
+        return productDao.findById(id).get();
+    }
 
-	@Override
-	public List<Product> findByCategoryDetail(Categorydetail categoryDetail) {
-		// TODO Auto-generated method stub
-		return productDao.findByCategorydetail(categoryDetail);
-	}
+    @Override
+    public List<Product> findByCategoryDetail(Categorydetail categoryDetail) {
+        // TODO Auto-generated method stub
+        return productDao.findByCategorydetail(categoryDetail);
+    }
 
-	@Override
-	@Transactional
-	public <S extends Product> List<S> saveAll(Iterable<S> entities) {
-		// TODO Auto-generated method stub
-		return productDao.saveAll(entities);
-	}
-	
-	@Override
-	@Transactional
-	public Product saveAndFlush(Product product) {
-		// TODO Auto-generated method stub
-		return productDao.saveAndFlush(product);
-	}
-	
-	@Override
-	@Transactional
-	public void delete(Product product) {
-		// TODO Auto-generated method stub
-		productDao.delete(product);;
-	}
+    @Override
+    @Transactional
+    public <S extends Product> List<S> saveAll(Iterable<S> entities) {
+        // TODO Auto-generated method stub
+        return productDao.saveAll(entities);
+    }
 
-	@Override
-	public Product create(Product product) {
-		return productDao.save(product);
-	}
+    @Override
+    @Transactional
+    public Product saveAndFlush(Product product) {
+        // TODO Auto-generated method stub
+        return productDao.saveAndFlush(product);
+    }
 
-	@Override
-	public List<Product> findAllFalse() {
-		return productDao.findAllFalse();
-	}
+    @Override
+    @Transactional
+    public void delete(Product product) {
+        // TODO Auto-generated method stub
+        productDao.delete(product);
+        ;
+    }
+
+    @Override
+    public Product create(Product product) {
+        return productDao.save(product);
+    }
+
+    @Override
+    public List<Product> findAllFalse() {
+        return productDao.findAllFalse();
+    }
 
 
 }

@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 
-public interface CustomerDao extends JpaRepository<Customer, Long>{
+public interface CustomerDao extends JpaRepository<Customer, Long> {
 
     @Query("select c from Customer c " +
             "where c.account.id = ?1 ")

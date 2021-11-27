@@ -13,19 +13,19 @@ import com.mamilove.service.service.ImageService;
 @Service
 public class ImageServiceimpl implements ImageService {
 
-	@Autowired
-	ImageDao imageDao;
+    @Autowired
+    ImageDao imageDao;
 
-	@Override
-	public List<Image> findAll() {
-		// TODO Auto-generated method stub
-		return imageDao.findAll();
-	}
+    @Override
+    public List<Image> findAll() {
+        // TODO Auto-generated method stub
+        return imageDao.findAll();
+    }
 
-	@Override
-	public List<Image> findByProduct(Product product) {
-		// TODO Auto-generated method stub
-		return imageDao.findByProduct(product);
-	}
-	
+    @Override
+    public List<Image> findByProduct(Product product) {
+        // TODO Auto-generated method stub
+        return imageDao.findByProduct(product);
+    }
+
 }

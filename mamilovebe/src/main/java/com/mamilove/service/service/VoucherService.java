@@ -7,20 +7,23 @@ import com.mamilove.entity.Voucher;
 import com.mamilove.request.dto.VoucherRequest;
 
 public interface VoucherService {
-	List<Voucher> findAll();
-	List<Voucher> findVoucherByAmount();
-	List<Voucher> saveAll(List<Voucher> voucher);
-	void deleteInBatch(List<Voucher> voucher);
+    List<Voucher> findAll();
 
-	Voucher create(VoucherRequest voucherRequest) throws ParseException;
+    List<Voucher> findVoucherByAmount();
 
-	Voucher update(Long id, VoucherRequest voucherRequest) throws ParseException;
+    List<Voucher> saveAll(List<Voucher> voucher);
 
-	Voucher detele(Long id);
+    void deleteInBatch(List<Voucher> voucher);
 
-	List<Voucher> findAllVoucher();
+    Voucher create(VoucherRequest voucherRequest) throws ParseException;
 
-	List<Voucher> findAllVoucherByIdEvent(Long idEvent);
+    Voucher update(Long id, VoucherRequest voucherRequest) throws ParseException;
 
-	Voucher findById(Long id);
+    Voucher detele(Long id);
+
+    List<Voucher> findAllVoucher();
+
+    List<Voucher> findAllVoucherByIdEvent(Long idEvent);
+
+    Voucher findById(Long id);
 }

@@ -34,65 +34,69 @@ import com.mamilove.service.service.ProductService;
 @CrossOrigin("http://localhost:4200/")
 @RequestMapping("/Manager/ProductManagerController")
 public class ProductManagerController {
-	public String upload;
-	@Autowired
-	ServletContext application;
-	@Autowired
-	ProductService productService;
-	@Autowired
-	ImageService ImageService;
-	@Autowired
-	CategoryDetailService categoryDetailService;
-	
-	@GetMapping("/findAll")
-	public ResponseEntity<?> findAll(){
-		List<Product> entity = productService.findAll();
-		return ResponseEntity.ok(new Res( entity , "Success", true));
-	}	
-	@GetMapping("/findProductById/{id}")
-	public ResponseEntity<?> findProductById(@PathVariable("id") Long id){
-		Product entity = productService.findById(id);
-		return ResponseEntity.ok(new Res( entity , "Success", true));
-	}
-	@PostMapping(value = "/uploads",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-	public ResponseEntity<?> uploads(@RequestBody MultipartFile file) throws IllegalStateException, IOException {
-		try {
-			if(!file.isEmpty()) {
-				String filename = file.getOriginalFilename();
-				UUID uuid = UUID.randomUUID();
-				filename = uuid.toString()  + ".jpg";
-				File file_upload= new File(application.getRealPath("/image/"+filename));
-				file.transferTo(file_upload);
-				upload = filename;
-			}
-			return ResponseEntity.ok(new Res("Save success",true));
-		} catch (Exception e) {
-			// TODO: handle exception
-			return ResponseEntity.ok(new Res("Save success",true));
-		}
-	}
-	@PostMapping("/saveAndFlush")
-	public ResponseEntity<?> saveAndFlush(@RequestBody Product product){
-		try {
-			if(upload != null) {
-				product.setImage(upload);
-			}
-			product.setIsDelete(false);
-			Product entity = productService.saveAndFlush(product);
-			return ResponseEntity.ok(new Res(entity,"Save success",true));
-		} catch (Exception e) {
-			// TODO: handle exception
-			return ResponseEntity.ok(new Res("Save failed",false));
-		}
-	}
-	@PostMapping("/deleteProduct")
-	public ResponseEntity<?> deleteProduct(@RequestBody Product product){
-		try {
-			product.setIsDelete(true);
-			return ResponseEntity.ok(new Res(product,"Save success",true));
-		} catch (Exception e) {
-			// TODO: handle exception
-			return ResponseEntity.ok(new Res("Save failed",false));
-		}
-	}
+    public String upload;
+    @Autowired
+    ServletContext application;
+    @Autowired
+    ProductService productService;
+    @Autowired
+    ImageService ImageService;
+    @Autowired
+    CategoryDetailService categoryDetailService;
+
+    @GetMapping("/findAll")
+    public ResponseEntity<?> findAll() {
+        List<Product> entity = productService.findAll();
+        return ResponseEntity.ok(new Res(entity, "Success", true));
+    }
+
+    @GetMapping("/findProductById/{id}")
+    public ResponseEntity<?> findProductById(@PathVariable("id") Long id) {
+        Product entity = productService.findById(id);
+        return ResponseEntity.ok(new Res(entity, "Success", true));
+    }
+
+    @PostMapping(value = "/uploads", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<?> uploads(@RequestBody MultipartFile file) throws IllegalStateException, IOException {
+        try {
+            if (!file.isEmpty()) {
+                String filename = file.getOriginalFilename();
+                UUID uuid = UUID.randomUUID();
+                filename = uuid.toString() + ".jpg";
+                File file_upload = new File(application.getRealPath("/image/" + filename));
+                file.transferTo(file_upload);
+                upload = filename;
+            }
+            return ResponseEntity.ok(new Res("Save success", true));
+        } catch (Exception e) {
+            // TODO: handle exception
+            return ResponseEntity.ok(new Res("Save success", true));
+        }
+    }
+
+    @PostMapping("/saveAndFlush")
+    public ResponseEntity<?> saveAndFlush(@RequestBody Product product) {
+        try {
+            if (upload != null) {
+                product.setImage(upload);
+            }
+            product.setIsDelete(false);
+            Product entity = productService.saveAndFlush(product);
+            return ResponseEntity.ok(new Res(entity, "Save success", true));
+        } catch (Exception e) {
+            // TODO: handle exception
+            return ResponseEntity.ok(new Res("Save failed", false));
+        }
+    }
+
+    @PostMapping("/deleteProduct")
+    public ResponseEntity<?> deleteProduct(@RequestBody Product product) {
+        try {
+            product.setIsDelete(true);
+            return ResponseEntity.ok(new Res(product, "Save success", true));
+        } catch (Exception e) {
+            // TODO: handle exception
+            return ResponseEntity.ok(new Res("Save failed", false));
+        }
+    }
 }

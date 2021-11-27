@@ -42,7 +42,7 @@ public class Product implements Serializable {
 
     @Column(name = "isDelete")
     private Boolean isDelete = false;
-    
+
     @ManyToOne
     @JoinColumn(name = "idcategorydetail")
     private Categorydetail categorydetail;

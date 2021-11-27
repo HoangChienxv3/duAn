@@ -22,12 +22,12 @@ public class UserDetailsImpl implements UserDetails {
     private String email;
 
     @JsonIgnore
-    private  String password;
+    private String password;
 
-    private Collection<? extends  GrantedAuthority> authorities;
+    private Collection<? extends GrantedAuthority> authorities;
 
     public UserDetailsImpl(Long id, String username, String email, String password,
-                           Collection<? extends GrantedAuthority> authorities){
+                           Collection<? extends GrantedAuthority> authorities) {
         this.id = id;
         this.username = username;
         this.email = email;
@@ -35,9 +35,9 @@ public class UserDetailsImpl implements UserDetails {
         this.authorities = authorities;
     }
 
-    public static UserDetailsImpl build(Account account){
+    public static UserDetailsImpl build(Account account) {
         List<GrantedAuthority> authorities = account.getAuthorities().stream()
-                .map(role-> new SimpleGrantedAuthority(role.getRole().getName()))
+                .map(role -> new SimpleGrantedAuthority(role.getRole().getName()))
                 .collect(Collectors.toList());
         return new UserDetailsImpl(
                 account.getId(),
@@ -50,9 +50,11 @@ public class UserDetailsImpl implements UserDetails {
     public Long getId() {
         return id;
     }
+
     public String getEmail() {
         return email;
     }
+
     /**
      * Returns the authorities granted to the user. Cannot return <code>null</code>.
      *
@@ -131,11 +133,11 @@ public class UserDetailsImpl implements UserDetails {
     }
 
     @Override
-    public boolean equals(Object o){
-        if(this == o) {
+    public boolean equals(Object o) {
+        if (this == o) {
             return true;
         }
-        if( o == null || getClass() != o.getClass()){
+        if (o == null || getClass() != o.getClass()) {
             return false;
         }
         UserDetailsImpl user = (UserDetailsImpl) o;

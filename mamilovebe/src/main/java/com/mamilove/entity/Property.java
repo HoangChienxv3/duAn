@@ -13,19 +13,19 @@ import lombok.Data;
 @Data
 @Entity
 @Table(name = "property")
-public class Property implements Serializable{
+public class Property implements Serializable {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long idproperty;
-	
-	private String name;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long idproperty;
 
-	@Column(name = "isDelete")
-	private Boolean isDelete = false;
+    private String name;
 
-	@JsonIgnore
-	@OneToMany(mappedBy = "property")
-	private List<Quantity> quantities;
-	
+    @Column(name = "isDelete")
+    private Boolean isDelete = false;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "property")
+    private List<Quantity> quantities;
+
 }
