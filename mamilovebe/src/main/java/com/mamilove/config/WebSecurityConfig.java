@@ -27,12 +27,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private AuthEntryPointJwt unauthorizedHandler;
 
     @Bean
-    public AuthTokenFilter authenticationJwtTokenFilter(){
+    public AuthTokenFilter authenticationJwtTokenFilter() {
         return new AuthTokenFilter();
     }
 
     @Bean
-    public PasswordEncoder passwordEncoder(){
+    public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
@@ -43,20 +43,20 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     @Override
-    public AuthenticationManager authenticationManagerBean() throws Exception{
+    public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
     }
 
     @Override
-    protected void configure(HttpSecurity http) throws Exception{
-    	// http.cors().disable().csrf().ignoringAntMatchers("/**").and()
-		// .authorizeRequests() // yêu cầu author
-		// 	.antMatchers("/**").permitAll() 
-		// 	.anyRequest().authenticated() ;
-         http.cors().and().csrf().disable()
+    protected void configure(HttpSecurity http) throws Exception {
+        // http.cors().disable().csrf().ignoringAntMatchers("/**").and()
+        // .authorizeRequests() // yêu cầu author
+        // 	.antMatchers("/**").permitAll()
+        // 	.anyRequest().authenticated() ;
+        http.cors().and().csrf().disable()
                 .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-                .authorizeRequests().antMatchers("/api/auth/**","/api/forgotpassword/**","/swagger-ui.html").permitAll()
+                .authorizeRequests().antMatchers("/api/auth/**", "/api/forgotpassword/**", "/swagger-ui.html").permitAll()
                 .antMatchers("/api/test/**").permitAll()
                 .anyRequest().permitAll();
 //        authenticated();

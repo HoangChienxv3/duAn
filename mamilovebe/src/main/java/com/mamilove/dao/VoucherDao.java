@@ -8,14 +8,15 @@ import org.springframework.data.jpa.repository.Query;
 
 import com.mamilove.entity.Voucher;
 
-public interface VoucherDao extends JpaRepository<Voucher, Long>{
-	List<Voucher> findAll();
-	@Query("SELECT v FROM Voucher v WHERE v.amount > 0")
-	List<Voucher> findVoucherByAmout();
+public interface VoucherDao extends JpaRepository<Voucher, Long> {
+    List<Voucher> findAll();
 
-	Optional<Voucher> findByIdIsAndIsDeleteFalse(Long id);
+    @Query("SELECT v FROM Voucher v WHERE v.amount > 0")
+    List<Voucher> findVoucherByAmout();
 
-	List<Voucher> findAllByIsDeleteFalse();
+    Optional<Voucher> findByIdIsAndIsDeleteFalse(Long id);
 
-	List<Voucher> findAllByIdeventAndIsDeleteFalse(Long idEvent);
+    List<Voucher> findAllByIsDeleteFalse();
+
+    List<Voucher> findAllByIdeventAndIsDeleteFalse(Long idEvent);
 }

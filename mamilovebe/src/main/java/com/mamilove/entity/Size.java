@@ -13,24 +13,25 @@ import lombok.Data;
 @Data
 @Entity
 @Table(name = "size")
-public class Size implements Serializable{
+public class Size implements Serializable {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
-	
-	private String name;
-	
-	@ManyToOne @JoinColumn(name = "idtypesize", updatable = false, insertable = false)
-	private Typesize typesize;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-	@Column(name = "idtypesize")
-	private Long idtypesize;
+    private String name;
 
-	@Column(name = "isDelete")
-	private Boolean isDelete = false;
+    @ManyToOne
+    @JoinColumn(name = "idtypesize", updatable = false, insertable = false)
+    private Typesize typesize;
 
-	@JsonIgnore
-	@OneToMany(mappedBy = "size")
-	private List<Quantity> quantities;
+    @Column(name = "idtypesize")
+    private Long idtypesize;
+
+    @Column(name = "isDelete")
+    private Boolean isDelete = false;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "size")
+    private List<Quantity> quantities;
 }

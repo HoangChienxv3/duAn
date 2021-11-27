@@ -10,22 +10,23 @@ import lombok.Data;
 @Data
 @Entity
 @Table(name = "image")
-public class Image implements Serializable{
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
-	
-	private String name;
+public class Image implements Serializable {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-	private String url;
+    private String name;
 
-	@Column(name = "isDelete")
-	private Boolean isDelete = false;
-	@ManyToOne @JoinColumn(name = "idproduct", updatable = false, insertable = false)
-	private Product product;
+    private String url;
 
-	@Column(name = "")
-	private Long idCustomer;
+    @Column(name = "isDelete")
+    private Boolean isDelete = false;
+    @ManyToOne
+    @JoinColumn(name = "idproduct", updatable = false, insertable = false)
+    private Product product;
+
+    @Column(name = "")
+    private Long idCustomer;
 
 
 }

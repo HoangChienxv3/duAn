@@ -13,18 +13,18 @@ import lombok.Data;
 @Data
 @Entity
 @Table(name = "role")
-public class Role implements Serializable{
+public class Role implements Serializable {
 
-	@Id
-	String id;
-	String name;
+    @Id
+    String id;
+    String name;
 
-	@Column(name = "isDelete")
-	private Boolean isDelete = false;
+    @Column(name = "isDelete")
+    private Boolean isDelete = false;
 
-	@JsonIgnore
-	@OneToMany(mappedBy = "role")
-	List<Authority> authorities;
-	 
-	
+    @JsonIgnore
+    @OneToMany(mappedBy = "role")
+    List<Authority> authorities;
+
+
 }

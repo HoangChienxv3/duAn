@@ -1,6 +1,5 @@
 package com.mamilove.controllers;
 
-import com.mamilove.common.ERole;
 import com.mamilove.common.JwtUtils;
 import com.mamilove.dao.AccountDao;
 import com.mamilove.dao.AuthorityDao;
@@ -19,6 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.BindingResult;
@@ -70,10 +70,10 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<?> authenticateUser(@Validated @RequestBody LoginRequest loginRequest) {
-        if (loginRequest.getUsername() == "") {
+        if (Objects.equals(loginRequest.getUsername(), "")) {
             return ResponseEntity.ok(new Res("Chưa nhập Username", false));
         }
-        if (loginRequest.getPassword() == "") {
+        if (Objects.equals(loginRequest.getPassword(), "")) {
             return ResponseEntity.ok(new Res("Chưa nhập Password", false));
         }
         //
@@ -98,7 +98,7 @@ public class AuthController {
         //
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
         List<String> roles = userDetails.getAuthorities().stream()
-                .map(item -> item.getAuthority())
+                .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.toList());
         //
         return ResponseEntity.ok(new Res(new JwtResponse(jwt,
@@ -106,7 +106,7 @@ public class AuthController {
                 userDetails.getUsername(),
                 userDetails.getEmail(),
                 roles), "Đăng nhập thành công", true));
-  //      return ResponseEntity.ok(userDetails);
+        //      return ResponseEntity.ok(userDetails);
     }
 
     //create account admin
@@ -135,16 +135,14 @@ public class AuthController {
             return ResponseEntity.ok(new Res(roleList, "test", true));
         } else {
             roles.forEach(role -> {
-                switch (role) {
-                    case "ROLE_ADMIN":
-                        Role adminRole = roleDao.findByName("ROLE_ADMIN")
-                                .orElseThrow(() -> new RuntimeException("Error: role is not found."));
-                        roleList.add(adminRole);
-                        break;
-                    default:
-                        Role staffRole = roleDao.findByName("ROLE_STAFF")
-                                .orElseThrow(() -> new RuntimeException("Error: roles is not found."));
-                        roleList.add(staffRole);
+                if ("ROLE_ADMIN".equals(role)) {
+                    Role adminRole = roleDao.findByName("ROLE_ADMIN")
+                            .orElseThrow(() -> new RuntimeException("Error: role is not found."));
+                    roleList.add(adminRole);
+                } else {
+                    Role staffRole = roleDao.findByName("ROLE_STAFF")
+                            .orElseThrow(() -> new RuntimeException("Error: roles is not found."));
+                    roleList.add(staffRole);
                 }
             });
         }
@@ -162,13 +160,14 @@ public class AuthController {
         authorityDao.saveAll(authorityList);
         account.setAuthorities(authorityList);
 
-        return ResponseEntity.ok(new Res(account,"Thêm tài khoản phía quản lý thành công", true));
+        return ResponseEntity.ok(new Res(account, "Thêm tài khoản phía quản lý thành công", true));
 
-   }
+    }
+
     //create account customer
     @PostMapping("/signup/customer")
     public ResponseEntity<?> registerCustomer(@Valid @RequestBody SignupCustomerRequest signupCustomerRequest, BindingResult bindingResult) {
-        if(bindingResult.hasErrors()){
+        if (bindingResult.hasErrors()) {
             return new ResponseEntity<>(bindingResult.getAllErrors(), HttpStatus.NOT_MODIFIED);
         }
         SignupRequest signupRequest = signupCustomerRequest.getSignupRequest();
@@ -212,7 +211,7 @@ public class AuthController {
         customer.setStatuscustomer("");
         customerDao.save(customer);
 
-        return ResponseEntity.ok(new Res(customer,"ok",true));
+        return ResponseEntity.ok(new Res(customer, "ok", true));
 
     }
 

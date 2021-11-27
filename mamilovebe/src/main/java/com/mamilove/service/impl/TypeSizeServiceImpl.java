@@ -14,61 +14,61 @@ import com.mamilove.service.service.TypeSizeService;
 import org.springframework.web.server.ResponseStatusException;
 
 @Service
-public class TypeSizeServiceImpl implements TypeSizeService{
+public class TypeSizeServiceImpl implements TypeSizeService {
 
-	@Autowired
-	TyperSizeDao typeSizeDao;
+    @Autowired
+    TyperSizeDao typeSizeDao;
 
-	@Override
-	public List<Typesize> findAll() {
-		// TODO Auto-generated method stub
+    @Override
+    public List<Typesize> findAll() {
+        // TODO Auto-generated method stub
 //		return typeSizeDao.findAll();
-		return typeSizeDao.findAllByIsDeleteFalse();
-	}
+        return typeSizeDao.findAllByIsDeleteFalse();
+    }
 
-	@Override
-	public Optional<Typesize> findById(Long id) {
-		// TODO Auto-generated method stub
-		return typeSizeDao.findById(id);
-	}
+    @Override
+    public Optional<Typesize> findById(Long id) {
+        // TODO Auto-generated method stub
+        return typeSizeDao.findById(id);
+    }
 
-	@Override
-	public List<Typesize> saveAll(List<Typesize> typeSize) {
-		// TODO Auto-generated method stub
-		return typeSizeDao.saveAll(typeSize);
-	}
+    @Override
+    public List<Typesize> saveAll(List<Typesize> typeSize) {
+        // TODO Auto-generated method stub
+        return typeSizeDao.saveAll(typeSize);
+    }
 
-	@Override
-	public void deleteInBatch(List<Typesize> typeSize) {
-		// TODO Auto-generated method stub
-		typeSizeDao.deleteInBatch(typeSize);
-	}
+    @Override
+    public void deleteInBatch(List<Typesize> typeSize) {
+        // TODO Auto-generated method stub
+        typeSizeDao.deleteAllInBatch(typeSize);
+    }
 
-	@Override
-	public Typesize create(TypeSizeRequest typeSizeRequest) {
-		Typesize typesize = new Typesize();
-		typesize.setName(typeSizeRequest.getName());
+    @Override
+    public Typesize create(TypeSizeRequest typeSizeRequest) {
+        Typesize typesize = new Typesize();
+        typesize.setName(typeSizeRequest.getName());
 
-		return typeSizeDao.save(typesize);
-	}
+        return typeSizeDao.save(typesize);
+    }
 
-	@Override
-	public Typesize update(Long id, TypeSizeRequest typeSizeRequest) {
-		Typesize typesize = typeSizeDao.findById(id).orElseThrow(() -> {
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"Không tìm thấy TyperSize");
-		});
-		typesize.setName(typeSizeRequest.getName());
-		return typeSizeDao.save(typesize);
-	}
+    @Override
+    public Typesize update(Long id, TypeSizeRequest typeSizeRequest) {
+        Typesize typesize = typeSizeDao.findById(id).orElseThrow(() -> {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Không tìm thấy TyperSize");
+        });
+        typesize.setName(typeSizeRequest.getName());
+        return typeSizeDao.save(typesize);
+    }
 
-	@Override
-	public Typesize delete(Long id) {
-		Typesize typesize = typeSizeDao.findById(id).orElseThrow(() -> {
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"Không tìm thấy TyperSize");
-		});
-		typesize.setIsDelete(true);
-		return typeSizeDao.save(typesize);
-	}
+    @Override
+    public Typesize delete(Long id) {
+        Typesize typesize = typeSizeDao.findById(id).orElseThrow(() -> {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Không tìm thấy TyperSize");
+        });
+        typesize.setIsDelete(true);
+        return typeSizeDao.save(typesize);
+    }
 
 
 }

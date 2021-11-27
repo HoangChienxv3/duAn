@@ -15,10 +15,9 @@ public class CustomerServiceImpl implements CustomerService {
     @Autowired
     CustomerDao customerDao;
 
-
     @Override
-    public Customer findByAccount(Long idAccout) {
-        return customerDao.findByAccount(idAccout);
+    public Customer findByAccount(Long idAccount) {
+        return customerDao.findByAccount(idAccount);
     }
 
     @Override

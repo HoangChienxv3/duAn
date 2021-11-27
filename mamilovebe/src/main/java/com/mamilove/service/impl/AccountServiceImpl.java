@@ -15,43 +15,44 @@ import com.mamilove.entity.Account;
 import com.mamilove.service.service.AccountService;
 
 @Service
-public class AccountServiceImpl implements AccountService{
+public class AccountServiceImpl implements AccountService {
 
-	@Autowired
-	AccountDao accountDao;
+    @Autowired
+    AccountDao accountDao;
 
-	@Override
-	public <S extends Account> S save(S entity) {
-		return accountDao.save(entity);
-	}
+    @Override
+    public <S extends Account> S save(S entity) {
+        return accountDao.save(entity);
+    }
 
-	@Override
-	public Boolean existsByEmail(String email) {
-		return accountDao.existsByEmail(email);
-	}
+    @Override
+    public Boolean existsByEmail(String email) {
+        return accountDao.existsByEmail(email);
+    }
 
-	@Override
-	public Boolean existsByUsername(String username) {
-		return accountDao.existsByUsername(username);
-	}
+    @Override
+    public Boolean existsByUsername(String username) {
+        return accountDao.existsByUsername(username);
+    }
 
-	@Override
-	public List<Account> findAll() {
-		return accountDao.findAll();
-	}
-	@Override
-	public Account findById(Long id) {
-		return accountDao.findById(id).get();
-	}
+    @Override
+    public List<Account> findAll() {
+        return accountDao.findAll();
+    }
 
-	@Override
-	public List<Account> findAllFalse() {
-		return accountDao.findAllFalse();
-	}
+    @Override
+    public Account findById(Long id) {
+        return accountDao.findById(id).get();
+    }
 
-	@Override
-	public boolean existsById(Long id) {
-		return accountDao.existsById(id);
-	}
+    @Override
+    public List<Account> findAllFalse() {
+        return accountDao.findAllFalse();
+    }
+
+    @Override
+    public boolean existsById(Long id) {
+        return accountDao.existsById(id);
+    }
 
 }

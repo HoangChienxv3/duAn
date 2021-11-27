@@ -10,5 +10,6 @@ public interface HistoryService {
     History FinbyTrading_code(Long trading_code);
 
     List<History> findAll();
+
     List<History> findAllByCustomerId(long id);
 }

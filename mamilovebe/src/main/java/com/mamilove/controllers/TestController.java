@@ -44,6 +44,6 @@ public class TestController extends BaseController {
 
     @GetMapping("/getAuth")
     public ResponseEntity<Res> getAuth() {
-        return ResponseEntity.ok(new Res(customerDao.findByIdaccount(getAuthUID()),"oke", true));
+        return ResponseEntity.ok(new Res(customerDao.findByIdaccount(getAuthUID()), "oke", true));
     }
 }

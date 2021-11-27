@@ -32,37 +32,37 @@ public class ForgotPasswordController {
     @PostMapping("")
     public ResponseEntity<?> generateCapchar(@RequestBody ForgotPasswordRequest forgotPasswordRequest) throws MessagingException, UnsupportedEncodingException {
 
-        Account account =  accountDao.findByEmail(forgotPasswordRequest.getEmail())
-                .orElseThrow(()-> new RuntimeException("Không tồn tại Email"));
-        if(account.getOneTimePassword() != null){
-            if(account.isOTPGenerrate()){
-                return ResponseEntity.ok(new Res(forgotPasswordRequest,"Xin vui lòng đợi 1'", true));
+        Account account = accountDao.findByEmail(forgotPasswordRequest.getEmail())
+                .orElseThrow(() -> new RuntimeException("Không tồn tại Email"));
+        if (account.getOneTimePassword() != null) {
+            if (account.isOTPGenerrate()) {
+                return ResponseEntity.ok(new Res(forgotPasswordRequest, "Xin vui lòng đợi 1'", true));
             }
         }
         forgotPasswordServices.generateOneTimePassword(account);
-        return ResponseEntity.ok(new Res(forgotPasswordRequest,"Đã gửi mã", true));
+        return ResponseEntity.ok(new Res(forgotPasswordRequest, "Đã gửi mã", true));
 
     }
 
     @PostMapping("/change")
     public ResponseEntity<?> updatePassword(@RequestBody ForgotPasswordRequest forgotPasswordRequest) throws MessagingException, UnsupportedEncodingException {
 
-        if(!forgotPasswordRequest.getPassword().equals(forgotPasswordRequest.getPasswordConfirm())){
-            return ResponseEntity.ok(new Res(forgotPasswordRequest,"Nhập lại password không khớp", false));
+        if (!forgotPasswordRequest.getPassword().equals(forgotPasswordRequest.getPasswordConfirm())) {
+            return ResponseEntity.ok(new Res(forgotPasswordRequest, "Nhập lại password không khớp", false));
         }
-        Account account =  accountDao.findByEmail(forgotPasswordRequest.getEmail())
-                .orElseThrow(()-> new RuntimeException("Không tồn tại Email"));
-        if(account.isOTPRequired()){
-            if(encoder.matches(forgotPasswordRequest.getOtp(),account.getOneTimePassword())){
+        Account account = accountDao.findByEmail(forgotPasswordRequest.getEmail())
+                .orElseThrow(() -> new RuntimeException("Không tồn tại Email"));
+        if (account.isOTPRequired()) {
+            if (encoder.matches(forgotPasswordRequest.getOtp(), account.getOneTimePassword())) {
                 account.setPassword(encoder.encode(forgotPasswordRequest.getPassword()));
                 account.setOneTimePassword(null);
                 accountDao.save(account);
-                return ResponseEntity.ok(new Res(account,"oke",true));
+                return ResponseEntity.ok(new Res(account, "oke", true));
             } else {
-                return ResponseEntity.ok(new Res(forgotPasswordRequest,"Không trùng mã OTP",false));
+                return ResponseEntity.ok(new Res(forgotPasswordRequest, "Không trùng mã OTP", false));
             }
         }
-        return ResponseEntity.ok(new Res("OTP đã hết hạn",false));
+        return ResponseEntity.ok(new Res("OTP đã hết hạn", false));
 
     }
 

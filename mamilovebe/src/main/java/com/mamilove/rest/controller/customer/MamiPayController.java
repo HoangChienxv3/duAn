@@ -3,7 +3,6 @@ package com.mamilove.rest.controller.customer;
 import com.mamilove.controllers.BaseController;
 import com.mamilove.request.dto.Res;
 import com.mamilove.vnpay.MamiPayService;
-import com.mamilove.vnpay.MamipayServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -21,13 +20,13 @@ public class MamiPayController extends BaseController {
     MamiPayService mamiPayService;
 
     @PostMapping("/create")
-    public ResponseEntity<Res> creteMamiPay(){
-        return ResponseEntity.ok(new Res(mamiPayService.createMamiPay(getAuthUID()),"Thành công",true));
+    public ResponseEntity<Res> creteMamiPay() {
+        return ResponseEntity.ok(new Res(mamiPayService.createMamiPay(getAuthUID()), "Thành công", true));
     }
 
     @GetMapping("/mamipay")
-    public ResponseEntity<Res> getMamiPay(){
-        return ResponseEntity.ok(new Res(mamiPayService.getMamiPayCustomer(getAuthUID()),"Thành công",true));
+    public ResponseEntity<Res> getMamiPay() {
+        return ResponseEntity.ok(new Res(mamiPayService.getMamiPayCustomer(getAuthUID()), "Thành công", true));
     }
 
 }

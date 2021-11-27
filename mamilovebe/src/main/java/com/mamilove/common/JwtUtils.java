@@ -27,28 +27,28 @@ public class JwtUtils {
         return Jwts.builder()
                 .setSubject((userPrincipal.getUsername()))
                 .setIssuedAt(new Date())
-                .setExpiration(new Date((new Date()).getTime()+jwtExpirationMs+1000))
+                .setExpiration(new Date((new Date()).getTime() + jwtExpirationMs + 1000))
                 .signWith(SignatureAlgorithm.HS512, jwtSecret)
                 .compact();
     }
 
-    public String getUsernameFromJwtToken(String token){
+    public String getUsernameFromJwtToken(String token) {
         return Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody().getSubject();
     }
 
     public boolean validateJwtToken(String authToken) {
-        try{
+        try {
             Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(authToken);
             return true;
-        } catch (SignatureException e){
+        } catch (SignatureException e) {
             logger.error("Invalid Jwt signature: {}", e.getMessage());
-        }catch (MalformedJwtException e){
+        } catch (MalformedJwtException e) {
             logger.error("Invalid Jwt token: {}", e.getMessage());
-        }catch (ExpiredJwtException e){
+        } catch (ExpiredJwtException e) {
             logger.error("Invalid Jwt expired: {}", e.getMessage());
-        }catch (UnsupportedJwtException e){
+        } catch (UnsupportedJwtException e) {
             logger.error("Invalid Jwt unsupported: {}", e.getMessage());
-        }catch (IllegalArgumentException e){
+        } catch (IllegalArgumentException e) {
             logger.error("Jwt claims String is empty: {}", e.getMessage());
         }
         return false;

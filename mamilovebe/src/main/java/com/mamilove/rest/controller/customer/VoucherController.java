@@ -14,16 +14,16 @@ import com.mamilove.service.service.VoucherService;
 @CrossOrigin("http://localhost:4200/")
 @RequestMapping("/Customer/VoucherController")
 public class VoucherController {
-	@Autowired
-	VoucherService voucherService;
-	
-	@GetMapping("/findAll")
-	public ResponseEntity<?> findAll(){
-		return ResponseEntity.ok(new Res(voucherService.findAll(),"",true));
-	}
-	
-	@GetMapping("/findVoucherByAmount")
-	public ResponseEntity<?> findVoucherByAmout(){
-		return ResponseEntity.ok(new Res(voucherService.findVoucherByAmount(),"",true));
-	}
+    @Autowired
+    VoucherService voucherService;
+
+    @GetMapping("/findAll")
+    public ResponseEntity<?> findAll() {
+        return ResponseEntity.ok(new Res(voucherService.findAll(), "", true));
+    }
+
+    @GetMapping("/findVoucherByAmount")
+    public ResponseEntity<?> findVoucherByAmout() {
+        return ResponseEntity.ok(new Res(voucherService.findVoucherByAmount(), "", true));
+    }
 }

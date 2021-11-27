@@ -19,8 +19,8 @@ public class MamiPayManagerController {
     MamiPayDao mamiPayDao;
 
     @GetMapping("/all")
-    public ResponseEntity<Res> getMamiPay(){
-        return ResponseEntity.ok(new Res(mamiPayDao.findAll(),"Thành công",true));
+    public ResponseEntity<Res> getMamiPay() {
+        return ResponseEntity.ok(new Res(mamiPayDao.findAll(), "Thành công", true));
     }
 
 }

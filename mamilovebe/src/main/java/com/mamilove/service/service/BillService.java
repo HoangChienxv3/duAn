@@ -13,8 +13,11 @@ import java.util.List;
 
 public interface BillService {
     List<Bill> BillByCustomer(Long id);
+
     List<Bill> FindAll();
+
     boolean existsById(String id);
+
     Bill create(BillDto billDto) throws MessagingException, UnsupportedEncodingException;
 
     Bill updateBillCustomer(UpdateBillCutomer updateBillCutomer, String idbill);

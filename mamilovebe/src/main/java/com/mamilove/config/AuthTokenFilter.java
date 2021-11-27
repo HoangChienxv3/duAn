@@ -27,7 +27,8 @@ public class AuthTokenFilter extends OncePerRequestFilter {
 
     @Autowired
     private UserDetailsServiceImpl userDetailsService;
-//    /**
+
+    //    /**
 //     * Same contract as for {@code doFilter}, but guaranteed to be
 //     * just invoked once per request within a single request thread.
 //     * See {@link #shouldNotFilterAsyncDispatch()} for details.
@@ -38,19 +39,20 @@ public class AuthTokenFilter extends OncePerRequestFilter {
 //     * @param response
 //     * @param filterChain
 //     */
-    private String parseJwt(HttpServletRequest request){
+    private String parseJwt(HttpServletRequest request) {
         String headerAuth = request.getHeader("Authorization");
-        if(StringUtils.hasText(headerAuth) && headerAuth.startsWith("Bearer ")){
-            return headerAuth.substring(7,headerAuth.length());
+        if (StringUtils.hasText(headerAuth) && headerAuth.startsWith("Bearer ")) {
+            return headerAuth.substring(7, headerAuth.length());
         }
         return null;
     }
+
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
         try {
             String jwt = parseJwt(request);
-            if(jwt != null && jwtUtils.validateJwtToken(jwt)) {
+            if (jwt != null && jwtUtils.validateJwtToken(jwt)) {
                 String username = jwtUtils.getUsernameFromJwtToken(jwt);
 
                 UserDetails userDetails = userDetailsService.loadUserByUsername(username);
@@ -62,8 +64,8 @@ public class AuthTokenFilter extends OncePerRequestFilter {
                 SecurityContextHolder.getContext().setAuthentication(auth);
 
             }
-        } catch (Exception e){
-            logger.error("Cannot set user authentication: {}",e);
+        } catch (Exception e) {
+            logger.error("Cannot set user authentication: {}", e);
         }
 
         filterChain.doFilter(request, response);

@@ -14,11 +14,11 @@ import com.mamilove.service.service.TypeSizeService;
 @CrossOrigin("http://localhost:4200/")
 @RequestMapping("/Customer/TypeSizeController")
 public class TypeSizeController {
-	@Autowired
-	TypeSizeService typeSizeService;
-	
-	@GetMapping("/findAll")
-	public ResponseEntity<?> findAll(){
-		return ResponseEntity.ok( new Res(typeSizeService.findAll(),"OK",true));
-	}
+    @Autowired
+    TypeSizeService typeSizeService;
+
+    @GetMapping("/findAll")
+    public ResponseEntity<?> findAll() {
+        return ResponseEntity.ok(new Res(typeSizeService.findAll(), "OK", true));
+    }
 }

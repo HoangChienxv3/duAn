@@ -27,20 +27,22 @@ public class AccountController {
         if (!accountService.existsById(id)) {
             ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok(new Res(accountService.findById(id),"thong tin tai khoan",true));
+        return ResponseEntity.ok(new Res(accountService.findById(id), "thong tin tai khoan", true));
     }
+
     @PostMapping(value = "")
-    public  ResponseEntity<Account> post(@RequestBody Account account){
-        if(accountService.existsById(account.getId())){
+    public ResponseEntity<Account> post(@RequestBody Account account) {
+        if (accountService.existsById(account.getId())) {
             return ResponseEntity.badRequest().build();
         }
         accountService.save(account);
         return ResponseEntity.ok(account);
     }
+
     @PutMapping(value = "/{id}")
-    public ResponseEntity<Account> updateAccount(@PathVariable("id") long id,@RequestBody Account account){
-        if(!accountService.existsById(id)){
-          return  ResponseEntity.notFound().build();
+    public ResponseEntity<Account> updateAccount(@PathVariable("id") long id, @RequestBody Account account) {
+        if (!accountService.existsById(id)) {
+            return ResponseEntity.notFound().build();
         }
         accountService.save(account);
         return ResponseEntity.ok(account);
