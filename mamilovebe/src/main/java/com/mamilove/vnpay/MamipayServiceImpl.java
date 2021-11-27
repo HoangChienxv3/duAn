@@ -5,11 +5,14 @@ import com.mamilove.entity.Account;
 import com.mamilove.entity.Customer;
 import com.mamilove.entity.Mamipay;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.mamilove.dao.MamiPayDao;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class MamipayServiceImpl implements MamiPayService{
@@ -51,6 +54,11 @@ public class MamipayServiceImpl implements MamiPayService{
 	@Override
 	public Mamipay creteMamiPay(Long authUID) {
 		Customer customer =  customerDao.findByIdaccount(authUID);
+
+		Optional<Mamipay> mamipayOptional = mamiPayDao.findByIdcustomer(customer.getId());
+		if (mamipayOptional.isPresent()){
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"Đã có ví");
+		}
 
 		Mamipay mamipay = new Mamipay();
 		mamipay.setSurplus(0d);
