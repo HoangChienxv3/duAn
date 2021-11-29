@@ -14,7 +14,7 @@ public class SizeSeeder implements Seeder {
         SizeDao sizeDao = BeanUtil.getBean(SizeDao.class);
         TyperSizeDao typerSizeDao = BeanUtil.getBean(TyperSizeDao.class);
 
-        if(!typerSizeDao.findByName("size áo").isPresent()){
+        if (!typerSizeDao.findByName("size áo").isPresent()) {
             Typesize typesize = new Typesize();
             typesize.setName("size áo");
 
@@ -22,7 +22,7 @@ public class SizeSeeder implements Seeder {
 
             List<Size> sizes = new ArrayList<>();
 
-            String[] nameS = new String[]{"S","M","L","X","XL","XXL"};
+            String[] nameS = new String[]{"S", "M", "L", "X", "XL", "XXL"};
             for (String name : nameS) {
                 Size size = new Size();
                 size.setName(name);
@@ -31,7 +31,7 @@ public class SizeSeeder implements Seeder {
             }
             sizeDao.saveAll(sizes);
         }
-        if(!typerSizeDao.findByName("size quần").isPresent()){
+        if (!typerSizeDao.findByName("size quần").isPresent()) {
             Typesize typesize = new Typesize();
             typesize.setName("size quần");
 
@@ -39,7 +39,7 @@ public class SizeSeeder implements Seeder {
 
             List<Size> sizes = new ArrayList<>();
 
-            String[] nameS = new String[]{"27","28","29","30","31","32"};
+            String[] nameS = new String[]{"27", "28", "29", "30", "31", "32"};
             for (String name : nameS) {
                 Size size = new Size();
                 size.setName(name);

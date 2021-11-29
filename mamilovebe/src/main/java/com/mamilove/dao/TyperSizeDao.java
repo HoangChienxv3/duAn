@@ -7,11 +7,12 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.mamilove.entity.Typesize;
 
-public interface TyperSizeDao extends JpaRepository<Typesize, Long>{
-	List<Typesize> findAll();
-	Optional<Typesize> findById(Long id);
+public interface TyperSizeDao extends JpaRepository<Typesize, Long> {
+    List<Typesize> findAll();
 
-	Optional<Typesize> findByName(String name);
+    Optional<Typesize> findById(Long id);
 
-	List<Typesize> findAllByIsDeleteFalse();
+    Optional<Typesize> findByName(String name);
+
+    List<Typesize> findAllByIsDeleteFalse();
 }

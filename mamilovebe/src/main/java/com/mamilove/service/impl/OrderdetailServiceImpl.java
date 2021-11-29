@@ -12,21 +12,21 @@ import java.util.List;
 @Service
 public class OrderdetailServiceImpl implements OrderDetailService {
 
-	@Autowired
-	OrderDetailDao orderDetailDao;
+    @Autowired
+    OrderDetailDao orderDetailDao;
 
-	@Override
-	public List<Orderdetail> AllByCustomer(Long id) {
-		return orderDetailDao.AllByCustomer(id);
-	}
+    @Override
+    public List<Orderdetail> AllByCustomer(Long id) {
+        return orderDetailDao.AllByCustomer(id);
+    }
 
-	@Override
-	public List<Orderdetail> saveAll(List<Orderdetail> orderdetail) {
-		return orderDetailDao.saveAll(orderdetail);
-	}
+    @Override
+    public List<Orderdetail> saveAll(List<Orderdetail> orderdetail) {
+        return orderDetailDao.saveAll(orderdetail);
+    }
 
-	@Override
-	public List<Orderdetail> FinAll() {
-		return orderDetailDao.findAll();
-	}
+    @Override
+    public List<Orderdetail> FinAll() {
+        return orderDetailDao.findAll();
+    }
 }

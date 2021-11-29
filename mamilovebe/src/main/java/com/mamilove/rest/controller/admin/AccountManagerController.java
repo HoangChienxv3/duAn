@@ -20,18 +20,20 @@ public class AccountManagerController {
 
     @GetMapping(value = "/findAll")
     public ResponseEntity<?> getUserList() {
-        return ResponseEntity.ok( new Res(accountService.findAll(),"Save Success",true));
+        return ResponseEntity.ok(new Res(accountService.findAll(), "Save Success", true));
     }
+
     @GetMapping(value = "/{id}")
     public ResponseEntity<?> getOne(@PathVariable("id") long id) {
         if (!accountService.existsById(id)) {
             ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok(new Res(accountService.findById(id),"thong tin tai khoan",true));
+        return ResponseEntity.ok(new Res(accountService.findById(id), "thong tin tai khoan", true));
     }
+
     @PostMapping(value = "/saveAndFlush")
-    public  ResponseEntity<?> saveAndFlush(@RequestBody Account account){
+    public ResponseEntity<?> saveAndFlush(@RequestBody Account account) {
         accountService.save(account);
-        return ResponseEntity.ok( new Res(account,"Save Success",true));
+        return ResponseEntity.ok(new Res(account, "Save Success", true));
     }
 }

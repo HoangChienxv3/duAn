@@ -105,7 +105,7 @@ public class VnpayController extends BaseController {
         Customer customer = customerService.findByAccount(getAuthUID());
         Long idcustormer = customer.getId(); //idcustormer
         //kiểm tra đã có account => mamipay
-		Mamipay mm = mamiPayService.MamipayIdCt(idcustormer);
+        Mamipay mm = mamiPayService.MamipayIdCt(idcustormer);
         if (mm == null) {
             return ResponseEntity.ok(new Res(null, "Bạn chưa có  tài khoản", true));
         }
@@ -130,7 +130,7 @@ public class VnpayController extends BaseController {
     }
 
 
-        @GetMapping("/VnPayReturn")
+    @GetMapping("/VnPayReturn")
     public ResponseEntity<?> VnPayReturn(HttpServletRequest req) throws UnsupportedEncodingException {
         Map fields = new HashMap();
         for (Enumeration params = req.getParameterNames(); params.hasMoreElements(); ) {

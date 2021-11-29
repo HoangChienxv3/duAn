@@ -1,7 +1,5 @@
 package com.mamilove.rest.controller.customer;
 
-import com.mamilove.dao.BillDao;
-import com.mamilove.entity.Bill;
 import com.mamilove.entity.Orderdetail;
 import com.mamilove.request.dto.Res;
 import com.mamilove.service.service.OrderDetailService;
@@ -16,13 +14,15 @@ import java.util.List;
 public class OrderDetailController {
     @Autowired
     OrderDetailService orderDetailService;
+
     @GetMapping("/list")
-    public ResponseEntity<List<Orderdetail>> listOrderdetail(){
+    public ResponseEntity<List<Orderdetail>> listOrderdetail() {
         return ResponseEntity.ok(orderDetailService.FinAll());
     }
+
     @PostMapping("{id}")
-    public ResponseEntity<?> AllByCustomer(@PathVariable("id") Long id){
-        return ResponseEntity.ok(new Res(orderDetailService.AllByCustomer(id),"dat",true)) ;
+    public ResponseEntity<?> AllByCustomer(@PathVariable("id") Long id) {
+        return ResponseEntity.ok(new Res(orderDetailService.AllByCustomer(id), "dat", true));
     }
 
 

@@ -11,12 +11,14 @@ import com.mamilove.entity.Category;
 import com.mamilove.entity.Size;
 import com.mamilove.entity.Typesize;
 
-public interface SizeDao extends JpaRepository<Size, Long>{
-	List<Size> findAll();
-	List<Size> findByTypesize(Typesize typesize);
-	void delete(Size size);
+public interface SizeDao extends JpaRepository<Size, Long> {
+    List<Size> findAll();
 
-	Optional<Size> findByNameAndAndIdtypesize(String name, Long idtypesite);
+    List<Size> findByTypesize(Typesize typesize);
 
-	Optional<Size> findByName(String name);
+    void delete(Size size);
+
+    Optional<Size> findByNameAndAndIdtypesize(String name, Long idtypesite);
+
+    Optional<Size> findByName(String name);
 }

@@ -12,29 +12,29 @@ import com.mamilove.entity.Property;
 import com.mamilove.service.service.PropertyService;
 
 @Service
-public class PropertyServiceImpl implements PropertyService{
+public class PropertyServiceImpl implements PropertyService {
 
-	@Autowired
-	PropertyDao propertyDao;
+    @Autowired
+    PropertyDao propertyDao;
 
-	@Override
-	public List<Property> findAll() {
-		// TODO Auto-generated method stub
-		return propertyDao.findAll();
-	}
+    @Override
+    public List<Property> findAll() {
+        // TODO Auto-generated method stub
+        return propertyDao.findAll();
+    }
 
-	@Override
-	@Transactional
-	public List<Property> saveAll(List<Property> property) {
-		// TODO Auto-generated method stub
-		return propertyDao.saveAll(property);
-	}
+    @Override
+    @Transactional
+    public List<Property> saveAll(List<Property> property) {
+        // TODO Auto-generated method stub
+        return propertyDao.saveAll(property);
+    }
 
-	@Override
-	@Transactional
-	public void deleteInBatch(List<Property> property) {
-		// TODO Auto-generated method stub
-		propertyDao.deleteInBatch(property);
-	}
-	
+    @Override
+    @Transactional
+    public void deleteInBatch(List<Property> property) {
+        // TODO Auto-generated method stub
+        propertyDao.deleteAllInBatch(property);
+    }
+
 }

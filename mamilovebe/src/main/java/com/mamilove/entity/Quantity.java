@@ -13,37 +13,40 @@ import lombok.Data;
 @Data
 @Entity
 @Table(name = "quantity")
-public class Quantity implements Serializable{
+public class Quantity implements Serializable {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
-	
-	private long quantity;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-	@ManyToOne @JoinColumn(name = "idproduct", updatable = false, insertable = false)
-	private Product product;
+    private long quantity;
 
-	@Column(name = "idproduct")
-	private Long idProduct;
+    @ManyToOne
+    @JoinColumn(name = "idproduct", updatable = false, insertable = false)
+    private Product product;
 
-	@ManyToOne @JoinColumn(name = "idsize", updatable = false, insertable = false)
-	private Size size;
+    @Column(name = "idproduct")
+    private Long idProduct;
 
-	@Column(name = "idsize")
-	private Long idsize;
+    @ManyToOne
+    @JoinColumn(name = "idsize", updatable = false, insertable = false)
+    private Size size;
 
-	@ManyToOne @JoinColumn(name = "idproperty", updatable = false, insertable = false)
-	private Property property;
+    @Column(name = "idsize")
+    private Long idsize;
 
-	@Column(name = "idproperty")
-	private Long idproperty;
+    @ManyToOne
+    @JoinColumn(name = "idproperty", updatable = false, insertable = false)
+    private Property property;
 
-	@Column(name = "isDelete")
-	private Boolean isDelete = false;
+    @Column(name = "idproperty")
+    private Long idproperty;
 
-	@JsonIgnore
-	@OneToMany(mappedBy = "quantity")
-	private List<Orderdetail> orderdetails;
-	
+    @Column(name = "isDelete")
+    private Boolean isDelete = false;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "quantity")
+    private List<Orderdetail> orderdetails;
+
 }

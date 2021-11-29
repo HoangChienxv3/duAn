@@ -1,4 +1,5 @@
 package com.mamilove.vnpay;
+
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 import java.net.URLEncoder;
@@ -10,12 +11,14 @@ import java.util.Map;
 import java.util.Random;
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
+
 public class VnpayConfig {
-    public static String getIpAddress="0:0:0:0:0:0:0:1";
+    public static String getIpAddress = "0:0:0:0:0:0:0:1";
     public static String vnp_PayUrl = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
     public static String vnp_Returnurl = "http://localhost:8080/VnPayIPN";
     public static String vnp_TmnCode = "NX9UGL9F";
     public static String vnp_HashSecret = "GLFQNNQIXLEAKTJFAQOLMSNIIHBRNISG";
+
     public static String hmacSHA512(final String key, final String data) {
         try {
             if (key == null || data == null) {
@@ -37,6 +40,7 @@ public class VnpayConfig {
             return "";
         }
     }
+
     //Util for VNPAY
     public static String hashAllFields(Map fields) throws UnsupportedEncodingException {
         // create a list and sort it
@@ -59,6 +63,7 @@ public class VnpayConfig {
         }
         return hmacSHA512("GLFQNNQIXLEAKTJFAQOLMSNIIHBRNISG", sb.toString());
     }
+
     public static String getRandomNumber(int len) {
         Random rnd = new Random();
         String chars = "0123456789";
