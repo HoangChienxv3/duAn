@@ -4,6 +4,7 @@ import com.mamilove.dao.AccountDao;
 import com.mamilove.entity.Account;
 import com.mamilove.entity.Bill;
 import com.mamilove.service.service.MailService;
+import com.mamilove.utils.FormatMoney;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -37,7 +38,7 @@ public class MailServiceImpl implements MailService {
         helper.setFrom("contact@shopme.com", "Mami Love Shop");
         helper.setTo(account.getEmail());
 
-        String subject = "Đã tạo đơn hàng";
+        String subject = "Đã tạo đơn hàng!";
 
         String content = "<p>Xin chào <b>" + account.getUsername() + "!</b></p>"
                 + "<p>Đơn hàng của bạn đã được tạo!</p>"
@@ -45,9 +46,32 @@ public class MailServiceImpl implements MailService {
                 + "<p>Mã đơn hàng: <b>" + bill.getId() + "</b></p>"
                 + "<br>"
                 + "<p>Họ tên người nhận: <b>" + bill.getFullname() + "</b></p>"
-                + "<p>Tổng giá trị đơn hàng: <b>" + bill.getTotal() + "VND</b></p>"
+                + "<p>Tổng giá trị đơn hàng: <b>" + FormatMoney.currencyVN(bill.getTotal()) + "</b></p>"
                 + "<p>Địa chỉ nhận hàng: <b>" + bill.getAddress() + "</b></p>"
                 + "<p><b>" + (bill.getPayment() ? "Đã thanh toán" : "Thanh toán khi nhận hàng") + "</b></p>"
+                + "<br>"
+                + "<p><u>Mọi thắc mắc vui lòng liên hệ:</u> mamilovepro2112@gmail.com</p>";
+
+        helper.setSubject(subject);
+
+        helper.setText(content, true);
+
+        mailSender.send(message);
+    }
+
+    @Override
+    public void sendCancelBill(Account account, Bill bill) throws MessagingException, UnsupportedEncodingException {
+        MimeMessage message = mailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message);
+
+        helper.setFrom("contact@shopme.com", "Mami Love Shop");
+        helper.setTo(account.getEmail());
+
+        String subject = "Đơn hàng đã hủy!";
+
+        String content = "<p>Xin chào <b>" + account.getUsername() + "!</b></p>"
+                + "<p>Đơn hàng của bạn đã được Hủy!</p>"
+                + "<p>Mã đơn hàng: <b>" + bill.getId() + "</b></p>"
                 + "<br>"
                 + "<p><u>Mọi thắc mắc vui lòng liên hệ:</u> mamilovepro2112@gmail.com</p>";
 

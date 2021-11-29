@@ -22,7 +22,7 @@ public interface BillService {
 
     Bill updateBillCustomer(UpdateBillCutomer updateBillCutomer, String idbill);
 
-    Bill cancelBill(String idbill);
+    Bill cancelBill(String idbill) throws MessagingException, UnsupportedEncodingException;
 
     Bill cancelBillManager(String idbill);
 

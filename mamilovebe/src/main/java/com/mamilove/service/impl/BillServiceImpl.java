@@ -157,7 +157,6 @@ public class BillServiceImpl extends BaseController implements BillService {
                 orderdetail.setIntomoney(product.getPrice() - orderdetail.getDownprice());
                 orderdetail.setIdbill(bill.getId());
 
-//                quantities.add(quantity);
                 orderdetails.add(orderdetail);
             }
             Voucher voucher;
@@ -165,7 +164,6 @@ public class BillServiceImpl extends BaseController implements BillService {
                 voucher = voucherDao.findByIdIsAndIsDeleteFalse(billDto.getVoucher_id()).orElseThrow(() -> {
                     throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Không tìm thấy voucher");
                 });
-
                 if (voucher.getAmount() <= 0) {
                     throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "VOucher đã hết");
                 }
@@ -174,15 +172,15 @@ public class BillServiceImpl extends BaseController implements BillService {
                 voucher.setAmount(voucher.getAmount() - 1L);
                 voucherDao.save(voucher);
             }
-
             mamipay.setSurplus(mamipay.getSurplus() - billDto.getTotal());
             mamiPayDao.save(mamipay);
-            //            quantityDao.saveAll(quantities);
 
         }
         billDao.save(bill);
         orderDetailDao.saveAll(orderdetails);
-        mailService.sendCreateBill(customer.getAccount(), bill);
+        if (customer.getAccount().getEmail() != null) {
+            mailService.sendCreateBill(customer.getAccount(), bill);
+        }
         return bill;
     }
 
@@ -209,7 +207,7 @@ public class BillServiceImpl extends BaseController implements BillService {
     }
 
     @Override
-    public Bill cancelBill(String idbill) {
+    public Bill cancelBill(String idbill) throws MessagingException, UnsupportedEncodingException {
         Bill bill = billDao.findById(idbill).orElseThrow(() -> {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Không tìm thấy đơn hàng");
         });
@@ -229,6 +227,9 @@ public class BillServiceImpl extends BaseController implements BillService {
             Mamipay mamipay = mamipayService.ByCustomer(customer.getId());
             mamipay.setSurplus(mamipay.getSurplus() + bill.getTotal());
             mamiPayDao.save(mamipay);
+        }
+        if (customer.getAccount().getEmail() != null) {
+            mailService.sendCancelBill(customer.getAccount(), bill);
         }
         return billDao.save(bill);
     }
