@@ -235,7 +235,7 @@ public class BillServiceImpl extends BaseController implements BillService {
     }
 
     @Override
-    public Bill cancelBillManager(String idbill) {
+    public Bill cancelBillManager(String idbill) throws MessagingException, UnsupportedEncodingException {
         Bill bill = billDao.findById(idbill).orElseThrow(() -> {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Không tìm thấy đơn hàng");
         });
@@ -243,25 +243,19 @@ public class BillServiceImpl extends BaseController implements BillService {
         //tim kiem nguoi dung
         Customer customer = bill.getCustomer();
 
-        if (bill.getStatus() == EnumStatus.CHUA_XAC_NHAN || bill.getStatus() == EnumStatus.DA_XAC_NHAN_VA_DONG_GOI) {
+        if (bill.getStatus() == EnumStatus.CHUA_XAC_NHAN) {
             bill.setStatus(EnumStatus.HUY);
         } else {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Không thể hủy đơn");
         }
-        //hoàn số lượng về kho nếu thanh toán qua ví
-        List<Quantity> quantities = new ArrayList<>();
+        //hoàn tiền về ví nếu thanh toán qua ví
         if (bill.getPayment()) {
-            List<Orderdetail> orderdetails = bill.getOrderdetails();
-            orderdetails.forEach(orderdetail -> {
-                Quantity quantity = orderdetail.getQuantity();
-                quantity.setQuantity(quantity.getQuantity() + orderdetail.getQuantitydetail());
-                quantities.add(quantity);
-            });
             Mamipay mamipay = mamipayService.ByCustomer(customer.getId());
             mamipay.setSurplus(mamipay.getSurplus() + bill.getTotal());
             mamiPayDao.save(mamipay);
-            quantityDao.saveAll(quantities);
-
+        }
+        if (customer.getAccount().getEmail() != null) {
+            mailService.sendCreateManagerBill(customer.getAccount(), bill);
         }
         return billDao.save(bill);
     }

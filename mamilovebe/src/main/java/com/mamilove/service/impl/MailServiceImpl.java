@@ -81,4 +81,27 @@ public class MailServiceImpl implements MailService {
 
         mailSender.send(message);
     }
+
+    @Override
+    public void sendCreateManagerBill(Account account, Bill bill) throws MessagingException, UnsupportedEncodingException {
+        MimeMessage message = mailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message);
+
+        helper.setFrom("contact@shopme.com", "Mami Love Shop");
+        helper.setTo(account.getEmail());
+
+        String subject = "Đơn hàng đã hủy!";
+
+        String content = "<p>Xin chào <b>" + account.getUsername() + "!</b></p>"
+                + "<p>Đơn hàng của bạn đã được shop Hủy!</p>"
+                + "<p>Mã đơn hàng: <b>" + bill.getId() + "</b></p>"
+                + "<br>"
+                + "<p><u>Mọi thắc mắc vui lòng liên hệ:</u> mamilovepro2112@gmail.com</p>";
+
+        helper.setSubject(subject);
+
+        helper.setText(content, true);
+
+        mailSender.send(message);
+    }
 }

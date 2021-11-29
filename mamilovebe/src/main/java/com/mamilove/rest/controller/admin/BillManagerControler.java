@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -23,6 +24,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.mail.MessagingException;
 
 @CrossOrigin("http://localhost:4200/")
 @RestController
@@ -42,7 +45,7 @@ public class BillManagerControler {
     }
 
     @GetMapping("/cancel/{idbill}")
-    public ResponseEntity<Res> cancelBill(@PathVariable("idbill") String idbill) {
+    public ResponseEntity<Res> cancelBill(@PathVariable("idbill") String idbill) throws MessagingException, UnsupportedEncodingException {
         return ResponseEntity.ok(new Res(billService.cancelBillManager(idbill), "Save success", true));
     }
 
