@@ -61,7 +61,7 @@ public class BillController extends BaseController {
     }
 
     @GetMapping("/cancel/{id}")
-    public ResponseEntity<Res> cancelBill(@PathVariable("id") String idbill) {
+    public ResponseEntity<Res> cancelBill(@PathVariable("id") String idbill) throws MessagingException, UnsupportedEncodingException {
         return ResponseEntity.ok(new Res(billService.cancelBill(idbill), "Đã Hủy", true));
     }
 
