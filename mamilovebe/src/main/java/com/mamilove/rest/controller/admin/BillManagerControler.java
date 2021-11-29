@@ -50,7 +50,7 @@ public class BillManagerControler {
     }
 
     @GetMapping("/confirm/{idbill}")
-    public ResponseEntity<Res> confirmBill(@PathVariable("idbill") String idbill) {
+    public ResponseEntity<Res> confirmBill(@PathVariable("idbill") String idbill) throws MessagingException, UnsupportedEncodingException {
         return ResponseEntity.ok(new Res(billService.confirmBillManager(idbill), "Save success", true));
     }
 

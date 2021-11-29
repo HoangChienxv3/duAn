@@ -261,7 +261,7 @@ public class BillServiceImpl extends BaseController implements BillService {
     }
 
     @Override
-    public Bill confirmBillManager(String idbill) {
+    public Bill confirmBillManager(String idbill) throws MessagingException, UnsupportedEncodingException {
         Bill bill = billDao.findById(idbill).orElseThrow(() -> {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Không tìm thấy đơn hàng");
         });
@@ -271,24 +271,27 @@ public class BillServiceImpl extends BaseController implements BillService {
         } else {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Không thể xác nhận đơn");
         }
-        //hoàn số lượng về kho nếu không thanh toán qua ví
+        //hoàn số lượng về kho
         List<Quantity> quantities = new ArrayList<>();
-        if (!bill.getPayment()) {
-            List<Orderdetail> orderdetails = bill.getOrderdetails();
-            orderdetails.forEach(orderdetail -> {
-                Quantity quantity = orderdetail.getQuantity();
-                if (quantity.getQuantity() < orderdetail.getQuantitydetail()) {
-                    String er = "Sản phẩm: " + quantity.getProduct().getName()
-                            + " Size: " + quantity.getSize().getName() + "-" + quantity.getProperty().getName()
-                            + " đã hết hàng.";
-                    throw new ResponseStatusException(HttpStatus.BAD_REQUEST, er);
-                }
-                quantity.setQuantity(quantity.getQuantity() - orderdetail.getQuantitydetail());
-                quantities.add(quantity);
-            });
-
-            quantityDao.saveAll(quantities);
-
+        StringBuilder message = null;
+        List<Orderdetail> orderdetails = bill.getOrderdetails();
+        orderdetails.forEach(orderdetail -> {
+            Quantity quantity = orderdetail.getQuantity();
+            if (quantity.getQuantity() < orderdetail.getQuantitydetail()) {
+                String er = "Sản phẩm: " + quantity.getProduct().getName()
+                        + " Size: " + quantity.getSize().getName() + "-" + quantity.getProperty().getName()
+                        + " đã hết hàng.";
+                message.append(er + "/n");
+            }
+            quantity.setQuantity(quantity.getQuantity() - orderdetail.getQuantitydetail());
+            quantities.add(quantity);
+        });
+        if (message.length() > 0) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, message.toString());
+        }
+        quantityDao.saveAll(quantities);
+        if (bill.getCustomer().getAccount().getEmail() != null) {
+            mailService.sendConfirmManagerBill(bill.getCustomer().getAccount(), bill);
         }
         return billDao.save(bill);
     }
