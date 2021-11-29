@@ -14,65 +14,65 @@ import lombok.Data;
 @Data
 @Entity
 @Table(name = "account")
-public class Account implements Serializable{
+public class Account implements Serializable {
 
-	private static final long OTP_VALID_DURATION = 5 * 60 * 1000;   // 5 minutes
-	private static final long OTP_TIME_GENERATE = 1 * 60 * 1000;   // 1 minutes
+    private static final long OTP_VALID_DURATION = 5 * 60 * 1000;   // 5 minutes
+    private static final long OTP_TIME_GENERATE = 1 * 60 * 1000;   // 1 minutes
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
-	
-	private String username;
-	
-	private String password;
-	
-	private String phone;
-	
-	private String email;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-	private String capcha;
+    private String username;
 
-	@Column(name = "isDelete")
-	private Boolean isDelete = false;
-	@Column(name = "one_time_password")
-	private String oneTimePassword;
+    private String password;
 
-	@Column(name = "otp_requested_time")
-	private Date otpRequestedTime = new Date();
+    private String phone;
 
-	@JsonIgnore
-	@OneToMany(mappedBy = "account")
-	List<Authority> authorities;
+    private String email;
 
-	@JsonIgnore
-	public boolean isOTPRequired() {
-		if (this.getOneTimePassword() == null) {
-			return false;
-		}
+    private String capcha;
 
-		long currentTimeInMillis = System.currentTimeMillis();
-		long otpRequestedTimeInMillis = this.otpRequestedTime.getTime();
+    @Column(name = "isDelete")
+    private Boolean isDelete = false;
+    @Column(name = "one_time_password")
+    private String oneTimePassword;
 
-		if (otpRequestedTimeInMillis + OTP_VALID_DURATION < currentTimeInMillis) {
-			// OTP expires
-			return false;
-		}
+    @Column(name = "otp_requested_time")
+    private Date otpRequestedTime = new Date();
 
-		return true;
-	}
+    @JsonIgnore
+    @OneToMany(mappedBy = "account")
+    List<Authority> authorities;
 
-	//check neu ton tai ma se gui sau 1 phut
-	@JsonIgnore
-	public boolean isOTPGenerrate() {
+    @JsonIgnore
+    public boolean isOTPRequired() {
+        if (this.getOneTimePassword() == null) {
+            return false;
+        }
 
-		long currentTimeInMillis = System.currentTimeMillis();
-		long otpRequestedTimeInMillis = this.otpRequestedTime.getTime();
+        long currentTimeInMillis = System.currentTimeMillis();
+        long otpRequestedTimeInMillis = this.otpRequestedTime.getTime();
 
-		if (otpRequestedTimeInMillis + OTP_TIME_GENERATE < currentTimeInMillis) {
-			return false;
-		}
-		return true;
-	}
-	
+        if (otpRequestedTimeInMillis + OTP_VALID_DURATION < currentTimeInMillis) {
+            // OTP expires
+            return false;
+        }
+
+        return true;
+    }
+
+    //check neu ton tai ma se gui sau 1 phut
+    @JsonIgnore
+    public boolean isOTPGenerrate() {
+
+        long currentTimeInMillis = System.currentTimeMillis();
+        long otpRequestedTimeInMillis = this.otpRequestedTime.getTime();
+
+        if (otpRequestedTimeInMillis + OTP_TIME_GENERATE < currentTimeInMillis) {
+            return false;
+        }
+        return true;
+    }
+
 }

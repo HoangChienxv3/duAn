@@ -23,11 +23,10 @@ public class OrderDetailManagerController {
     OrderDetailDao orderDetailDao;
 
     @GetMapping("/{idbill}")
-    public ResponseEntity<List<Orderdetail>> getAllOrderdetail(@PathVariable("idbill")String idbill){
+    public ResponseEntity<List<Orderdetail>> getAllOrderdetail(@PathVariable("idbill") String idbill) {
         return ResponseEntity.ok(orderDetailDao.getListOrderDetail(idbill));
 
     }
-
 
 
 }

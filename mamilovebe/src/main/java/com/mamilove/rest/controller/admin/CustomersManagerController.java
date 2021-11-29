@@ -26,20 +26,22 @@ public class CustomersManagerController {
         List<Customer> customer = customerService.findAllFalse();
         return ResponseEntity.ok(new Res(customer, "dat", true));
     }
+
     @GetMapping("/{id}")
-    public ResponseEntity<Res> getDetail(@PathVariable("id") Long id){
+    public ResponseEntity<Res> getDetail(@PathVariable("id") Long id) {
         Customer customer = customerService.findById(id);
-        if(customer.getIsDelete()==true || customer.getAccount().getIsDelete()==true){
-            return ResponseEntity.ok(new Res(null,"Đã bị xóa", false));
+        if (customer.getIsDelete() == true || customer.getAccount().getIsDelete() == true) {
+            return ResponseEntity.ok(new Res(null, "Đã bị xóa", false));
         }
-        return ResponseEntity.ok(new Res(customer,"Thanh cong", true));
+        return ResponseEntity.ok(new Res(customer, "Thanh cong", true));
     }
+
     @PutMapping("/update/{id}")
     public ResponseEntity<?> update(@PathVariable("id") Long id, @RequestBody CustomerDto customerDto) {
         Account ac = accountService.findById(customerDto.getIdaccount());
         Customer ct = customerService.findById(id);
-        if(ct.getIsDelete()==true){
-            return ResponseEntity.ok(new Res(null,"Đã bị xóa update lỗi", false));
+        if (ct.getIsDelete() == true) {
+            return ResponseEntity.ok(new Res(null, "Đã bị xóa update lỗi", false));
         }
         Customer cts = new Customer();
         cts.setId(id);
@@ -51,9 +53,9 @@ public class CustomersManagerController {
     }
 
     @PutMapping("/delete/{id}")
-    public ResponseEntity<Res> delete(@PathVariable("id") Long id){
+    public ResponseEntity<Res> delete(@PathVariable("id") Long id) {
         Customer ct = customerService.findById(id);
-        if(ct != null) {
+        if (ct != null) {
             ct.setIsDelete(true);
         }
         Customer customer = customerService.update(ct);

@@ -49,7 +49,7 @@ public class SizeServiceImpl implements SizeService {
     @Transactional
     public void deleteInBatch(List<Size> size) {
         // TODO Auto-generated method stub
-        sizeDao.deleteInBatch(size);
+        sizeDao.deleteAllInBatch(size);
     }
 
     @Override
@@ -57,11 +57,7 @@ public class SizeServiceImpl implements SizeService {
         Size size;
         new Size();
         Optional<Size> sizeOpt = sizeDao.findByNameAndAndIdtypesize(sizeRequest.getName(), sizeRequest.getIdtypesize());
-        if (sizeOpt.isPresent()) {
-            size = sizeOpt.get();
-        } else {
-            size = objectMapper.convertValue(sizeRequest, Size.class);
-        }
+        size = sizeOpt.orElseGet(() -> objectMapper.convertValue(sizeRequest, Size.class));
         size.setIsDelete(false);
         return sizeDao.save(size);
     }

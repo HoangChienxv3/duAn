@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
+
 @RestController
 @CrossOrigin("http://localhost:8081")
 @RequestMapping("manager/image")
@@ -42,7 +43,8 @@ public class RestUploatImgController {
             return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ResponeMess(message));
         }
     }
-   //lấy thông tin của file ảnh trong mutipath
+
+    //lấy thông tin của file ảnh trong mutipath
     @GetMapping("/files")
     public ResponseEntity<List<FileInfo>> getListFiles() {
         List<FileInfo> fileInfos = storageService.loadAll().map(path -> {
@@ -55,10 +57,12 @@ public class RestUploatImgController {
 
         return ResponseEntity.status(HttpStatus.OK).body(fileInfos);
     }
-   // lấy thông tin của một file ảnh
+
+    // lấy thông tin của một file ảnh
     @GetMapping("/files/{filename:.+}")
     public ResponseEntity<Resource> getFile(@PathVariable String filename) {
         Resource file = storageService.load(filename);
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\"").body(file);
-    }}
+    }
+}

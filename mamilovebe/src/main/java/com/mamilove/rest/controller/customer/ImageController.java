@@ -1,7 +1,6 @@
 package com.mamilove.rest.controller.customer;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -21,16 +20,16 @@ import com.mamilove.service.service.ProductService;
 @CrossOrigin("http://localhost:4200/")
 @RequestMapping("/Customer/ImageController")
 public class ImageController {
-	@Autowired
-	ImageService imageService;
-	@Autowired 
-	ProductService productService;
-	
-	@GetMapping("/findByProduct/{productId}")
-	public ResponseEntity<?> findByProduct(@PathVariable("productId") Long id){
-		Product product = productService.findById(id);
-		List<Image> entity = imageService.findByProduct(product);
-		return ResponseEntity.ok(new Res( entity , "Success", true));
-	}
-	
+    @Autowired
+    ImageService imageService;
+    @Autowired
+    ProductService productService;
+
+    @GetMapping("/findByProduct/{productId}")
+    public ResponseEntity<?> findByProduct(@PathVariable("productId") Long id) {
+        Product product = productService.findById(id);
+        List<Image> entity = imageService.findByProduct(product);
+        return ResponseEntity.ok(new Res(entity, "Success", true));
+    }
+
 }

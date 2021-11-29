@@ -7,14 +7,17 @@ import com.mamilove.entity.Typesize;
 import com.mamilove.request.dto.SizeRequest;
 
 public interface SizeService {
-	List<Size> findAll();
-	List<Size> findByTypeSize(Typesize typeSize);
-	List<Size> saveAll(List<Size> size);
-	void deleteInBatch(List<Size> size);
+    List<Size> findAll();
 
-	Size create(SizeRequest sizeRequest);
+    List<Size> findByTypeSize(Typesize typeSize);
 
-	Size update(Long idsize, SizeRequest sizeRequest);
+    List<Size> saveAll(List<Size> size);
 
-	Size delete(Long idsize);
+    void deleteInBatch(List<Size> size);
+
+    Size create(SizeRequest sizeRequest);
+
+    Size update(Long idsize, SizeRequest sizeRequest);
+
+    Size delete(Long idsize);
 }

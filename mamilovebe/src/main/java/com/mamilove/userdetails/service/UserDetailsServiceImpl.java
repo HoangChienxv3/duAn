@@ -15,7 +15,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Autowired
     AccountDao accountDao;
-//    /**
+
+    //    /**
 //     * Locates the user based on the username. In the actual implementation, the search
 //     * may possibly be case sensitive, or case insensitive depending on how the
 //     * implementation instance is configured. In this case, the <code>UserDetails</code>
@@ -31,8 +32,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Transactional
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Account account = accountDao.findByUsername(username)
-                .orElseThrow(()->new UsernameNotFoundException("User Not Found With Username: "+ username));
+                .orElseThrow(() -> new UsernameNotFoundException("User Not Found With Username: " + username));
 
-        return  UserDetailsImpl.build(account);
+        return UserDetailsImpl.build(account);
     }
 }

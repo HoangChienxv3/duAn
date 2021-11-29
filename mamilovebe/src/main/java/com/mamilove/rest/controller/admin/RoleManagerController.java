@@ -16,8 +16,8 @@ public class RoleManagerController {
     RoleDao roleDao;
 
     @GetMapping("/findAll")
-    public ResponseEntity<Res> getAllRole(){
-        return ResponseEntity.ok(new Res(roleDao.findAll(),"Thành công",true));
+    public ResponseEntity<Res> getAllRole() {
+        return ResponseEntity.ok(new Res(roleDao.findAll(), "Thành công", true));
     }
 
 }

@@ -15,8 +15,8 @@ import java.util.List;
 
 public class GetBillShiping {
     public static List<BillShiping> getStatusShip(String id) throws IOException {//811031148979
-        Document doc = Jsoup.connect("https://jtexpress.vn/track?billcodes="+id).get();
-        Elements elmsListInfo = doc.select("div[id='collapse-"+id+"']");
+        Document doc = Jsoup.connect("https://jtexpress.vn/track?billcodes=" + id).get();
+        Elements elmsListInfo = doc.select("div[id='collapse-" + id + "']");
         if (elmsListInfo.size() != 1) {
             System.out.println("Đơn hàng có vấn đề.");
             return null;
@@ -24,7 +24,7 @@ public class GetBillShiping {
         Elements elmsListDateBill = elmsListInfo.select("p[class='date-billcode']");
         Elements elmsListTimeBill = elmsListInfo.select("h5[class='time-billcode pt-md-1 pt-4']");
         Elements elmsListInfoBill = elmsListInfo.select("div[class='card-body']");
-        if(elmsListDateBill.size() == 0){
+        if (elmsListDateBill.size() == 0) {
             System.out.println("Đơn hàng chưa được giao cho J&T hoặc mã đơn hàng sai.");
             return null;
         }

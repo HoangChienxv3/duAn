@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface OrderDetailDao extends JpaRepository<Orderdetail, Long>{
+public interface OrderDetailDao extends JpaRepository<Orderdetail, Long> {
     @Query("SELECT o FROM Orderdetail o WHERE o.bill.customer.id =?1")
     List<Orderdetail> AllByCustomer(Long id);
 

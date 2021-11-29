@@ -16,17 +16,19 @@ import lombok.Data;
 @Data
 @Entity
 @Table(name = "authority")
-public class Authority implements Serializable{
+public class Authority implements Serializable {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
 
-	@ManyToOne @JoinColumn(name = "idaccount")
-	private Account account;
-	
-	@ManyToOne @JoinColumn(name = "idrole")
-	private Role role;
-	
+    @ManyToOne
+    @JoinColumn(name = "idaccount")
+    private Account account;
+
+    @ManyToOne
+    @JoinColumn(name = "idrole")
+    private Role role;
+
 }
