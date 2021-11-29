@@ -10,4 +10,6 @@ import java.io.UnsupportedEncodingException;
 @Service
 public interface MailService {
     void sendCancelBill(Account account, Bill bill) throws MessagingException, UnsupportedEncodingException;
+
+    void sendCreateManagerBill(Account account, Bill bill) throws MessagingException, UnsupportedEncodingException;
 }
