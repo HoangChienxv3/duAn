@@ -12,4 +12,6 @@ public interface MailService {
     void sendCancelBill(Account account, Bill bill) throws MessagingException, UnsupportedEncodingException;
 
     void sendCreateManagerBill(Account account, Bill bill) throws MessagingException, UnsupportedEncodingException;
+
+    void sendConfirmManagerBill(Account account, Bill bill) throws MessagingException, UnsupportedEncodingException;
 }
