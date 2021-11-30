@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @CrossOrigin("*")
-@RequestMapping("/Customer/history")
+@RequestMapping("/Customer/HistoryManagerController")
 public class HistoryManagerController extends BaseController {
     @Autowired
     HistoryService historyService;

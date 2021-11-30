@@ -12,6 +12,7 @@ import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBui
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @RestController
@@ -27,8 +28,8 @@ public class RestUploatImgController {
         String message = "";
         try {
             List<String> fileNames = new ArrayList<>();
-
             Arrays.asList(files).stream().forEach(file -> {
+                UUID uuid = UUID.randomUUID();
                 storageService.save(file);
                 fileNames.add(file.getOriginalFilename());
             });
