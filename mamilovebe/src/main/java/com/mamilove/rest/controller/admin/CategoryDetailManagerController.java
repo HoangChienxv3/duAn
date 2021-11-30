@@ -83,7 +83,7 @@ public class CategoryDetailManagerController {
     }
 
     @PostMapping("/updateInline")
-    public ResponseEntity<?> updateInline(String createdItems,
+    public ResponseEntity<?> updateInline(@RequestParam(required = false, value = "createdItems") String createdItems,
                                           @RequestParam(required = false, value = "updatedItems") String updatedItems,
                                           @RequestParam(required = false, value = "deletedItems") String deletedItems) throws IOException {
         try {
