@@ -83,12 +83,12 @@ public class BillManagerControler {
     @PostMapping("/updateInline")
     public ResponseEntity<?> updateInline(String createdItems,
                                           @RequestParam(required = false, value = "updatedItems") String updatedItems,
-                                          @RequestParam(required = false, value = "deletedItems") String deletedItems) throws IOException {
+                                          @RequestParam(required = false, value = "deletedItems") String deletedItems) {
         try {
             ObjectMapper json = new ObjectMapper();
-            List<Bill> created = new ArrayList<>();
-            List<Bill> updated = new ArrayList<>();
-            List<Bill> deleted = new ArrayList<>();
+            List<Bill> created;
+            List<Bill> updated;
+            List<Bill> deleted;
 
             created = Arrays.asList(json.readValue(createdItems, Bill[].class));
             updated = Arrays.asList(json.readValue(updatedItems, Bill[].class));
