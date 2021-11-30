@@ -12,6 +12,7 @@ import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBui
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @RestController
@@ -27,15 +28,16 @@ public class RestUploatImgController {
         String message = "";
         try {
             List<String> fileNames = new ArrayList<>();
-
             Arrays.asList(files).stream().forEach(file -> {
+                UUID uuid = UUID.randomUUID();
                 storageService.save(file);
                 fileNames.add(file.getOriginalFilename());
             });
 
             message = "Tải các tệp ảnh thành công: " + fileNames;
-            //sử lý khi thêm ảnh thành công thêm ảnh vào đb + fileNames; Lấy tên ảnh từ mutipart sau khi thêm theo dạng list
-
+            //sử lý khi thêm ảnh thành công thêm ảnh vào đb + fileNames;
+            // Lấy tên ảnh từ mutipart sau khi thêm theo dạng list
+            // file name là tên ảnh
             return ResponseEntity.status(HttpStatus.OK).body(new ResponeMess(message));
         } catch (Exception e) {
             message = "Tải các tệp ảnh không thành công!";
@@ -65,4 +67,10 @@ public class RestUploatImgController {
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\"").body(file);
     }
+    //Hiện thị ảnh từ mutipath lên trên localhost
+    @GetMapping("/get/{fileName}")
+    public ResponseEntity get(@PathVariable("fileName") String fileName) {
+        return storageService.get(fileName);
+    }
+
 }
