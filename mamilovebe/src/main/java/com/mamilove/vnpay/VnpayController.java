@@ -6,7 +6,7 @@ import com.mamilove.entity.Customer;
 import com.mamilove.entity.History;
 import com.mamilove.entity.Mamipay;
 import com.mamilove.request.dto.PaymenDto;
-import com.mamilove.request.dto.Res;
+import com.mamilove.response.dto.Res;
 import com.mamilove.response.dto.VnpayDto;
 import com.mamilove.service.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;

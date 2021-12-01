@@ -6,7 +6,7 @@ import com.mamilove.dao.AccountDao;
 import com.mamilove.entity.*;
 import com.mamilove.dao.QuantityDao;
 import com.mamilove.request.dto.BillDto;
-import com.mamilove.request.dto.Res;
+import com.mamilove.response.dto.Res;
 import com.mamilove.request.dto.UpdateBillCutomer;
 import com.mamilove.vnpay.MamipayServiceImpl;
 import com.mamilove.service.service.BillService;

@@ -1,4 +1,4 @@
-package com.mamilove.request.dto;
+package com.mamilove.response.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
