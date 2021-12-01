@@ -1,7 +1,7 @@
 package com.mamilove.controllers;
 
 import com.mamilove.entity.Account;
-import com.mamilove.request.dto.Res;
+import com.mamilove.response.dto.Res;
 import com.mamilove.service.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

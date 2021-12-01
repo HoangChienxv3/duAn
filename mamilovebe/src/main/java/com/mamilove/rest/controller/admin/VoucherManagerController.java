@@ -2,7 +2,7 @@ package com.mamilove.rest.controller.admin;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mamilove.entity.Voucher;
-import com.mamilove.request.dto.Res;
+import com.mamilove.response.dto.Res;
 import com.mamilove.request.dto.VoucherRequest;
 import com.mamilove.service.service.VoucherService;
 import org.springframework.beans.factory.annotation.Autowired;

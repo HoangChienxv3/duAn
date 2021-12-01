@@ -3,8 +3,7 @@ package com.mamilove.rest.controller.admin;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mamilove.dao.BillDao;
 import com.mamilove.entity.Bill;
-import com.mamilove.entity.Voucher;
-import com.mamilove.request.dto.Res;
+import com.mamilove.response.dto.Res;
 import com.mamilove.request.dto.ShipingRequest;
 import com.mamilove.service.service.BillService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +11,6 @@ import org.springframework.http.ResponseEntity;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
