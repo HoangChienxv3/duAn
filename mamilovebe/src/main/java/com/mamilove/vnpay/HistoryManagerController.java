@@ -2,7 +2,7 @@ package com.mamilove.vnpay;
 
 import com.mamilove.controllers.BaseController;
 import com.mamilove.entity.Customer;
-import com.mamilove.request.dto.Res;
+import com.mamilove.response.dto.Res;
 import com.mamilove.service.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

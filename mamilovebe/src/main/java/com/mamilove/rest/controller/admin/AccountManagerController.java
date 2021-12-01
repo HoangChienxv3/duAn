@@ -3,26 +3,18 @@ package com.mamilove.rest.controller.admin;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mamilove.dao.AccountDao;
 import com.mamilove.entity.Account;
-import com.mamilove.entity.Authority;
-import com.mamilove.entity.Categorydetail;
-import com.mamilove.entity.Role;
-import com.mamilove.request.dto.Res;
+import com.mamilove.response.dto.Res;
 import com.mamilove.service.service.AccountService;
 
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @CrossOrigin("http://localhost:4200/")
 @RestController

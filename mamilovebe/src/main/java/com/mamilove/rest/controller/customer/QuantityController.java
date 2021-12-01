@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.mamilove.entity.Product;
 import com.mamilove.entity.Quantity;
-import com.mamilove.request.dto.Res;
+import com.mamilove.response.dto.Res;
 import com.mamilove.service.service.ProductService;
 import com.mamilove.service.service.QuantityService;
 

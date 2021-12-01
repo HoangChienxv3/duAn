@@ -1,7 +1,7 @@
 package com.mamilove.rest.controller.customer;
 
 import com.mamilove.controllers.BaseController;
-import com.mamilove.request.dto.Res;
+import com.mamilove.response.dto.Res;
 import com.mamilove.vnpay.MamiPayService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
