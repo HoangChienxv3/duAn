@@ -172,7 +172,7 @@ public class BillServiceImpl extends BaseController implements BillService {
         history.setSurplus(mamipay.getSurplus());
         history.setDescription("Thanh toán hóa đơn mã " + bill.getId());
         history.setContent("Thanh toán hóa đơn");
-        history.setTrading_code(0l);
+        history.setTrading_code(0L);
         history.setTime(new Date());
 
         historyDao.save(history);
@@ -201,6 +201,7 @@ public class BillServiceImpl extends BaseController implements BillService {
     }
 
     @Override
+    @Transactional
     public Bill cancelBill(String idbill) throws MessagingException, UnsupportedEncodingException {
         Bill bill = billDao.findById(idbill).orElseThrow(() -> {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Không tìm thấy đơn hàng");
@@ -229,20 +230,21 @@ public class BillServiceImpl extends BaseController implements BillService {
         return billDao.save(bill);
     }
 
-    public void refundPayBill(Mamipay mamipay, Bill bill){
+    public void refundPayBill(Mamipay mamipay, Bill bill) {
         History history = new History();
         history.setAmounts(bill.getTotal());
         history.setStatus(true);
         history.setSurplus(mamipay.getSurplus());
         history.setDescription("Hoàn tiền hóa đơn mã " + bill.getId());
         history.setContent("Hoàn tiền hóa đơn");
-        history.setTrading_code(0l);
+        history.setTrading_code(0L);
         history.setTime(new Date());
 
         historyDao.save(history);
     }
 
     @Override
+    @Transactional
     public Bill cancelBillManager(String idbill) throws MessagingException, UnsupportedEncodingException {
         Bill bill = billDao.findById(idbill).orElseThrow(() -> {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Không tìm thấy đơn hàng");
@@ -261,6 +263,7 @@ public class BillServiceImpl extends BaseController implements BillService {
             Mamipay mamipay = mamipayService.ByCustomer(customer.getId());
             mamipay.setSurplus(mamipay.getSurplus() + bill.getTotal());
             mamiPayDao.save(mamipay);
+            refundPayBill(mamipay, bill);
         }
         if (customer.getAccount().getEmail() != null) {
             mailService.sendCreateManagerBill(customer.getAccount(), bill);
