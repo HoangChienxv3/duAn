@@ -75,7 +75,7 @@ public class BillServiceImpl extends BaseController implements BillService {
 
     @Override
     public List<Bill> BillByCustomer(Long id) {
-        return billDao.BillByCustomer(id);
+        return billDao.findAllByIdCustomer(id);
     }
 
     @Override
