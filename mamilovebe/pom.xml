@@ -97,6 +97,22 @@
             <artifactId>jsoup</artifactId>
             <version>1.14.3</version>
         </dependency>
+        <!--time 4j-->
+        <dependency>
+            <groupId>net.time4j</groupId>
+            <artifactId>time4j-base</artifactId>
+            <version>5.8</version>
+        </dependency>
+        <dependency>
+            <groupId>net.time4j</groupId>
+            <artifactId>time4j-sqlxml</artifactId>
+            <version>5.8</version>
+        </dependency>
+        <dependency>
+            <groupId>net.time4j</groupId>
+            <artifactId>time4j-tzdata</artifactId>
+            <version>5.0-2020a</version>
+        </dependency>
     </dependencies>
 
     <build>
