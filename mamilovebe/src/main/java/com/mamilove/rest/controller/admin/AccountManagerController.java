@@ -11,8 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -42,13 +40,13 @@ public class AccountManagerController {
 
     @PostMapping(value = "/updateInline")
     public ResponseEntity<?> updateInline(@RequestParam(required = false, value = "createdItems") String createdItems,
-            							 @RequestParam(required = false, value = "updatedItems") String updatedItems,
-            							 @RequestParam(required = false, value = "deletedItems") String deletedItems) throws IOException {
-    	try {
+                                          @RequestParam(required = false, value = "updatedItems") String updatedItems,
+                                          @RequestParam(required = false, value = "deletedItems") String deletedItems) {
+        try {
             ObjectMapper json = new ObjectMapper();
-            List<Account> created = new ArrayList<>();
-            List<Account> updated = new ArrayList<>();
-            List<Account> deleted = new ArrayList<>();
+            List<Account> created;
+            List<Account> updated;
+            List<Account> deleted;
 
             created = Arrays.asList(json.readValue(createdItems, Account[].class));
             updated = Arrays.asList(json.readValue(updatedItems, Account[].class));
@@ -56,14 +54,14 @@ public class AccountManagerController {
 
             if (created.size() > 0) {
                 for (Account entity : created) {
-                	entity.setPassword(encoder.encode(entity.getPassword()));
+                    entity.setPassword(encoder.encode(entity.getPassword()));
                     entity.setIsDelete(false);
                 }
                 accountDAO.saveAll(created);
             }
             if (updated.size() > 0) {
                 for (Account entity : updated) {
-                	entity.setPassword(encoder.encode(entity.getPassword()));
+                    entity.setPassword(encoder.encode(entity.getPassword()));
                     entity.setIsDelete(false);
                 }
                 accountDAO.saveAll(updated);

@@ -17,12 +17,10 @@ public class Image implements Serializable {
 
     private String name;
 
-    private String url;
-
     @Column(name = "isDelete")
     private Boolean isDelete = false;
     @ManyToOne
-    @JoinColumn(name = "idproduct", updatable = false, insertable = false)
+    @JoinColumn(name = "idproduct")
     private Product product;
 
     @Column(name = "")
