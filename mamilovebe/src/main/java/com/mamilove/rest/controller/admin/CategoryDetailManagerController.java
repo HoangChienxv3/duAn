@@ -7,15 +7,13 @@ import java.util.List;
 import java.util.Optional;
 
 import com.mamilove.request.dto.CategoryDetailResquest;
-import com.mamilove.request.dto.CategoryRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mamilove.entity.Category;
 import com.mamilove.entity.Categorydetail;
-import com.mamilove.request.dto.Res;
+import com.mamilove.response.dto.Res;
 import com.mamilove.service.service.CategoryDetailService;
 
 @RestController

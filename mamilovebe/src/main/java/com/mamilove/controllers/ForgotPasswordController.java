@@ -3,17 +3,15 @@ package com.mamilove.controllers;
 import com.mamilove.dao.AccountDao;
 import com.mamilove.entity.Account;
 import com.mamilove.request.dto.ForgotPasswordRequest;
-import com.mamilove.request.dto.Res;
+import com.mamilove.response.dto.Res;
 import com.mamilove.service.service.ForgotPasswordServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.mail.MessagingException;
 import java.io.UnsupportedEncodingException;
-import java.util.Date;
 
 @CrossOrigin(origins = "http://localhost:4200/")
 @RestController

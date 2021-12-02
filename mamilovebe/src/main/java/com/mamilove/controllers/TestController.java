@@ -1,8 +1,7 @@
 package com.mamilove.controllers;
 
 import com.mamilove.dao.CustomerDao;
-import com.mamilove.request.dto.Res;
-import com.mamilove.userdetails.service.UserDetailsImpl;
+import com.mamilove.response.dto.Res;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;

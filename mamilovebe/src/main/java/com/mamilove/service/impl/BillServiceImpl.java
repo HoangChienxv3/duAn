@@ -29,6 +29,7 @@ import javax.mail.MessagingException;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -64,6 +65,9 @@ public class BillServiceImpl extends BaseController implements BillService {
     @Autowired
     QuantityDao quantityDao;
 
+    @Autowired
+    HistoryDao historyDao;
+
     public BillServiceImpl(BillDao billDao, OrderDetailDao orderDetailDao) {
         this.billDao = billDao;
         this.orderDetailDao = orderDetailDao;
@@ -71,7 +75,7 @@ public class BillServiceImpl extends BaseController implements BillService {
 
     @Override
     public List<Bill> BillByCustomer(Long id) {
-        return billDao.BillByCustomer(id);
+        return billDao.findAllByIdCustomer(id);
     }
 
     @Override
@@ -151,6 +155,7 @@ public class BillServiceImpl extends BaseController implements BillService {
             }
             mamipay.setSurplus(mamipay.getSurplus() - billDto.getTotal());
             mamiPayDao.save(mamipay);
+            createPayBill(mamipay, bill);
         }
         billDao.save(bill);
         orderDetailDao.saveAll(orderdetails);
@@ -158,6 +163,19 @@ public class BillServiceImpl extends BaseController implements BillService {
             mailService.sendCreateBill(customer.getAccount(), bill);
         }
         return bill;
+    }
+
+    public void createPayBill(Mamipay mamipay, Bill bill) {
+        History history = new History();
+        history.setAmounts(bill.getTotal());
+        history.setStatus(true);
+        history.setSurplus(mamipay.getSurplus());
+        history.setDescription("Thanh toán hóa đơn mã " + bill.getId());
+        history.setContent("Thanh toán hóa đơn");
+        history.setTrading_code(0L);
+        history.setTime(new Date());
+
+        historyDao.save(history);
     }
 
     @Override
@@ -183,6 +201,7 @@ public class BillServiceImpl extends BaseController implements BillService {
     }
 
     @Override
+    @Transactional
     public Bill cancelBill(String idbill) throws MessagingException, UnsupportedEncodingException {
         Bill bill = billDao.findById(idbill).orElseThrow(() -> {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Không tìm thấy đơn hàng");
@@ -203,6 +222,7 @@ public class BillServiceImpl extends BaseController implements BillService {
             Mamipay mamipay = mamipayService.ByCustomer(customer.getId());
             mamipay.setSurplus(mamipay.getSurplus() + bill.getTotal());
             mamiPayDao.save(mamipay);
+            refundPayBill(mamipay, bill);
         }
         if (customer.getAccount().getEmail() != null) {
             mailService.sendCancelBill(customer.getAccount(), bill);
@@ -210,7 +230,21 @@ public class BillServiceImpl extends BaseController implements BillService {
         return billDao.save(bill);
     }
 
+    public void refundPayBill(Mamipay mamipay, Bill bill) {
+        History history = new History();
+        history.setAmounts(bill.getTotal());
+        history.setStatus(true);
+        history.setSurplus(mamipay.getSurplus());
+        history.setDescription("Hoàn tiền hóa đơn mã " + bill.getId());
+        history.setContent("Hoàn tiền hóa đơn");
+        history.setTrading_code(0L);
+        history.setTime(new Date());
+
+        historyDao.save(history);
+    }
+
     @Override
+    @Transactional
     public Bill cancelBillManager(String idbill) throws MessagingException, UnsupportedEncodingException {
         Bill bill = billDao.findById(idbill).orElseThrow(() -> {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Không tìm thấy đơn hàng");
@@ -229,6 +263,7 @@ public class BillServiceImpl extends BaseController implements BillService {
             Mamipay mamipay = mamipayService.ByCustomer(customer.getId());
             mamipay.setSurplus(mamipay.getSurplus() + bill.getTotal());
             mamiPayDao.save(mamipay);
+            refundPayBill(mamipay, bill);
         }
         if (customer.getAccount().getEmail() != null) {
             mailService.sendCreateManagerBill(customer.getAccount(), bill);
