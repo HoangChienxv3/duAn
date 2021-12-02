@@ -8,14 +8,11 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 import javax.servlet.ServletContext;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.query.Param;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -33,7 +30,7 @@ import com.mamilove.entity.Categorydetail;
 import com.mamilove.entity.Product;
 import com.mamilove.entity.Size;
 import com.mamilove.request.dto.JwtResponse;
-import com.mamilove.request.dto.Res;
+import com.mamilove.response.dto.Res;
 import com.mamilove.service.service.CategoryDetailService;
 import com.mamilove.service.service.ImageService;
 import com.mamilove.service.service.ProductService;

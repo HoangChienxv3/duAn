@@ -1,7 +1,7 @@
 package com.mamilove.rest.controller.admin;
 
 import com.mamilove.dao.RoleDao;
-import com.mamilove.request.dto.Res;
+import com.mamilove.response.dto.Res;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

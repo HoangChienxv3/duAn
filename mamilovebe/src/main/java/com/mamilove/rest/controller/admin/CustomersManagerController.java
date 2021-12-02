@@ -3,7 +3,7 @@ package com.mamilove.rest.controller.admin;
 import com.mamilove.entity.Account;
 import com.mamilove.entity.Customer;
 import com.mamilove.request.dto.CustomerDto;
-import com.mamilove.request.dto.Res;
+import com.mamilove.response.dto.Res;
 import com.mamilove.service.service.AccountService;
 import com.mamilove.service.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
