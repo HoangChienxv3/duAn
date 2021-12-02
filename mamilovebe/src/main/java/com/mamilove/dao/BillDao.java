@@ -20,5 +20,5 @@ public interface BillDao extends JpaRepository<Bill, String> {
             " b.createAt >= ?1 and b.createAt <= ?2 order by b.createAt desc ")
     List<Bill> findAllByStarAndEnd(Date star, Date end);
 
-    List<Bill> findAllByYear(String year);
+//    List<Bill> findAllByYear(String year);
 }
