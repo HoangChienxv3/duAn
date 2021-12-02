@@ -1,28 +1,44 @@
-package com.mamilove.uploadimg;
+
+       package com.mamilove.uploadimg;
 
 
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.UrlResource;
-import org.springframework.stereotype.Service;
-import org.springframework.util.FileSystemUtils;
-import org.springframework.web.multipart.MultipartFile;
+        import com.mamilove.dao.ImageDao;
+        import com.mamilove.entity.Account;
+        import com.mamilove.entity.Bill;
+        import com.mamilove.entity.Image;
+        import org.springframework.beans.factory.annotation.Autowired;
+        import org.springframework.core.io.Resource;
+        import org.springframework.core.io.UrlResource;
+        import org.springframework.http.HttpStatus;
+        import org.springframework.http.MediaType;
+        import org.springframework.http.MediaTypeFactory;
+        import org.springframework.http.ResponseEntity;
+        import org.springframework.stereotype.Service;
+        import org.springframework.util.FileSystemUtils;
+        import org.springframework.web.multipart.MultipartFile;
+        import org.springframework.web.server.ResponseStatusException;
 
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.stream.Stream;
+        import java.io.IOException;
+        import java.net.MalformedURLException;
+        import java.nio.file.Files;
+        import java.nio.file.Path;
+        import java.nio.file.Paths;
+        import java.util.List;
+        import java.util.stream.Stream;
 
 @Service
 public class FilesServiceImpl implements FilesSerivce {
+     @Autowired
+     ImageDao imgDao;
 
     private final Path root = Paths.get("severImg");
 
     @Override
     public void init() {
         try {
+
             Files.createDirectory(root);
+
         } catch (IOException e) {
             throw new RuntimeException("Không thể khởi tạo thư mục để tải ảnh lên!");
         }
@@ -54,10 +70,41 @@ public class FilesServiceImpl implements FilesSerivce {
     }
 
     @Override
+    public ResponseEntity get(String fileName) {
+        Path path = root.resolve(fileName).normalize();
+        try {
+            Resource resource = new UrlResource(path.toUri());
+            if (resource.exists()) {
+                MediaType mediaType = MediaTypeFactory.getMediaType(fileName).get();
+                return ResponseEntity
+                        .ok()
+                        .contentType(mediaType)
+                        .body(resource);
+            }
+        } catch (MalformedURLException e) {
+        }
+        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Lỗi");
+    }
+
+    @Override
     public void deleteAll() {
+
         FileSystemUtils.deleteRecursively(root.toFile());
     }
 
+    @Override
+    public Image  saveDt( Image img) {
+        return imgDao.save(img);
+    }
+
+    @Override
+    public List<Image> ListImagesByProduct(Long idProduct) {
+        return imgDao.ListImagesByProduct(idProduct);
+    }
+    @Override
+    public List<Image> findAll(){
+        return  imgDao.findAll();
+    }
     @Override
     public Stream<Path> loadAll() {
         try {
