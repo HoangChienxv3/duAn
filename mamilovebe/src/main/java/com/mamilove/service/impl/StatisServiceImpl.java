@@ -75,7 +75,7 @@ public class StatisServiceImpl implements StatisService {
         return everyDayResponses;
     }
 
-    public List<EveryDayResponse> revenueEveryMonthOfTheYear(Integer year) {
+    public List<Bill> getEveryMonthOfTheYear(Integer year) {
 
         return null;
     }

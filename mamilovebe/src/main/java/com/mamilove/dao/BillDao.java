@@ -11,13 +11,14 @@ import java.util.Date;
 import java.util.List;
 
 public interface BillDao extends JpaRepository<Bill, String> {
-    @Query("SELECT b FROM Bill b WHERE b.idCustomer =?1")
-    List<Bill> BillByCustomer(Long id);
+
+    List<Bill> findAllByIdCustomer(Long id);
 
     List<Bill> findAllByIdCustomerOrderByCreateAtDesc(Long id);
 
     @Query("select b from Bill b where " +
-            " b.createAt >= ?1 and b.createAt <= ?2 order by b.createAt desc " +
-            " ")
+            " b.createAt >= ?1 and b.createAt <= ?2 order by b.createAt desc ")
     List<Bill> findAllByStarAndEnd(Date star, Date end);
+
+    List<Bill> findAllByYear(String year);
 }

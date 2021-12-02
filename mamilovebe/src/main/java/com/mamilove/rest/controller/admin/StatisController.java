@@ -14,10 +14,15 @@ public class StatisController {
     @Autowired
     StatisServiceImpl statisService;
 
-    @GetMapping("/test")
+    @GetMapping("/getEveryDayOfTheMonth")
     public ResponseEntity<Res> getEveryDayOfTheMonth(@RequestParam(value = "year", required = false) Integer year,
                                           @RequestParam(value = "month",required = false)Integer month) {
         return ResponseEntity.ok(new Res(statisService.revenueEveryDayOfTheMonth(year, month), "Thành công", true));
+    }
+
+    @GetMapping("/getEveryMonthOfTheYear")
+    public ResponseEntity<Res> getEveryDayOfTheMonth(@RequestParam(value = "year", required = false) Integer year) {
+        return ResponseEntity.ok(new Res(statisService.getEveryMonthOfTheYear(year), "Thành công", true));
     }
 
 }
