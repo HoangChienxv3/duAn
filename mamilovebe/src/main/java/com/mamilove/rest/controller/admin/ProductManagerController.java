@@ -2,6 +2,11 @@ package com.mamilove.rest.controller.admin;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
@@ -16,10 +21,16 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.mamilove.entity.Categorydetail;
 import com.mamilove.entity.Product;
+import com.mamilove.entity.Size;
+import com.mamilove.request.dto.JwtResponse;
+
 import com.mamilove.response.dto.Res;
 import com.mamilove.service.service.CategoryDetailService;
 import com.mamilove.service.service.ImageService;
@@ -29,6 +40,7 @@ import com.mamilove.service.service.ProductService;
 @CrossOrigin("http://localhost:4200/")
 @RequestMapping("/Manager/ProductManagerController")
 public class ProductManagerController {
+    private final Path root = Paths.get("severImg");
     public String upload;
     @Autowired
     ServletContext application;
@@ -51,29 +63,18 @@ public class ProductManagerController {
         return ResponseEntity.ok(new Res(entity, "Success", true));
     }
 
-    @PostMapping(value = "/uploads", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<?> uploads(@RequestBody MultipartFile file) throws IllegalStateException, IOException {
+    @PostMapping("/saveAndFlush")
+    public ResponseEntity<?> saveAndFlush(@RequestParam(required = false, value = "files") MultipartFile file,
+    									@RequestParam(required = false, value = "Product") String data) {
         try {
+            ObjectMapper json = new ObjectMapper();
+            Product product = json.readValue(data, Product.class);
             if (!file.isEmpty()) {
                 String filename = file.getOriginalFilename();
                 UUID uuid = UUID.randomUUID();
                 filename = uuid.toString() + ".jpg";
-                File file_upload = new File(application.getRealPath("/image/" + filename));
-                file.transferTo(file_upload);
-                upload = filename;
-            }
-            return ResponseEntity.ok(new Res("Save success", true));
-        } catch (Exception e) {
-            // TODO: handle exception
-            return ResponseEntity.ok(new Res("Save success", true));
-        }
-    }
-
-    @PostMapping("/saveAndFlush")
-    public ResponseEntity<?> saveAndFlush(@RequestBody Product product) {
-        try {
-            if (upload != null) {
-                product.setImage(upload);
+                Files.copy(file.getInputStream(), this.root.resolve(filename));
+                product.setImage(filename);
             }
             product.setIsDelete(false);
             Product entity = productService.saveAndFlush(product);
