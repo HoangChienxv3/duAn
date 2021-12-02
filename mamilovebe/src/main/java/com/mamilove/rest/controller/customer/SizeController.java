@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.mamilove.entity.Size;
 import com.mamilove.entity.Typesize;
-import com.mamilove.request.dto.Res;
+import com.mamilove.response.dto.Res;
 import com.mamilove.service.service.SizeService;
 import com.mamilove.service.service.TypeSizeService;
 

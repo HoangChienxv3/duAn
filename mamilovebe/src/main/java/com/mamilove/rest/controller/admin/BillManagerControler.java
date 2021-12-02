@@ -3,8 +3,7 @@ package com.mamilove.rest.controller.admin;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mamilove.dao.BillDao;
 import com.mamilove.entity.Bill;
-import com.mamilove.entity.Voucher;
-import com.mamilove.request.dto.Res;
+import com.mamilove.response.dto.Res;
 import com.mamilove.request.dto.ShipingRequest;
 import com.mamilove.service.service.BillService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +11,6 @@ import org.springframework.http.ResponseEntity;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -50,7 +48,7 @@ public class BillManagerControler {
     }
 
     @GetMapping("/confirm/{idbill}")
-    public ResponseEntity<Res> confirmBill(@PathVariable("idbill") String idbill) {
+    public ResponseEntity<Res> confirmBill(@PathVariable("idbill") String idbill) throws MessagingException, UnsupportedEncodingException {
         return ResponseEntity.ok(new Res(billService.confirmBillManager(idbill), "Save success", true));
     }
 
@@ -83,12 +81,12 @@ public class BillManagerControler {
     @PostMapping("/updateInline")
     public ResponseEntity<?> updateInline(String createdItems,
                                           @RequestParam(required = false, value = "updatedItems") String updatedItems,
-                                          @RequestParam(required = false, value = "deletedItems") String deletedItems) throws IOException {
+                                          @RequestParam(required = false, value = "deletedItems") String deletedItems) {
         try {
             ObjectMapper json = new ObjectMapper();
-            List<Bill> created = new ArrayList<>();
-            List<Bill> updated = new ArrayList<>();
-            List<Bill> deleted = new ArrayList<>();
+            List<Bill> created;
+            List<Bill> updated;
+            List<Bill> deleted;
 
             created = Arrays.asList(json.readValue(createdItems, Bill[].class));
             updated = Arrays.asList(json.readValue(updatedItems, Bill[].class));

@@ -1,35 +1,34 @@
+package com.mamilove.uploadimg;
 
-       package com.mamilove.uploadimg;
 
+import com.mamilove.dao.ImageDao;
+import com.mamilove.entity.Account;
+import com.mamilove.entity.Bill;
+import com.mamilove.entity.Image;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.MediaTypeFactory;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+import org.springframework.util.FileSystemUtils;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.server.ResponseStatusException;
 
-        import com.mamilove.dao.ImageDao;
-        import com.mamilove.entity.Account;
-        import com.mamilove.entity.Bill;
-        import com.mamilove.entity.Image;
-        import org.springframework.beans.factory.annotation.Autowired;
-        import org.springframework.core.io.Resource;
-        import org.springframework.core.io.UrlResource;
-        import org.springframework.http.HttpStatus;
-        import org.springframework.http.MediaType;
-        import org.springframework.http.MediaTypeFactory;
-        import org.springframework.http.ResponseEntity;
-        import org.springframework.stereotype.Service;
-        import org.springframework.util.FileSystemUtils;
-        import org.springframework.web.multipart.MultipartFile;
-        import org.springframework.web.server.ResponseStatusException;
-
-        import java.io.IOException;
-        import java.net.MalformedURLException;
-        import java.nio.file.Files;
-        import java.nio.file.Path;
-        import java.nio.file.Paths;
-        import java.util.List;
-        import java.util.stream.Stream;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.List;
+import java.util.stream.Stream;
 
 @Service
 public class FilesServiceImpl implements FilesSerivce {
-     @Autowired
-     ImageDao imgDao;
+    @Autowired
+    ImageDao imgDao;
 
     private final Path root = Paths.get("severImg");
 
@@ -93,7 +92,7 @@ public class FilesServiceImpl implements FilesSerivce {
     }
 
     @Override
-    public Image  saveDt( Image img) {
+    public Image saveDt(Image img) {
         return imgDao.save(img);
     }
 
@@ -101,10 +100,12 @@ public class FilesServiceImpl implements FilesSerivce {
     public List<Image> ListImagesByProduct(Long idProduct) {
         return imgDao.ListImagesByProduct(idProduct);
     }
+
     @Override
-    public List<Image> findAll(){
-        return  imgDao.findAll();
+    public List<Image> findAll() {
+        return imgDao.findAll();
     }
+
     @Override
     public Stream<Path> loadAll() {
         try {

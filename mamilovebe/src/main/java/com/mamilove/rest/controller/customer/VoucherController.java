@@ -2,12 +2,13 @@ package com.mamilove.rest.controller.customer;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.mamilove.request.dto.Res;
+import com.mamilove.response.dto.Res;
 import com.mamilove.service.service.VoucherService;
 
 @RestController
@@ -18,11 +19,13 @@ public class VoucherController {
     VoucherService voucherService;
 
     @GetMapping("/findAll")
+    @PreAuthorize("hasRole('ROLE_CUSTOMER')")
     public ResponseEntity<?> findAll() {
         return ResponseEntity.ok(new Res(voucherService.findAll(), "", true));
     }
 
     @GetMapping("/findVoucherByAmount")
+    @PreAuthorize("hasRole('ROLE_CUSTOMER')")
     public ResponseEntity<?> findVoucherByAmout() {
         return ResponseEntity.ok(new Res(voucherService.findVoucherByAmount(), "", true));
     }

@@ -29,6 +29,7 @@ import javax.mail.MessagingException;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -64,6 +65,9 @@ public class BillServiceImpl extends BaseController implements BillService {
     @Autowired
     QuantityDao quantityDao;
 
+    @Autowired
+    HistoryDao historyDao;
+
     public BillServiceImpl(BillDao billDao, OrderDetailDao orderDetailDao) {
         this.billDao = billDao;
         this.orderDetailDao = orderDetailDao;
@@ -71,7 +75,7 @@ public class BillServiceImpl extends BaseController implements BillService {
 
     @Override
     public List<Bill> BillByCustomer(Long id) {
-        return billDao.BillByCustomer(id);
+        return billDao.findAllByIdCustomer(id);
     }
 
     @Override
@@ -89,75 +93,52 @@ public class BillServiceImpl extends BaseController implements BillService {
     public Bill create(BillDto billDto) throws MessagingException, UnsupportedEncodingException {
         //tim kiem nguoi dung
         Customer customer = customerDao.findByIdaccount(getAuthUID());
-        //
+
         Bill bill = objectMapper.convertValue(billDto, Bill.class);
         bill.setIdCustomer(customer.getId());
-        //
+
         bill.setId(RandomStringUtils.randomNumeric(8));
         while (billDao.existsById(bill.getId())) {
             bill.setId(RandomStringUtils.randomNumeric(8));
         }
-//        //dánh sách sp có quantiiy
-//        List<Quantity> quantities = new ArrayList<>();
+        //dánh sách sp có quantiiy
         // danh sách chi tiết đơn hàng
         List<Orderdetail> orderdetails = new ArrayList<>();
-        //
+
         List<QuantityRequest> quantityRequests = billDto.getList_quantity();
-
-        if (!billDto.getPayment()) {//không thanh toán qua ví
-
-            for (QuantityRequest qty : quantityRequests) {
-                Quantity quantity = quantityDao.findById(qty.getId_quantity()).
-                        orElseThrow(() -> new RuntimeException("Lỗi thêm sản phẩm"));
-                Product product = objectMapper.convertValue(quantity.getProduct(), Product.class);
-
-                if (quantity.getQuantity() >= qty.getBill_quantity()) {
-                    //tính số lượng còn lại trong kho
-                    quantity.setQuantity(quantity.getQuantity() - qty.getBill_quantity());
-                } else
-                    throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Sản phẩm: " + product.getName() + "! này đã hết số lượng.");
-
-
-                Orderdetail orderdetail = new Orderdetail();
-                orderdetail.setIdquantity(quantity.getId());
-                orderdetail.setQuantitydetail(qty.getBill_quantity());
-                orderdetail.setPrice(product.getPrice());
-                orderdetail.setDownprice(product.getDiscount() != null ? product.getPrice() * (product.getDiscount() / 100) : 0);
-                orderdetail.setIntomoney(product.getPrice() - orderdetail.getDownprice());
-                orderdetail.setIdbill(bill.getId());
-
-                orderdetails.add(orderdetail);
+        for (QuantityRequest qty : quantityRequests) {
+            Quantity quantity = quantityDao.findById(qty.getId_quantity()).
+                    orElseThrow(() -> new RuntimeException("Lỗi thêm sản phẩm"));
+            Product product = objectMapper.convertValue(quantity.getProduct(), Product.class);
+            StringBuilder message = new StringBuilder();
+            if (quantity.getQuantity() < qty.getBill_quantity()) {
+                String er = "Sản phẩm: " + quantity.getProduct().getName()
+                        + " Size: " + quantity.getSize().getName() + "-" + quantity.getProperty().getName()
+                        + " đã hết hàng.";
+                message.append(er).append("\n");
             }
-            //
+            if (message.toString().length() > 0) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, message.toString());
+            }
+            Orderdetail orderdetail = new Orderdetail();
+            orderdetail.setIdquantity(quantity.getId());
+            orderdetail.setQuantitydetail(qty.getBill_quantity());
+            orderdetail.setPrice(product.getPrice());
+            orderdetail.setDownprice(product.getDiscount() != null ? product.getPrice() * (product.getDiscount() / 100) : 0);
+            orderdetail.setIntomoney(product.getPrice() - orderdetail.getDownprice());
+            orderdetail.setIdbill(bill.getId());
+
+            orderdetails.add(orderdetail);
+        }
+        if (!billDto.getPayment()) {
+            //không thanh toán qua ví
             bill.setDiscount(0d);
             bill.setVoucher_id(null);
-        } else {//thanh toan bang vi
-
+        } else {
+            //thanh toan bang vi
             Mamipay mamipay = mamipayService.ByCustomer(customer.getId());
             if (mamipay.getSurplus() < billDto.getTotal()) {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Số dư ví phải lớn hơn hoặc bằng: " + billDto.getTotal());
-            }
-            for (QuantityRequest qty : quantityRequests) {
-                Quantity quantity = quantityDao.findById(qty.getId_quantity()).
-                        orElseThrow(() -> new RuntimeException("Lỗi thêm sản phẩm"));
-
-                Product product = objectMapper.convertValue(quantity.getProduct(), Product.class);
-
-                if (quantity.getQuantity() >= qty.getBill_quantity()) {
-                    //tính số lượng còn lại trong kho
-                    quantity.setQuantity(quantity.getQuantity() - qty.getBill_quantity());
-                } else
-                    throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Sản phẩm: " + product.getName() + "! này đã hết số lượng.");
-
-                Orderdetail orderdetail = new Orderdetail();
-                orderdetail.setIdquantity(quantity.getId());
-                orderdetail.setQuantitydetail(qty.getBill_quantity());
-                orderdetail.setPrice(product.getPrice());
-                orderdetail.setDownprice(product.getPrice() * (product.getDiscount() / 100));
-                orderdetail.setIntomoney(product.getPrice() - orderdetail.getDownprice());
-                orderdetail.setIdbill(bill.getId());
-
-                orderdetails.add(orderdetail);
             }
             Voucher voucher;
             if (billDto.getVoucher_id() != null) {
@@ -165,7 +146,7 @@ public class BillServiceImpl extends BaseController implements BillService {
                     throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Không tìm thấy voucher");
                 });
                 if (voucher.getAmount() <= 0) {
-                    throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "VOucher đã hết");
+                    throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Voucher đã hết");
                 }
                 bill.setDiscount(voucher.getDiscount());
                 bill.setVoucher_id(voucher.getId());
@@ -174,7 +155,7 @@ public class BillServiceImpl extends BaseController implements BillService {
             }
             mamipay.setSurplus(mamipay.getSurplus() - billDto.getTotal());
             mamiPayDao.save(mamipay);
-
+            createPayBill(mamipay, bill);
         }
         billDao.save(bill);
         orderDetailDao.saveAll(orderdetails);
@@ -182,6 +163,19 @@ public class BillServiceImpl extends BaseController implements BillService {
             mailService.sendCreateBill(customer.getAccount(), bill);
         }
         return bill;
+    }
+
+    public void createPayBill(Mamipay mamipay, Bill bill) {
+        History history = new History();
+        history.setAmounts(bill.getTotal());
+        history.setStatus(true);
+        history.setSurplus(mamipay.getSurplus());
+        history.setDescription("Thanh toán hóa đơn mã " + bill.getId());
+        history.setContent("Thanh toán hóa đơn");
+        history.setTrading_code(0L);
+        history.setTime(new Date());
+
+        historyDao.save(history);
     }
 
     @Override
@@ -207,6 +201,7 @@ public class BillServiceImpl extends BaseController implements BillService {
     }
 
     @Override
+    @Transactional
     public Bill cancelBill(String idbill) throws MessagingException, UnsupportedEncodingException {
         Bill bill = billDao.findById(idbill).orElseThrow(() -> {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Không tìm thấy đơn hàng");
@@ -227,6 +222,7 @@ public class BillServiceImpl extends BaseController implements BillService {
             Mamipay mamipay = mamipayService.ByCustomer(customer.getId());
             mamipay.setSurplus(mamipay.getSurplus() + bill.getTotal());
             mamiPayDao.save(mamipay);
+            refundPayBill(mamipay, bill);
         }
         if (customer.getAccount().getEmail() != null) {
             mailService.sendCancelBill(customer.getAccount(), bill);
@@ -234,7 +230,21 @@ public class BillServiceImpl extends BaseController implements BillService {
         return billDao.save(bill);
     }
 
+    public void refundPayBill(Mamipay mamipay, Bill bill) {
+        History history = new History();
+        history.setAmounts(bill.getTotal());
+        history.setStatus(true);
+        history.setSurplus(mamipay.getSurplus());
+        history.setDescription("Hoàn tiền hóa đơn mã " + bill.getId());
+        history.setContent("Hoàn tiền hóa đơn");
+        history.setTrading_code(0L);
+        history.setTime(new Date());
+
+        historyDao.save(history);
+    }
+
     @Override
+    @Transactional
     public Bill cancelBillManager(String idbill) throws MessagingException, UnsupportedEncodingException {
         Bill bill = billDao.findById(idbill).orElseThrow(() -> {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Không tìm thấy đơn hàng");
@@ -253,6 +263,7 @@ public class BillServiceImpl extends BaseController implements BillService {
             Mamipay mamipay = mamipayService.ByCustomer(customer.getId());
             mamipay.setSurplus(mamipay.getSurplus() + bill.getTotal());
             mamiPayDao.save(mamipay);
+            refundPayBill(mamipay, bill);
         }
         if (customer.getAccount().getEmail() != null) {
             mailService.sendCreateManagerBill(customer.getAccount(), bill);
@@ -261,7 +272,7 @@ public class BillServiceImpl extends BaseController implements BillService {
     }
 
     @Override
-    public Bill confirmBillManager(String idbill) {
+    public Bill confirmBillManager(String idbill) throws MessagingException, UnsupportedEncodingException {
         Bill bill = billDao.findById(idbill).orElseThrow(() -> {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Không tìm thấy đơn hàng");
         });
@@ -271,24 +282,27 @@ public class BillServiceImpl extends BaseController implements BillService {
         } else {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Không thể xác nhận đơn");
         }
-        //hoàn số lượng về kho nếu không thanh toán qua ví
+        //hoàn số lượng về kho
         List<Quantity> quantities = new ArrayList<>();
-        if (!bill.getPayment()) {
-            List<Orderdetail> orderdetails = bill.getOrderdetails();
-            orderdetails.forEach(orderdetail -> {
-                Quantity quantity = orderdetail.getQuantity();
-                if (quantity.getQuantity() < orderdetail.getQuantitydetail()) {
-                    String er = "Sản phẩm: " + quantity.getProduct().getName()
-                            + " Size: " + quantity.getSize().getName() + "-" + quantity.getProperty().getName()
-                            + " đã hết hàng.";
-                    throw new ResponseStatusException(HttpStatus.BAD_REQUEST, er);
-                }
-                quantity.setQuantity(quantity.getQuantity() - orderdetail.getQuantitydetail());
-                quantities.add(quantity);
-            });
-
-            quantityDao.saveAll(quantities);
-
+        StringBuilder message = new StringBuilder();
+        List<Orderdetail> orderdetails = bill.getOrderdetails();
+        for (Orderdetail orderdetail : orderdetails) {
+            Quantity quantity = orderdetail.getQuantity();
+            if (quantity.getQuantity() < orderdetail.getQuantitydetail()) {
+                String er = "Sản phẩm: " + quantity.getProduct().getName()
+                        + " Size: " + quantity.getSize().getName() + "-" + quantity.getProperty().getName()
+                        + " đã hết hàng.";
+                message.append(er).append("\n");
+            }
+            quantity.setQuantity(quantity.getQuantity() - orderdetail.getQuantitydetail());
+            quantities.add(quantity);
+        }
+        if (message.toString().length() > 0) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, message.toString());
+        }
+        quantityDao.saveAll(quantities);
+        if (bill.getCustomer().getAccount().getEmail() != null) {
+            mailService.sendConfirmManagerBill(bill.getCustomer().getAccount(), bill);
         }
         return billDao.save(bill);
     }
