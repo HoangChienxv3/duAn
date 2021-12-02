@@ -1,6 +1,11 @@
 package com.mamilove.uploadimg;
 
 
+import com.mamilove.dao.ImageDao;
+import com.mamilove.entity.Account;
+import com.mamilove.entity.Bill;
+import com.mamilove.entity.Image;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpStatus;
@@ -17,17 +22,22 @@ import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 import java.util.stream.Stream;
 
 @Service
 public class FilesServiceImpl implements FilesSerivce {
+    @Autowired
+    ImageDao imgDao;
 
     private final Path root = Paths.get("severImg");
 
     @Override
     public void init() {
         try {
+
             Files.createDirectory(root);
+
         } catch (IOException e) {
             throw new RuntimeException("Không thể khởi tạo thư mục để tải ảnh lên!");
         }
@@ -77,7 +87,23 @@ public class FilesServiceImpl implements FilesSerivce {
 
     @Override
     public void deleteAll() {
+
         FileSystemUtils.deleteRecursively(root.toFile());
+    }
+
+    @Override
+    public Image saveDt(Image img) {
+        return imgDao.save(img);
+    }
+
+    @Override
+    public List<Image> ListImagesByProduct(Long idProduct) {
+        return imgDao.ListImagesByProduct(idProduct);
+    }
+
+    @Override
+    public List<Image> findAll() {
+        return imgDao.findAll();
     }
 
     @Override
