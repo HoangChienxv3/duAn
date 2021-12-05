@@ -15,6 +15,8 @@ public interface ImageDao extends JpaRepository<Image, Long> {
     List<Image> findAll();
     List<Image> findByProduct(Product product);
 
-    @Query("Select b.name FROM Image b WHERE b.product.id = ?1 AND b.isDelete = False")
+    @Query("Select b FROM Image b WHERE b.product.id = ?1 AND b.isDelete = False")
     List<Image> ListImagesByProduct(Long idProduct);
+
+
 }

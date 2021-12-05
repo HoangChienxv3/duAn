@@ -1,10 +1,13 @@
-package com.mamilove.uploadimg;
+package com.mamilove.service.impl;
 
 
 import com.mamilove.dao.ImageDao;
-import com.mamilove.entity.Account;
-import com.mamilove.entity.Bill;
+
+import com.mamilove.entity.Categorydetail;
 import com.mamilove.entity.Image;
+import com.mamilove.entity.Product;
+import com.mamilove.service.service.FilesSerivce;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -13,31 +16,34 @@ import org.springframework.http.MediaType;
 import org.springframework.http.MediaTypeFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.util.FileSystemUtils;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.transaction.Transactional;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Stream;
 
 @Service
 public class FilesServiceImpl implements FilesSerivce {
+
     @Autowired
     ImageDao imgDao;
 
     private final Path root = Paths.get("severImg");
-
     @Override
     public void init() {
         try {
-
-            Files.createDirectory(root);
-
+            if(root.toFile().isFile() && !root.toFile().isDirectory()) {
+                Files.createDirectory(root);
+            }else {
+                System.out.println("File da co");
+            }
         } catch (IOException e) {
             throw new RuntimeException("Không thể khởi tạo thư mục để tải ảnh lên!");
         }
@@ -68,6 +74,7 @@ public class FilesServiceImpl implements FilesSerivce {
         }
     }
 
+
     @Override
     public ResponseEntity get(String fileName) {
         Path path = root.resolve(fileName).normalize();
@@ -86,12 +93,6 @@ public class FilesServiceImpl implements FilesSerivce {
     }
 
     @Override
-    public void deleteAll() {
-
-        FileSystemUtils.deleteRecursively(root.toFile());
-    }
-
-    @Override
     public Image saveDt(Image img) {
         return imgDao.save(img);
     }
@@ -102,8 +103,16 @@ public class FilesServiceImpl implements FilesSerivce {
     }
 
     @Override
-    public List<Image> findAll() {
-        return imgDao.findAll();
+    public Optional<Image> findById(Long id) {
+        // TODO Auto-generated method stub
+        return imgDao.findById(id);
+    }
+
+    @Override
+    @Transactional
+    public Image saveAndFlush(Image image) {
+        // TODO Auto-generated method stub
+        return imgDao.saveAndFlush(image);
     }
 
     @Override
@@ -115,3 +124,4 @@ public class FilesServiceImpl implements FilesSerivce {
         }
     }
 }
+

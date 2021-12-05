@@ -1,4 +1,4 @@
-package com.mamilove.uploadimg;
+package com.mamilove.request.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

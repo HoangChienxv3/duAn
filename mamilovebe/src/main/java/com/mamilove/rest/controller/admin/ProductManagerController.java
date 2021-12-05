@@ -69,7 +69,7 @@ public class ProductManagerController {
         try {
             ObjectMapper json = new ObjectMapper();
             Product product = json.readValue(data, Product.class);
-            if (!file.isEmpty()) {
+            if (file != null) {
                 String filename = file.getOriginalFilename();
                 UUID uuid = UUID.randomUUID();
                 filename = uuid.toString() + ".jpg";
