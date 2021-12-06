@@ -2,12 +2,8 @@ package com.mamilove.service.impl;
 
 
 import com.mamilove.dao.ImageDao;
-
-import com.mamilove.entity.Categorydetail;
 import com.mamilove.entity.Image;
-import com.mamilove.entity.Product;
 import com.mamilove.service.service.FilesSerivce;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -18,7 +14,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
-
 import javax.transaction.Transactional;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -32,27 +27,33 @@ import java.util.stream.Stream;
 @Service
 public class FilesServiceImpl implements FilesSerivce {
 
+    private final Path root = Paths.get("severImg");
     @Autowired
     ImageDao imgDao;
 
-    private final Path root = Paths.get("severImg");
     @Override
     public void init() {
         try {
-            if(root.toFile().isFile() && !root.toFile().isDirectory()) {
+            if (root.toFile().isFile() && !root.toFile().isDirectory()) {
                 Files.createDirectory(root);
-            }else {
-                System.out.println("File da co");
+            } else {
+                //System.out.println("File da co");
             }
         } catch (IOException e) {
             throw new RuntimeException("Không thể khởi tạo thư mục để tải ảnh lên!");
         }
     }
 
+    //luu anh
     @Override
     public void save(MultipartFile file) {
         try {
-            Files.copy(file.getInputStream(), this.root.resolve(file.getOriginalFilename()));
+            Long millis = System.currentTimeMillis();
+            java.sql.Date date = new java.sql.Date(millis);
+            System.out.println(date);
+            Files.copy(file.getInputStream(), this.root.resolve("sp" + date + file.getOriginalFilename()));
+
+
         } catch (Exception e) {
             throw new RuntimeException("Không thể lưu trữ tệp. Error: " + e.getMessage());
         }
@@ -75,7 +76,6 @@ public class FilesServiceImpl implements FilesSerivce {
     }
 
 
-    @Override
     public ResponseEntity get(String fileName) {
         Path path = root.resolve(fileName).normalize();
         try {
@@ -89,7 +89,7 @@ public class FilesServiceImpl implements FilesSerivce {
             }
         } catch (MalformedURLException e) {
         }
-        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Lỗi");
+        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Loi roi");
     }
 
     @Override
