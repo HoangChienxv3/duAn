@@ -19,13 +19,11 @@ public class VoucherController {
     VoucherService voucherService;
 
     @GetMapping("/findAll")
-    @PreAuthorize("hasRole('ROLE_CUSTOMER')")
     public ResponseEntity<?> findAll() {
         return ResponseEntity.ok(new Res(voucherService.findAll(), "", true));
     }
 
     @GetMapping("/findVoucherByAmount")
-    @PreAuthorize("hasRole('ROLE_CUSTOMER')")
     public ResponseEntity<?> findVoucherByAmout() {
         return ResponseEntity.ok(new Res(voucherService.findVoucherByAmount(), "", true));
     }
