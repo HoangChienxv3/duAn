@@ -1,9 +1,11 @@
-package com.mamilove.uploadimg;
+package com.mamilove.rest.controller.admin;
 
 import com.mamilove.entity.Image;
 import com.mamilove.entity.Product;
-
+import com.mamilove.request.dto.FileInfo;
 import com.mamilove.response.dto.Res;
+import com.mamilove.response.dto.ResponeMess;
+import com.mamilove.service.service.FilesSerivce;
 import com.mamilove.service.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
@@ -15,11 +17,12 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static org.springframework.http.ResponseEntity.ok;
 
 @RestController
 @CrossOrigin("http://localhost:8081")
@@ -32,30 +35,29 @@ public class RestUploatImgController {
     @Autowired
     ProductService productService;
 
+    //save
     @PostMapping("/upload")
     @PreAuthorize("hasRole('ROLE_STAFF') or hasRole('ROLE_ADMIN')")
     public ResponseEntity<ResponeMess> uploadFiles(@RequestParam("files") MultipartFile[] files, @RequestParam("idPro") String idPro) {
         String message;
-        LocalDateTime current = LocalDateTime.now();
+        Long millis = System.currentTimeMillis();
+        java.sql.Date current = new java.sql.Date(millis);
         try {
 
             List<String> fileNames = new ArrayList<>();
-
             Arrays.stream(files).forEach(file -> {
+                fileNames.add("sp" + current + file.getOriginalFilename());
                 storageService.save(file);
-                fileNames.add(file.getOriginalFilename() + current);
                 Image img = new Image();
-                img.setName(file.getOriginalFilename() + current);
+                img.setName("sp" + current + file.getOriginalFilename());
+                String ListImg = "sp" + current + file.getOriginalFilename();
                 img.setIsDelete(false);
                 Long idProduct = Long.parseLong(idPro);
                 Product pro = productService.findById(idProduct);
                 img.setProduct(pro);
-                System.out.println(idPro);
-                System.out.println(pro.getName());
+                img.setUrl("http://localhost:8080/manager/image/get/" + ListImg);
                 storageService.saveDt(img);
-
             });
-
             message = "Tải các tệp ảnh thành công: " + fileNames;
             //sử lý khi thêm ảnh thành công thêm ảnh vào đb + fileNames;
             // Lấy tên ảnh từ mutipart sau khi thêm theo dạng list
@@ -68,17 +70,36 @@ public class RestUploatImgController {
         }
     }
 
+    //Hiển thị danh sách sản phẩm theo id
     @GetMapping(value = "/list/{idProduct}")
-    public ResponseEntity<?> getImgByProduct(@PathVariable("idProduct") String idProduct) {
-        Long idPro = Long.parseLong(idProduct);
-        List<Image> list = storageService.ListImagesByProduct(idPro);
-        return ResponseEntity.ok(new Res(list, "danh sach anh cua sp: ", false));
+    public ResponseEntity<?> getImgByProduct(@PathVariable("idProduct") Long idProduct) {
+        Product pro = productService.findById(idProduct);
+        List<Image> list = storageService.ListImagesByProduct(idProduct);
+        return ResponseEntity.ok(new Res(list, "Danh sách ảnh của sản phẩm :  " + pro.getName(), false));
     }
 
-    @GetMapping(value = "findall")
-    public ResponseEntity<?> findAll() {
-        return ResponseEntity.ok(new Res(storageService.findAll(), "Danh sach", false));
+    //Hiện thị ảnh từ mutipath lên trên localhost
+    @GetMapping(value = "/get/{fileName}")
+    public ResponseEntity get(@PathVariable("fileName") String fileName) {
+        return storageService.get(fileName);
     }
+
+    //Xóa ảnh của sản phẩm thep id product
+    @PostMapping(value = "/delete/{idImg}")
+    public ResponseEntity<Res> delete(@PathVariable("idImg") Long idImg, Image images) {
+        images = storageService.findById(idImg).orElseThrow(
+                () -> {
+                    throw new RuntimeException("Ảnh không tồn tại");
+                }
+        );
+        if (images != null) {
+            images.setIsDelete(true);
+        } else {
+            throw new RuntimeException("Sản phẩm chưa có ảnh này");
+        }
+        return ResponseEntity.ok(new Res(storageService.saveAndFlush(images), "Xóa thành công", true));
+    }
+
 
     // lấy thông tin của file ảnh trong mutipath
     @GetMapping("/files")
@@ -98,13 +119,9 @@ public class RestUploatImgController {
     @GetMapping("/files/{filename:.+}")
     public ResponseEntity<Resource> getFile(@PathVariable String filename) {
         Resource file = storageService.load(filename);
-        return ResponseEntity.ok()
+        return ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\"").body(file);
     }
 
-    //Hiện thị ảnh từ mutipath lên trên localhost
-    @GetMapping("/get/{fileName}")
-    public ResponseEntity<Res> get(@PathVariable("fileName") String fileName) {
-        return ResponseEntity.ok(new Res(storageService.get(fileName),"Thành công", true));
-    }
+
 }

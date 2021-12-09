@@ -1,5 +1,6 @@
-package com.mamilove.uploadimg;
+package com.mamilove.Exception;
 
+import com.mamilove.response.dto.ResponeMess;
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
