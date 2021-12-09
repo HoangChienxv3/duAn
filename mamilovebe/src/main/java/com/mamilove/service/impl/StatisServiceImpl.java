@@ -4,6 +4,7 @@ import com.mamilove.dao.BillDao;
 import com.mamilove.dao.OrderDetailDao;
 import com.mamilove.entity.Bill;
 import com.mamilove.response.dto.EveryDayResponse;
+import com.mamilove.response.dto.EveryMonthResponse;
 import com.mamilove.service.service.StatisService;
 import com.mamilove.utils.LocalDateUtils;
 import net.time4j.PlainDate;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -60,7 +62,9 @@ public class StatisServiceImpl implements StatisService {
         List<EveryDayResponse> everyDayResponses = getRevenueEveryDay(dateList);
 
         List<Bill> billList = getListBill(LocalDateUtils.formatLocalDate(dateList.get(0)),
-                LocalDateUtils.formatLocalDate(dateList.get(dateList.size() - 1)));
+                LocalDateUtils.formatLocalDate(dateList.get(dateList.size() - 1).plusDays(1)));
+
+        billList.forEach(bill -> System.out.println(bill.getId()));
 
         billList.forEach(bill -> {
             LocalDate date = bill.getCreateAt().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
@@ -75,8 +79,25 @@ public class StatisServiceImpl implements StatisService {
         return everyDayResponses;
     }
 
-    public List<Bill> getEveryMonthOfTheYear(Integer year) {
+    public List<EveryMonthResponse> getEveryMonthOfTheYear(Integer year) {
+        List<Integer> months = new ArrayList<>();
+        for (int i = 1; i <= 12; i++) {
+            months.add(i);
+        }
+        if (year == null || year <= 0) {
+            LocalDate date = LocalDate.now();
+            year = date.getYear();
+        }
 
-        return null;
+        List<EveryMonthResponse> everyMonthResponses = new ArrayList<>();
+
+        for (Integer month : months) {
+            List<LocalDate> dateList = getDayOfMonth(year, month);
+            Double total = billDao.sumTotal(LocalDateUtils.formatLocalDate(dateList.get(0)),
+                    LocalDateUtils.formatLocalDate(dateList.get(dateList.size() - 1).plusDays(1)));
+            everyMonthResponses.add(new EveryMonthResponse(month, total != null ? total : 0d));
+        }
+
+        return everyMonthResponses;
     }
 }
