@@ -9,6 +9,7 @@ import java.util.Optional;
 import com.mamilove.request.dto.CategoryDetailResquest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -27,6 +28,7 @@ public class CategoryDetailManagerController {
     private ObjectMapper objectMapper;
 
     @GetMapping(value = "findAll")
+    @PreAuthorize("hasRole('ROLE_STAFF') or hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> getAllListCategory() {
         try {
             return ResponseEntity.ok(new Res(categoryDetailService.getAllListDetailCategory(), "Danh sách categoyDetail", true));
@@ -36,6 +38,7 @@ public class CategoryDetailManagerController {
     }
 
     @PostMapping(value = "/create")
+    @PreAuthorize("hasRole('ROLE_STAFF') or hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> createCategory(@RequestBody CategoryDetailResquest categoryDetailRequest) {
         try {
             Categorydetail categoryDetai = objectMapper.convertValue(categoryDetailRequest, Categorydetail.class);
@@ -47,6 +50,7 @@ public class CategoryDetailManagerController {
     }
 
     @GetMapping(value = "findById/{id}")
+    @PreAuthorize("hasRole('ROLE_STAFF') or hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> getIdCategoryDetail(@PathVariable("id") Long id) {
         try {
             return ResponseEntity.ok(new Res(categoryDetailService.listCategoryDetailById(id), "Sản Phẩm tìm kiếm", true));
@@ -56,6 +60,7 @@ public class CategoryDetailManagerController {
     }
 
     @PostMapping(value = "/update/{id}")
+    @PreAuthorize("hasRole('ROLE_STAFF') or hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> update(@PathVariable("id") Long id, @RequestBody CategoryDetailResquest categoryDetailRequest) {
         Optional<Categorydetail> category = categoryDetailService.findById(id);
         if (category.get().getIsDelete() == true) {
@@ -68,6 +73,7 @@ public class CategoryDetailManagerController {
     }
 
     @PostMapping(value = "delete/{id}")
+    @PreAuthorize("hasRole('ROLE_STAFF') or hasRole('ROLE_ADMIN')")
     public ResponseEntity<Res> delete(@PathVariable("id") Long id, Categorydetail category) {
         category = categoryDetailService.findById(id).orElseThrow(
                 () -> {
@@ -81,6 +87,7 @@ public class CategoryDetailManagerController {
     }
 
     @PostMapping("/updateInline")
+    @PreAuthorize("hasRole('ROLE_STAFF') or hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> updateInline(@RequestParam(required = false, value = "createdItems") String createdItems,
                                           @RequestParam(required = false, value = "updatedItems") String updatedItems,
                                           @RequestParam(required = false, value = "deletedItems") String deletedItems) throws IOException {

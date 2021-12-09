@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -27,6 +28,7 @@ public class PropertyManagerController {
     PropertyService propertyService;
 
     @GetMapping("/findAll")
+    @PreAuthorize("hasRole('ROLE_STAFF') or hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> findAll() {
         List<Property> entity = propertyService.findAll();
         if (entity.size() > 0)
@@ -36,6 +38,7 @@ public class PropertyManagerController {
     }
 
     @PostMapping("/updateInline")
+    @PreAuthorize("hasRole('ROLE_STAFF') or hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> updateInline(@RequestParam(required = false, value = "createdItems") String createdItems,
                                           @RequestParam(required = false, value = "updatedItems") String updatedItems,
                                           @RequestParam(required = false, value = "deletedItems") String deletedItems) throws IOException {
