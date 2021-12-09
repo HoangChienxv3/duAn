@@ -7,6 +7,7 @@ import java.util.Optional;
 import com.mamilove.request.dto.SizeRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -26,11 +27,13 @@ public class SizeManagerController {
     TypeSizeService typeService;
 
     @GetMapping("/findAll")
+    @PreAuthorize("hasRole('ROLE_STAFF') or hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> findAll() {
         return ResponseEntity.ok(new Res(sizeService.findAll(), "OK", true));
     }
 
     @PostMapping("/findByTypeSize")
+    @PreAuthorize("hasRole('ROLE_STAFF') or hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> findByTypeSize(@RequestBody String id) {
         long l = Long.parseLong(id);
         Optional<Typesize> entity = Optional.ofNullable(typeService.findById(l).get());
@@ -39,6 +42,7 @@ public class SizeManagerController {
     }
 
     @PostMapping("/updateInline")
+    @PreAuthorize("hasRole('ROLE_STAFF') or hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> updateInline(@RequestParam(required = false, value = "createdItems") String createdItems,
                                           @RequestParam(required = false, value = "updatedItems") String updatedItems,
                                           @RequestParam(required = false, value = "deletedItems") String deletedItems) {

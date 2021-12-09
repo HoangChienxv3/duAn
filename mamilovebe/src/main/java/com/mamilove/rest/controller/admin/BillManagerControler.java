@@ -14,6 +14,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
 import java.util.List;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -38,47 +39,56 @@ public class BillManagerControler {
 
     //lấy tất cả đơn hàng
     @GetMapping("/findAll")
+    @PreAuthorize("hasRole('ROLE_STAFF') or hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> getAllBill() {
         return ResponseEntity.ok(new Res(billDao.findAll(), "Thành công", true));
     }
 
     @GetMapping("/cancel/{idbill}")
+    @PreAuthorize("hasRole('ROLE_STAFF') or hasRole('ROLE_ADMIN')")
     public ResponseEntity<Res> cancelBill(@PathVariable("idbill") String idbill) throws MessagingException, UnsupportedEncodingException {
         return ResponseEntity.ok(new Res(billService.cancelBillManager(idbill), "Save success", true));
     }
 
     @GetMapping("/confirm/{idbill}")
+    @PreAuthorize("hasRole('ROLE_STAFF') or hasRole('ROLE_ADMIN')")
     public ResponseEntity<Res> confirmBill(@PathVariable("idbill") String idbill) throws MessagingException, UnsupportedEncodingException {
         return ResponseEntity.ok(new Res(billService.confirmBillManager(idbill), "Save success", true));
     }
 
     @GetMapping("/ship/{idbill}")
+    @PreAuthorize("hasRole('ROLE_STAFF') or hasRole('ROLE_ADMIN')")
     public ResponseEntity<Res> shipBill(@PathVariable("idbill") String idbill) {
         return ResponseEntity.ok(new Res(billService.shipBillManager(idbill), "Save success", true));
     }
 
     @GetMapping("/received/{idbill}")
+    @PreAuthorize("hasRole('ROLE_STAFF') or hasRole('ROLE_ADMIN')")
     public ResponseEntity<Res> receivedBill(@PathVariable("idbill") String idbill) {
         return ResponseEntity.ok(new Res(billService.receivedBillManager(idbill), "Save success", true));
     }
 
     @GetMapping("/refund/{idbill}")
+    @PreAuthorize("hasRole('ROLE_STAFF') or hasRole('ROLE_ADMIN')")
     public ResponseEntity<Res> refundBill(@PathVariable("idbill") String idbill) {
         return ResponseEntity.ok(new Res(billService.refundBillManager(idbill), "Save success", true));
     }
 
     //thông tin đơn hàng bên vận chuyển
     @PostMapping("/shiping")
+    @PreAuthorize("hasRole('ROLE_STAFF') or hasRole('ROLE_ADMIN')")
     public ResponseEntity<Res> shipingBill(@RequestBody ShipingRequest shipingRequest) {
         return ResponseEntity.ok(new Res(billService.shipingBill(shipingRequest), "Save success", true));
     }
 
     @GetMapping("/shiping/{idBill}")
+    @PreAuthorize("hasRole('ROLE_STAFF') or hasRole('ROLE_ADMIN')")
     public ResponseEntity<Res> shipingBill(@PathVariable("idBill") String idBill) throws IOException {
         return ResponseEntity.ok(new Res(billService.getShipingBill(idBill), "Save success", true));
     }
 
     @PostMapping("/updateInline")
+    @PreAuthorize("hasRole('ROLE_STAFF') or hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> updateInline(String createdItems,
                                           @RequestParam(required = false, value = "updatedItems") String updatedItems,
                                           @RequestParam(required = false, value = "deletedItems") String deletedItems) {
