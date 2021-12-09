@@ -15,6 +15,7 @@ import javax.servlet.ServletContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -52,18 +53,21 @@ public class ProductManagerController {
     CategoryDetailService categoryDetailService;
 
     @GetMapping("/findAll")
+    @PreAuthorize("hasRole('ROLE_STAFF') or hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> findAll() {
         List<Product> entity = productService.findAll();
         return ResponseEntity.ok(new Res(entity, "Success", true));
     }
 
     @GetMapping("/findProductById/{id}")
+    @PreAuthorize("hasRole('ROLE_STAFF') or hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> findProductById(@PathVariable("id") Long id) {
         Product entity = productService.findById(id);
         return ResponseEntity.ok(new Res(entity, "Success", true));
     }
 
     @PostMapping("/saveAndFlush")
+    @PreAuthorize("hasRole('ROLE_STAFF') or hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> saveAndFlush(@RequestParam(required = false, value = "files") MultipartFile file,
     									@RequestParam(required = false, value = "Product") String data) {
         try {
@@ -86,6 +90,7 @@ public class ProductManagerController {
     }
 
     @PostMapping("/deleteProduct")
+    @PreAuthorize("hasRole('ROLE_STAFF') or hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> deleteProduct(@RequestBody Product product) {
         try {
             product.setIsDelete(true);

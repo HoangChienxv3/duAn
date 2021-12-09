@@ -11,6 +11,7 @@ import com.mamilove.response.dto.VnpayDto;
 import com.mamilove.service.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -35,6 +36,7 @@ public class VnpayController extends BaseController {
     CustomerDao customerDao;
 
     @PostMapping("/vnpay")
+    @PreAuthorize("hasRole('ROLE_CUSTOMER')")
     public ResponseEntity<?> thanhtoan(@RequestBody PaymenDto paymenDto) throws IOException {
 
         String vnp_Version = "2.1.0";
@@ -131,6 +133,7 @@ public class VnpayController extends BaseController {
 
 
     @GetMapping("/VnPayReturn")
+    @PreAuthorize("hasRole('ROLE_CUSTOMER')")
     public ResponseEntity<?> VnPayReturn(HttpServletRequest req) throws UnsupportedEncodingException {
         Map fields = new HashMap();
         for (Enumeration params = req.getParameterNames(); params.hasMoreElements(); ) {
