@@ -17,8 +17,11 @@ public interface BillDao extends JpaRepository<Bill, String> {
     List<Bill> findAllByIdCustomerOrderByCreateAtDesc(Long id);
 
     @Query("select b from Bill b where " +
-            " b.createAt >= ?1 and b.createAt <= ?2 order by b.createAt desc ")
+            " b.createAt >= ?1 and b.createAt < ?2 order by b.createAt desc ")
     List<Bill> findAllByStarAndEnd(Date star, Date end);
 
-//    List<Bill> findAllByYear(String year);
+    @Query("select sum (b.total) from Bill b where " +
+            " b.createAt >= ?1 and b.createAt < ?2 order by b.createAt desc ")
+    Double sumTotal(Date star, Date end);
+
 }

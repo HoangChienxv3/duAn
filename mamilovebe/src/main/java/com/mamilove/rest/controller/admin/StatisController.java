@@ -18,13 +18,13 @@ public class StatisController {
     @GetMapping("/getEveryDayOfTheMonth")
     @PreAuthorize("hasRole('ROLE_STAFF') or hasRole('ROLE_ADMIN')")
     public ResponseEntity<Res> getEveryDayOfTheMonth(@RequestParam(value = "year", required = false) Integer year,
-                                          @RequestParam(value = "month",required = false)Integer month) {
+                                                     @RequestParam(value = "month", required = false) Integer month) {
         return ResponseEntity.ok(new Res(statisService.revenueEveryDayOfTheMonth(year, month), "Thành công", true));
     }
 
     @GetMapping("/getEveryMonthOfTheYear")
     @PreAuthorize("hasRole('ROLE_STAFF') or hasRole('ROLE_ADMIN')")
-    public ResponseEntity<Res> getEveryDayOfTheMonth(@RequestParam(value = "year", required = false) Integer year) {
+    public ResponseEntity<Res> getEveryMonthOfTheYear(@RequestParam(value = "year", required = false) Integer year) {
         return ResponseEntity.ok(new Res(statisService.getEveryMonthOfTheYear(year), "Thành công", true));
     }
 
