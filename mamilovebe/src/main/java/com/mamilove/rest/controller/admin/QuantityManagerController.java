@@ -10,6 +10,7 @@ import com.mamilove.request.dto.QuantityDto;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import com.mamilove.entity.Product;
@@ -31,11 +32,13 @@ public class QuantityManagerController {
     QuantityDao quantityDao;
 
     @GetMapping("/findAll")
+    @PreAuthorize("hasRole('ROLE_STAFF') or hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> findAll() {
         return ResponseEntity.ok(new Res(quantityDao.findAllByIsDeleteFalse(), "success", true));
     }
 
     @GetMapping("/findQuantityByProduct/{id}")
+    @PreAuthorize("hasRole('ROLE_STAFF') or hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> findQuantityByProduct(@PathVariable("id") Long id) {
         Optional<Product> product = Optional.ofNullable(productService.findById(id));
         List<Quantity> list = quantityService.findByProduct(product.get());
@@ -43,6 +46,7 @@ public class QuantityManagerController {
     }
 
     @PostMapping("/saveAndFlush")
+    @PreAuthorize("hasRole('ROLE_STAFF') or hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> saveAndFlush(@RequestBody QuantityDto quantity) {
         Quantity obj = new Quantity();
         for (Product x : quantity.getProduct()) {
@@ -71,12 +75,14 @@ public class QuantityManagerController {
 
     ///code chien
     @PostMapping("/createOrUpdate")
+    @PreAuthorize("hasRole('ROLE_STAFF') or hasRole('ROLE_ADMIN')")
     public ResponseEntity<Res> createQty(@RequestBody CreateQuantityDto createQuantity) {
         return ResponseEntity.ok(new Res(quantityService.createQty(createQuantity), "ok", true));
     }
 
     //xoa quantity
     @GetMapping("/delete/{idqty}")
+    @PreAuthorize("hasRole('ROLE_STAFF') or hasRole('ROLE_ADMIN')")
     public ResponseEntity<Res> deleteQty(@PathVariable("idqty") Long idqty) {
         return ResponseEntity.ok(new Res(quantityService.deleteQty(idqty), "ok", true));
     }

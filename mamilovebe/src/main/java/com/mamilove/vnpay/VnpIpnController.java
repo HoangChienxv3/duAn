@@ -7,6 +7,7 @@ import com.mamilove.service.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
@@ -30,6 +31,7 @@ public class VnpIpnController {
     CustomerDao customerDao;
 
     @GetMapping("/VnPayIPN")
+    @PreAuthorize("hasRole('ROLE_CUSTOMER')")
     public ResponseEntity<?> VnPayIPN(HttpServletRequest req, HttpServletResponse httpServletResponse) throws UnsupportedEncodingException {
         Map fields = new HashMap();
         for (Enumeration params = req.getParameterNames(); params.hasMoreElements(); ) {

@@ -8,6 +8,7 @@ import com.mamilove.service.service.AccountService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,11 +27,13 @@ public class AccountManagerController {
     PasswordEncoder encoder;
 
     @GetMapping(value = "/findAll")
+    @PreAuthorize("hasRole('ROLE_STAFF') or hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> getUserList() {
         return ResponseEntity.ok(new Res(accountService.findAll(), "Save Success", true));
     }
 
     @GetMapping(value = "/{id}")
+    @PreAuthorize("hasRole('ROLE_STAFF') or hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> getOne(@PathVariable("id") long id) {
         if (!accountService.existsById(id)) {
             ResponseEntity.notFound().build();
@@ -39,6 +42,7 @@ public class AccountManagerController {
     }
 
     @PostMapping(value = "/updateInline")
+    @PreAuthorize("hasRole('ROLE_STAFF') or hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> updateInline(@RequestParam(required = false, value = "createdItems") String createdItems,
                                           @RequestParam(required = false, value = "updatedItems") String updatedItems,
                                           @RequestParam(required = false, value = "deletedItems") String deletedItems) {
