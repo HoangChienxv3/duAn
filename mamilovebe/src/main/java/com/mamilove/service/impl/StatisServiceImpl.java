@@ -6,8 +6,9 @@ import com.mamilove.dao.OrderDetailDao;
 import com.mamilove.entity.Bill;
 import com.mamilove.response.dto.EveryDayResponse;
 import com.mamilove.response.dto.EveryMonthResponse;
+import com.mamilove.response.dto.EveryYearResponse;
 import com.mamilove.service.service.StatisService;
-import com.mamilove.utils.LocalDateUtils;
+import com.mamilove.utils.DateUtils;
 import net.time4j.PlainDate;
 import net.time4j.range.CalendarMonth;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,8 +63,8 @@ public class StatisServiceImpl implements StatisService {
 
         List<EveryDayResponse> everyDayResponses = getRevenueEveryDay(dateList);
 
-        List<Bill> billList = getListBill(LocalDateUtils.formatLocalDate(dateList.get(0)),
-                LocalDateUtils.formatLocalDate(dateList.get(dateList.size() - 1).plusDays(1)), status);
+        List<Bill> billList = getListBill(DateUtils.formatLocalDate(dateList.get(0)),
+                DateUtils.formatLocalDate(dateList.get(dateList.size() - 1).plusDays(1)), status);
 
 
         billList.forEach(bill -> {
@@ -102,10 +103,45 @@ public class StatisServiceImpl implements StatisService {
     }
 
     public Double getTotalMonth(List<LocalDate> dateList, EnumStatus status) {
-        return status == null ? billDao.sumTotalMonthOfYear(LocalDateUtils.formatLocalDate(dateList.get(0)),
-                LocalDateUtils.formatLocalDate(dateList.get(dateList.size() - 1).plusDays(1)))
-                : billDao.sumTotalMonthOfYear(LocalDateUtils.formatLocalDate(dateList.get(0)),
-                LocalDateUtils.formatLocalDate(dateList.get(dateList.size() - 1).plusDays(1)), status);
+        return status == null ? billDao.sumTotalMonthOfYear(DateUtils.formatLocalDate(dateList.get(0)),
+                DateUtils.formatLocalDate(dateList.get(dateList.size() - 1).plusDays(1)))
+                : billDao.sumTotalMonthOfYear(DateUtils.formatLocalDate(dateList.get(0)),
+                DateUtils.formatLocalDate(dateList.get(dateList.size() - 1).plusDays(1)), status);
 
+    }
+
+    public List<EveryYearResponse> getEveryYear(EnumStatus status) {
+
+        LocalDate date = LocalDate.now();
+        int year = date.getYear();
+
+        List<Integer> years = new ArrayList<>();
+        List<EveryYearResponse> everyYearResponses = new ArrayList<>();
+
+        for (int i = 0; i < 5; i++) {
+            years.add(year - i);
+        }
+
+        for (Integer y : years) {
+            String star = y + "-01-01";
+            String end = y + "-12-31";
+
+            LocalDate starDate = DateUtils.stringToLocalDate(star);
+            LocalDate endDate = DateUtils.stringToLocalDate(end);
+
+            Double total = getTotalStartToEnd(starDate, endDate, status);
+
+            everyYearResponses.add(new EveryYearResponse(y, total != null ? total : 0d));
+
+        }
+
+        return everyYearResponses;
+    }
+
+    public Double getTotalStartToEnd(LocalDate start, LocalDate end, EnumStatus status) {
+        return status == null ? billDao.sumTotalMonthOfYear(DateUtils.formatLocalDate(start),
+                DateUtils.formatLocalDate(end.plusDays(1)))
+                : billDao.sumTotalMonthOfYear(DateUtils.formatLocalDate(start),
+                DateUtils.formatLocalDate(end.plusDays(1)), status);
     }
 }
