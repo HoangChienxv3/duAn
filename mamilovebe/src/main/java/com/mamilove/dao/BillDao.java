@@ -6,8 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.mamilove.entity.Bill;
 import org.springframework.data.jpa.repository.Query;
 
-import javax.xml.crypto.Data;
-import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 

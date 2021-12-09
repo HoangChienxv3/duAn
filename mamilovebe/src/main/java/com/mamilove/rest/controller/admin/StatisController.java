@@ -31,4 +31,10 @@ public class StatisController {
         return ResponseEntity.ok(new Res(statisService.getEveryMonthOfTheYear(year, status), "Thành công", true));
     }
 
+    @GetMapping("/getEveryYear")
+    @PreAuthorize("hasRole('ROLE_STAFF') or hasRole('ROLE_ADMIN')")
+    public ResponseEntity<Res> getEveryYear(@RequestParam(value = "status", required = false) EnumStatus status) {
+        return ResponseEntity.ok(new Res(statisService.getEveryYear(status), "Thành công", true));
+    }
+
 }
