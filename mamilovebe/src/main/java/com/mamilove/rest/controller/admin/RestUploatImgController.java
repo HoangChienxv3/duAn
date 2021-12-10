@@ -40,29 +40,18 @@ public class RestUploatImgController {
     @PreAuthorize("hasRole('ROLE_STAFF') or hasRole('ROLE_ADMIN')")
     public ResponseEntity<ResponeMess> uploadFiles(@RequestParam("files") MultipartFile[] files, @RequestParam("idPro") String idPro) {
         String message;
-
+        Long idProduct = Long.parseLong(idPro);
+        Product pro = productService.findById(idProduct);
         long current = new java.util.Date().getTime();
         try {
-
             List<String> fileNames = new ArrayList<>();
             Arrays.stream(files).forEach(file -> {
-                //fileNames.add("sp" + current + file.getOriginalFilename());
-                String nameImg = "sp" + current + file.getOriginalFilename();
-                String ListImg = nameImg;
-                storageService.save(file);
+                fileNames.add("sp" + current + file.getOriginalFilename());
                 Image img = new Image();
-                img.setName(nameImg);
-                img.setIsDelete(false);
-                Long idProduct = Long.parseLong(idPro);
-                Product pro = productService.findById(idProduct);
                 img.setProduct(pro);
-                img.setUrl("http://localhost:8080/manager/image/get/" + ListImg);
-                storageService.saveDt(img);
+                storageService.save(file, img);
             });
-            message = "Tải các tệp ảnh thành công: " + fileNames;
-            //sử lý khi thêm ảnh thành công thêm ảnh vào đb + fileNames;
-            // Lấy tên ảnh từ mutipart sau khi thêm theo dạng list
-            // file name là tên ảnh
+            message = "Tải các tệp ảnh thành công:  " + fileNames;
             return ResponseEntity.status(HttpStatus.OK).body(new ResponeMess(message));
         } catch (Exception e) {
             message = "Tải các tệp ảnh không thành công!";
@@ -100,7 +89,6 @@ public class RestUploatImgController {
         }
         return ResponseEntity.ok(new Res(storageService.saveAndFlush(images), "Xóa thành công", true));
     }
-
 
     // lấy thông tin của file ảnh trong mutipath
     @GetMapping("/files")

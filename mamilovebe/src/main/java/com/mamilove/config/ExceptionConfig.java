@@ -114,7 +114,7 @@ public class ExceptionConfig extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler({Exception.class})
     public ResponseEntity<Response<Void>> handleAll(final Exception ex) {
-        return  exceptionHandle(ex, HttpStatus.INTERNAL_SERVER_ERROR);
+        return exceptionHandle(ex, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @ExceptionHandler({ResponseStatusException.class})
@@ -122,7 +122,7 @@ public class ExceptionConfig extends ResponseEntityExceptionHandler {
         return responseStatusHandle(ex, ex.getStatus());
     }
 
-    private ResponseEntity<Object> objectExceptionHandle(Exception ex, HttpStatus httpStatus){
+    private ResponseEntity<Object> objectExceptionHandle(Exception ex, HttpStatus httpStatus) {
         ResponseEntity<Response<Void>> responseResponseEntity = exceptionHandle(ex, httpStatus);
         return ResponseEntity.status(httpStatus).body(responseResponseEntity.getBody());
     }
