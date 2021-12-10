@@ -13,6 +13,7 @@ import org.springframework.data.jpa.repository.Query;
 
 public interface ImageDao extends JpaRepository<Image, Long> {
     List<Image> findAll();
+
     List<Image> findByProduct(Product product);
 
     @Query("Select b FROM Image b WHERE b.product.id = ?1 AND b.isDelete = False")

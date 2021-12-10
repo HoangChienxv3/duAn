@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -20,5 +21,5 @@ public class ProductDto {
     private Date day_update;
     private String image;//hình ảnh
     private Boolean isDelete = false;
-    private  Long idcategorydetail;
+    private Long idcategorydetail;
 }

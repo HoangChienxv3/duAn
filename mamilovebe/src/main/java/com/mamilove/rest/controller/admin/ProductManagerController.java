@@ -69,7 +69,7 @@ public class ProductManagerController {
     @PostMapping("/saveAndFlush")
     @PreAuthorize("hasRole('ROLE_STAFF') or hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> saveAndFlush(@RequestParam(required = false, value = "files") MultipartFile file,
-    									@RequestParam(required = false, value = "Product") String data) {
+                                          @RequestParam(required = false, value = "Product") String data) {
         try {
             ObjectMapper json = new ObjectMapper();
             Product product = json.readValue(data, Product.class);

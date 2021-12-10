@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
+
 import javax.transaction.Transactional;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -30,6 +31,7 @@ public class FilesServiceImpl implements FilesSerivce {
     private final Path root = Paths.get("severImg");
     @Autowired
     ImageDao imgDao;
+    ;
 
     @Override
     public void init() {
@@ -37,7 +39,7 @@ public class FilesServiceImpl implements FilesSerivce {
             if (root.toFile().isFile() && !root.toFile().isDirectory()) {
                 Files.createDirectory(root);
             } else {
-                System.out.println("File Đã thành công");
+                System.out.println("100%");
             }
         } catch (IOException e) {
             throw new RuntimeException("Không thể khởi tạo thư mục để tải ảnh lên!");
@@ -46,12 +48,17 @@ public class FilesServiceImpl implements FilesSerivce {
 
     //luu anh
     @Override
-    public void save(MultipartFile file) {
+    public void save(MultipartFile file, Image img) {
+        //DateDto current = new DateDto();
+        long current = new java.util.Date().getTime();
         try {
-            long current = new java.util.Date().getTime();
             String nameImg = "sp" + current + file.getOriginalFilename();
-            System.out.println(current);
             Files.copy(file.getInputStream(), this.root.resolve(nameImg));
+            img.setName(nameImg);
+            img.setIsDelete(false);
+            img.setUrl("http://localhost:8080/manager/image/get/" + nameImg);
+            imgDao.save(img);
+
         } catch (Exception e) {
             throw new RuntimeException("Không thể lưu trữ tệp. Error: " + e.getMessage());
         }
@@ -88,11 +95,6 @@ public class FilesServiceImpl implements FilesSerivce {
         } catch (MalformedURLException e) {
         }
         throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Loi roi");
-    }
-
-    @Override
-    public Image saveDt(Image img) {
-        return imgDao.save(img);
     }
 
     @Override
