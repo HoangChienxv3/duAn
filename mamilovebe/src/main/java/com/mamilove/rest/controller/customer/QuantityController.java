@@ -26,9 +26,9 @@ public class QuantityController {
 	@Autowired
 	ProductService productService;
 	
-	@GetMapping("/findAll")
+	@GetMapping("/findAllByIsDeleteFalse")
 	public ResponseEntity<?> findAll(){
-		return ResponseEntity.ok(new Res(quantityService.findAll(),"success",true));
+		return ResponseEntity.ok(new Res(quantityService.findAllByIsDeleteFalse(),"success",true));
 	}
 	@GetMapping("/findQuantityByProduct/{id}")
 	public ResponseEntity<?> findQuantityByProduct(@PathVariable("id") Long id){

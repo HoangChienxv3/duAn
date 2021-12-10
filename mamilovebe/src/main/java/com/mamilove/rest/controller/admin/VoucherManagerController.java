@@ -42,10 +42,10 @@ public class VoucherManagerController {
         return ResponseEntity.ok(new Res(voucherService.detele(id), "Xóa thành công", true));
     }
 
-    @GetMapping("/findAll")
+    @GetMapping("/findAllByIsDeleteFalse")
     @PreAuthorize("hasRole('ROLE_STAFF') or hasRole('ROLE_ADMIN')")
     public ResponseEntity<Res> findAll() {
-        return ResponseEntity.ok(new Res(voucherService.findAllVoucher(), "thành công", true));
+        return ResponseEntity.ok(new Res(voucherService.findAllByIsDeleteFalse(), "thành công", true));
     }
 
     @GetMapping("/findAll/{idEvent}")
@@ -95,7 +95,7 @@ public class VoucherManagerController {
                 voucherService.saveAll(deleted);
 //				categoryDetailService.deleteInBatch(deleted);
             }
-            return ResponseEntity.ok(new Res(voucherService.findAll(), "Save success", true));
+            return ResponseEntity.ok(new Res(voucherService.findAllByIsDeleteFalse(), "Save success", true));
         } catch (Exception e) {
             // TODO: handle exception
             return ResponseEntity.ok(new Res("Save failed", false));

@@ -21,10 +21,10 @@ public class TypeSizeManagerController {
     @Autowired
     TypeSizeService typeSizeService;
 
-    @GetMapping("/findAll")
+    @GetMapping("/findAllByIsDeleteFalse")
     @PreAuthorize("hasRole('ROLE_STAFF') or hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> findAll() {
-        return ResponseEntity.ok(new Res(typeSizeService.findAll(), "OK", true));
+        return ResponseEntity.ok(new Res(typeSizeService.findAllByIsDeleteFalse(), "OK", true));
     }
 
     @PostMapping("/updateInline")
@@ -61,7 +61,7 @@ public class TypeSizeManagerController {
                 typeSizeService.saveAll(deleted);
 //				typeSizeService.deleteInBatch(deleted);
             }
-            return ResponseEntity.ok(new Res(typeSizeService.findAll(), "Save success", true));
+            return ResponseEntity.ok(new Res(typeSizeService.findAllByIsDeleteFalse(), "Save success", true));
         } catch (Exception e) {
             // TODO: handle exception
             return ResponseEntity.ok(new Res("Save failed", false));

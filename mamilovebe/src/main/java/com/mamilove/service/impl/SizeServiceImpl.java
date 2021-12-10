@@ -33,6 +33,12 @@ public class SizeServiceImpl implements SizeService {
     }
 
     @Override
+	public List<Size> findAllByIsDeleteFalse() {
+		// TODO Auto-generated method stub
+		return sizeDao.findAllByIsDeleteFalse();
+	}
+    
+    @Override
     public List<Size> findByTypeSize(Typesize typeSize) {
         // TODO Auto-generated method stub
         return sizeDao.findByTypesize(typeSize);

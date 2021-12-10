@@ -35,9 +35,9 @@ public class ProductController {
         return ResponseEntity.ok(new Res(entity, "Success", true));
     }
 
-    @GetMapping("/findAll")
+    @GetMapping("/findAllByIsDeleteFalse")
     public ResponseEntity<?> findAll() {
-        List<Product> entity = productService.findAll();
+        List<Product> entity = productService.findAllByIsDeleteFalse();
         return ResponseEntity.ok(new Res(entity, "Success", true));
     }
 

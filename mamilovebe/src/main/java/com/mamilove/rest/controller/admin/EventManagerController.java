@@ -46,10 +46,10 @@ public class EventManagerController {
         return ResponseEntity.ok(new Res(eventService.detele(id), "Xóa thành công", true));
     }
 
-    @GetMapping("/findAll")
+    @GetMapping("/findAllByIsDeleteFalse")
     @PreAuthorize("hasRole('ROLE_STAFF') or hasRole('ROLE_ADMIN')")
     public ResponseEntity<Res> findAll() {
-        return ResponseEntity.ok(new Res(eventService.findAll(), "thành công", true));
+        return ResponseEntity.ok(new Res(eventService.findAllByIsDeleteFalse(), "thành công", true));
     }
 
     @GetMapping("/get/{id}")
@@ -91,7 +91,7 @@ public class EventManagerController {
                 eventDAO.saveAll(deleted);
 //				propertyService.deleteInBatch(deleted);
             }
-            return ResponseEntity.ok(new Res(eventService.findAll(), "Save success", true));
+            return ResponseEntity.ok(new Res(eventService.findAllByIsDeleteFalse(), "Save success", true));
         } catch (Exception e) {
             // TODO: handle exception
             return ResponseEntity.ok(new Res("Save failed", false));

@@ -27,6 +27,5 @@ public interface ProductDao extends JpaRepository<Product, Long> {
 
     void deleteInBatch(Iterable<Product> product);
 
-    @Query("SELECT p FROM Product p where p.isDelete=false and p.categorydetail.isDelete=false ")
-    List<Product> findAllFalse();
+    List<Product> findAllByIsDeleteFalse();
 }

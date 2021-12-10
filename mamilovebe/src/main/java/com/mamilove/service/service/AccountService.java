@@ -17,6 +17,6 @@ public interface AccountService {
 
     Account findById(Long id);
 
-    List<Account> findAllFalse();
+    List<Account> findAllByIsDeleteFalse();
 
 }

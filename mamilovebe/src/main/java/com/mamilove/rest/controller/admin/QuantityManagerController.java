@@ -31,10 +31,10 @@ public class QuantityManagerController {
     @Autowired
     QuantityDao quantityDao;
 
-    @GetMapping("/findAll")
+    @GetMapping("/findAllByIsDeleteFalse")
     @PreAuthorize("hasRole('ROLE_STAFF') or hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> findAll() {
-        return ResponseEntity.ok(new Res(quantityDao.findAllByIsDeleteFalse(), "success", true));
+        return ResponseEntity.ok(new Res(quantityService.findAllByIsDeleteFalse(), "success", true));
     }
 
     @GetMapping("/findQuantityByProduct/{id}")

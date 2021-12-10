@@ -68,9 +68,15 @@ public class EventServiceImpl implements EventService {
 
     @Override
     public List<Event> findAll() {
-        return eventDao.findAllByIsDeleteFalse();
+        return eventDao.findAll();
     }
 
+    @Override
+	public List<Event> findAllByIsDeleteFalse() {
+		// TODO Auto-generated method stub
+		return eventDao.findAllByIsDeleteFalse();
+	}
+    
     @Override
     public Event findById(Long id) {
         return eventDao.findByIdAndIsDeleteFalse(id).orElseThrow(() -> {
