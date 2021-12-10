@@ -37,7 +37,7 @@ public class FilesServiceImpl implements FilesSerivce {
             if (root.toFile().isFile() && !root.toFile().isDirectory()) {
                 Files.createDirectory(root);
             } else {
-                //System.out.println("File da co");
+                System.out.println("File Đã thành công");
             }
         } catch (IOException e) {
             throw new RuntimeException("Không thể khởi tạo thư mục để tải ảnh lên!");
@@ -48,12 +48,10 @@ public class FilesServiceImpl implements FilesSerivce {
     @Override
     public void save(MultipartFile file) {
         try {
-            Long millis = System.currentTimeMillis();
-            java.sql.Date date = new java.sql.Date(millis);
-            System.out.println(date);
-            Files.copy(file.getInputStream(), this.root.resolve("sp" + date + file.getOriginalFilename()));
-
-
+            long current = new java.util.Date().getTime();
+            String nameImg = "sp" + current + file.getOriginalFilename();
+            System.out.println(current);
+            Files.copy(file.getInputStream(), this.root.resolve(nameImg));
         } catch (Exception e) {
             throw new RuntimeException("Không thể lưu trữ tệp. Error: " + e.getMessage());
         }

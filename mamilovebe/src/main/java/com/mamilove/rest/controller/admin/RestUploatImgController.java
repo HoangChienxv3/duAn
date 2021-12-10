@@ -38,17 +38,18 @@ public class RestUploatImgController {
     @PostMapping("/upload")
     public ResponseEntity<ResponeMess> uploadFiles(@RequestParam("files") MultipartFile[] files, @RequestParam("idPro") String idPro) {
         String message;
-        Long millis = System.currentTimeMillis();
-        java.sql.Date current = new java.sql.Date(millis);
+
+        long current = new java.util.Date().getTime();
         try {
 
             List<String> fileNames = new ArrayList<>();
             Arrays.stream(files).forEach(file -> {
-                fileNames.add("sp" + current + file.getOriginalFilename());
+                //fileNames.add("sp" + current + file.getOriginalFilename());
+                String nameImg = "sp" + current + file.getOriginalFilename();
+                String ListImg = nameImg;
                 storageService.save(file);
                 Image img = new Image();
-                img.setName("sp" + current + file.getOriginalFilename());
-                String ListImg = "sp" + current + file.getOriginalFilename();
+                img.setName(nameImg);
                 img.setIsDelete(false);
                 Long idProduct = Long.parseLong(idPro);
                 Product pro = productService.findById(idProduct);
