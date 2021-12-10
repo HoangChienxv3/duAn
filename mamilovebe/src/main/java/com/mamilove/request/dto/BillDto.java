@@ -3,6 +3,7 @@ package com.mamilove.request.dto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
 import java.util.List;
 
 @Data
@@ -31,7 +32,7 @@ public class BillDto {
     private String fullname;//họ tên nhận hàng
 
     private Boolean refund;//hoàn hàng
-    
+
     private String sdt;
     private List<QuantityRequest> list_quantity;
 

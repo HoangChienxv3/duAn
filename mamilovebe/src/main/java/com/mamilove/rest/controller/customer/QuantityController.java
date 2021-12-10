@@ -21,6 +21,7 @@ import com.mamilove.service.service.QuantityService;
 @CrossOrigin("http://localhost:4200/")
 @RequestMapping("/Customer/QuantityController")
 public class QuantityController {
+
 	@Autowired
 	QuantityService quantityService;
 	@Autowired
@@ -36,4 +37,5 @@ public class QuantityController {
 		List<Quantity> list = quantityService.findByProduct(product.get());
 		return ResponseEntity.ok(new Res(list,"success",true));
 	}
+
 }

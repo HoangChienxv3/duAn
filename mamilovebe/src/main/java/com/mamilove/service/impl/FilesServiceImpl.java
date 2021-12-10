@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
+
 import javax.transaction.Transactional;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -28,31 +29,35 @@ import java.util.stream.Stream;
 public class FilesServiceImpl implements FilesSerivce {
 
     private final Path root = Paths.get("severImg");
+
     @Autowired
-    ImageDao imgDao;
+    ImageDao imgDao;;
 
     @Override
     public void init() {
         try {
-            if (root.toFile().isFile() && !root.toFile().isDirectory()) {
+            if (Files.notExists(root)) {
                 Files.createDirectory(root);
             } else {
-                //System.out.println("File da co");
+                System.out.println("100%");
+
             }
         } catch (IOException e) {
             throw new RuntimeException("Không thể khởi tạo thư mục để tải ảnh lên!");
         }
     }
-
     //luu anh
     @Override
-    public void save(MultipartFile file) {
+    public void save(MultipartFile file, Image img) {
+        //DateDto current = new DateDto();
+        long current = new java.util.Date().getTime();
         try {
-            Long millis = System.currentTimeMillis();
-            java.sql.Date date = new java.sql.Date(millis);
-            System.out.println(date);
-            Files.copy(file.getInputStream(), this.root.resolve("sp" + date + file.getOriginalFilename()));
-
+            String nameImg = "sp" + current + file.getOriginalFilename();
+            Files.copy(file.getInputStream(), this.root.resolve(nameImg));
+            img.setName(nameImg);
+            img.setIsDelete(false);
+            img.setUrl("http://localhost:8080/manager/image/get/" + nameImg);
+            imgDao.save(img);
 
         } catch (Exception e) {
             throw new RuntimeException("Không thể lưu trữ tệp. Error: " + e.getMessage());
@@ -90,11 +95,6 @@ public class FilesServiceImpl implements FilesSerivce {
         } catch (MalformedURLException e) {
         }
         throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Loi roi");
-    }
-
-    @Override
-    public Image saveDt(Image img) {
-        return imgDao.save(img);
     }
 
     @Override
