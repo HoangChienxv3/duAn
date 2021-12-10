@@ -8,6 +8,7 @@ import com.mamilove.service.service.AccountService;
 import com.mamilove.service.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,12 +23,14 @@ public class CustomersManagerController {
     AccountService accountService;
 
     @GetMapping("/findAll")
+    @PreAuthorize("hasRole('ROLE_STAFF') or hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> getAll() {
         List<Customer> customer = customerService.findAllFalse();
         return ResponseEntity.ok(new Res(customer, "dat", true));
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasRole('ROLE_STAFF') or hasRole('ROLE_ADMIN')")
     public ResponseEntity<Res> getDetail(@PathVariable("id") Long id) {
         Customer customer = customerService.findById(id);
         if (customer.getIsDelete() == true || customer.getAccount().getIsDelete() == true) {
@@ -37,6 +40,7 @@ public class CustomersManagerController {
     }
 
     @PutMapping("/update/{id}")
+    @PreAuthorize("hasRole('ROLE_STAFF') or hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> update(@PathVariable("id") Long id, @RequestBody CustomerDto customerDto) {
         Account ac = accountService.findById(customerDto.getIdaccount());
         Customer ct = customerService.findById(id);
@@ -53,6 +57,7 @@ public class CustomersManagerController {
     }
 
     @PutMapping("/delete/{id}")
+    @PreAuthorize("hasRole('ROLE_STAFF') or hasRole('ROLE_ADMIN')")
     public ResponseEntity<Res> delete(@PathVariable("id") Long id) {
         Customer ct = customerService.findById(id);
         if (ct != null) {

@@ -7,6 +7,7 @@ import com.mamilove.request.dto.VoucherRequest;
 import com.mamilove.service.service.VoucherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
@@ -24,37 +25,44 @@ public class VoucherManagerController {
     VoucherService voucherService;
 
     @PostMapping("/create")
+    @PreAuthorize("hasRole('ROLE_STAFF') or hasRole('ROLE_ADMIN')")
     public ResponseEntity<Res> cteateEvent(@RequestBody VoucherRequest voucherRequest) throws ParseException {
         return ResponseEntity.ok(new Res(voucherService.create(voucherRequest), "Thêm thành công", true));
     }
 
     @PostMapping("/update/{id}")
+    @PreAuthorize("hasRole('ROLE_STAFF') or hasRole('ROLE_ADMIN')")
     public ResponseEntity<Res> updateEvent(@PathVariable("id") Long id, @RequestBody VoucherRequest voucherRequest) throws ParseException {
         return ResponseEntity.ok(new Res(voucherService.update(id, voucherRequest), "Thêm thành công", true));
     }
 
     @GetMapping("/detele/{id}")
+    @PreAuthorize("hasRole('ROLE_STAFF') or hasRole('ROLE_ADMIN')")
     public ResponseEntity<Res> deteleEvent(@PathVariable("id") Long id) {
         return ResponseEntity.ok(new Res(voucherService.detele(id), "Xóa thành công", true));
     }
 
     @GetMapping("/findAll")
+    @PreAuthorize("hasRole('ROLE_STAFF') or hasRole('ROLE_ADMIN')")
     public ResponseEntity<Res> findAll() {
         return ResponseEntity.ok(new Res(voucherService.findAllVoucher(), "thành công", true));
     }
 
     @GetMapping("/findAll/{idEvent}")
+    @PreAuthorize("hasRole('ROLE_STAFF') or hasRole('ROLE_ADMIN')")
     public ResponseEntity<Res> findAll(@PathVariable("idEvent") Long idEvent) {
         return ResponseEntity.ok(new Res(voucherService.findAllVoucherByIdEvent(idEvent), "thành công", true));
     }
 
     @GetMapping("/get/{id}")
+    @PreAuthorize("hasRole('ROLE_STAFF') or hasRole('ROLE_ADMIN')")
     public ResponseEntity<Res> findById(@PathVariable("id") Long id) {
         return ResponseEntity.ok(new Res(voucherService.findById(id), "thành công", true));
     }
 
     //
     @PostMapping("/updateInline")
+    @PreAuthorize("hasRole('ROLE_STAFF') or hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> updateInline(@RequestParam(required = false, value = "createdItems") String createdItems,
                                           @RequestParam(required = false, value = "updatedItems") String updatedItems,
                                           @RequestParam(required = false, value = "deletedItems") String deletedItems) {

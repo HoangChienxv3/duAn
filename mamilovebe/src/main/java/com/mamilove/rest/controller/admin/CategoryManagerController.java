@@ -6,6 +6,7 @@ import java.util.*;
 import com.mamilove.request.dto.CategoryRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -25,6 +26,7 @@ public class CategoryManagerController {
     private CategoryService categoryService;
 
     @PostMapping(value = "/create")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> createCategory(@RequestBody Categorydetail categoryRequest) {
         try {
             Category category = objectMapper.convertValue(categoryRequest, Category.class);
@@ -36,6 +38,7 @@ public class CategoryManagerController {
     }
 
     @GetMapping(value = "findAll")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> getAllListCategory() {
         try {
             return ResponseEntity.ok(new Res(categoryService.getAllListCategory(), "Danh sách categoy", true));
@@ -45,6 +48,7 @@ public class CategoryManagerController {
     }
 
     @GetMapping(value = "findById/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> getIdCategory(@PathVariable("id") Long id) {
         try {
             return ResponseEntity.ok(new Res(categoryService.listCategoryById(id), "Sản Phẩm tìm kiếm", true));
@@ -54,6 +58,7 @@ public class CategoryManagerController {
     }
 
     @PostMapping(value = "/update/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> update(@PathVariable("id") Long id, @RequestBody CategoryRequest categoryRequest) {
         Optional<Category> category = categoryService.findById(id);
         if (category.get().getIsDelete() == true) {
@@ -66,6 +71,7 @@ public class CategoryManagerController {
     }
 
     @PostMapping(value = "delete/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<Res> delete(@PathVariable("id") Long id, Category category) {
         category = categoryService.findById(id).orElseThrow(
                 () -> {
@@ -79,6 +85,7 @@ public class CategoryManagerController {
     }
 
     @PostMapping("/updateInline")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> updateInline(@RequestParam(required = false, value = "createdItems") String createdItems,
                                           @RequestParam(required = false, value = "updatedItems") String updatedItems,
                                           @RequestParam(required = false, value = "deletedItems") String deletedItems) throws IOException {

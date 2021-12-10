@@ -6,6 +6,7 @@ import java.util.List;
 import com.mamilove.request.dto.TypeSizeRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -21,11 +22,13 @@ public class TypeSizeManagerController {
     TypeSizeService typeSizeService;
 
     @GetMapping("/findAll")
+    @PreAuthorize("hasRole('ROLE_STAFF') or hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> findAll() {
         return ResponseEntity.ok(new Res(typeSizeService.findAll(), "OK", true));
     }
 
     @PostMapping("/updateInline")
+    @PreAuthorize("hasRole('ROLE_STAFF') or hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> updateInline(@RequestParam(required = false, value = "createdItems") String createdItems,
                                           @RequestParam(required = false, value = "updatedItems") String updatedItems,
                                           @RequestParam(required = false, value = "deletedItems") String deletedItems) {
@@ -67,16 +70,19 @@ public class TypeSizeManagerController {
 
     //code chien
     @PostMapping("/create")
+    @PreAuthorize("hasRole('ROLE_STAFF') or hasRole('ROLE_ADMIN')")
     public ResponseEntity<Res> createTypeSize(@RequestBody TypeSizeRequest typeSizeRequest) {
         return ResponseEntity.ok(new Res(typeSizeService.create(typeSizeRequest), "Thêm thành công", true));
     }
 
     @PostMapping("/update/{id}")
+    @PreAuthorize("hasRole('ROLE_STAFF') or hasRole('ROLE_ADMIN')")
     public ResponseEntity<Res> updateTypeSize(@PathVariable("id") Long id, @RequestBody TypeSizeRequest typeSizeRequest) {
         return ResponseEntity.ok(new Res(typeSizeService.update(id, typeSizeRequest), "Thêm thành công", true));
     }
 
     @GetMapping("/delete/{id}")
+    @PreAuthorize("hasRole('ROLE_STAFF') or hasRole('ROLE_ADMIN')")
     public ResponseEntity<Res> deleteTypeSize(@PathVariable("id") Long id) {
         return ResponseEntity.ok(new Res(typeSizeService.delete(id), "Thêm thành công", true));
     }
