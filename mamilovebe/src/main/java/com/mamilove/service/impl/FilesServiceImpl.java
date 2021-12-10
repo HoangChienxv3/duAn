@@ -29,23 +29,23 @@ import java.util.stream.Stream;
 public class FilesServiceImpl implements FilesSerivce {
 
     private final Path root = Paths.get("severImg");
+
     @Autowired
-    ImageDao imgDao;
-    ;
+    ImageDao imgDao;;
 
     @Override
     public void init() {
         try {
-            if (root.toFile().isFile() && !root.toFile().isDirectory()) {
+            if (Files.notExists(root)) {
                 Files.createDirectory(root);
             } else {
                 System.out.println("100%");
+
             }
         } catch (IOException e) {
             throw new RuntimeException("Không thể khởi tạo thư mục để tải ảnh lên!");
         }
     }
-
     //luu anh
     @Override
     public void save(MultipartFile file, Image img) {
