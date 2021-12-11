@@ -78,7 +78,7 @@ public class ProductManagerController {
                 UUID uuid = UUID.randomUUID();
                 filename = uuid.toString() + ".jpg";
                 Files.copy(file.getInputStream(), this.root.resolve(filename));
-                product.setImage(filename);
+                product.setImage("http://localhost:8080/manager/image/get/"+ filename);
             }
             product.setIsDelete(false);
             Product entity = productService.saveAndFlush(product);
