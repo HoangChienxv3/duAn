@@ -27,11 +27,11 @@ public class CategoryDetailManagerController {
     @Autowired
     private ObjectMapper objectMapper;
 
-    @GetMapping(value = "findAll")
+    @GetMapping(value = "/findAllByIsDeleteFalse")
     @PreAuthorize("hasRole('ROLE_STAFF') or hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> getAllListCategory() {
         try {
-            return ResponseEntity.ok(new Res(categoryDetailService.getAllListDetailCategory(), "Danh sách categoyDetail", true));
+            return ResponseEntity.ok(new Res(categoryDetailService.findAllByIsDeleteFalse(), "Danh sách categoyDetail", true));
         } catch (Exception e) {
             return ResponseEntity.ok(new Res("Loi", false));
         }
@@ -120,7 +120,7 @@ public class CategoryDetailManagerController {
                 categoryDetailService.saveAll(deleted);
 //				categoryDetailService.deleteInBatch(deleted);
             }
-            return ResponseEntity.ok(new Res(categoryDetailService.findAll(), "Save success", true));
+            return ResponseEntity.ok(new Res(categoryDetailService.findAllByIsDeleteFalse(), "Save success", true));
         } catch (Exception e) {
             // TODO: handle exception
             return ResponseEntity.ok(new Res("Save failed", false));

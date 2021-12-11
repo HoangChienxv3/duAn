@@ -10,6 +10,8 @@ public interface SizeService {
     List<Size> findAll();
 
     List<Size> findByTypeSize(Typesize typeSize);
+    
+    List<Size> findAllByIsDeleteFalse();
 
     List<Size> saveAll(List<Size> size);
 

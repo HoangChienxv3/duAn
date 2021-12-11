@@ -39,6 +39,12 @@ public class VoucherServiceImpl implements VoucherService {
     }
 
     @Override
+	public List<Voucher> findAllByIsDeleteFalse() {
+		// TODO Auto-generated method stub
+		return voucherDao.findAllByIsDeleteFalse();
+	}
+    
+    @Override
     public List<Voucher> findVoucherByAmount() {
         // TODO Auto-generated method stub
         return voucherDao.findVoucherByAmout();

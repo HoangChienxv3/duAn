@@ -8,6 +8,8 @@ import com.mamilove.request.dto.TypeSizeRequest;
 
 public interface TypeSizeService {
     List<Typesize> findAll();
+    
+    List<Typesize> findAllByIsDeleteFalse();
 
     Optional<Typesize> findById(Long id);
 

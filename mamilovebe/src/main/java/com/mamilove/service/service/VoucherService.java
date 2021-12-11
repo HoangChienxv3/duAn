@@ -8,6 +8,8 @@ import com.mamilove.request.dto.VoucherRequest;
 
 public interface VoucherService {
     List<Voucher> findAll();
+    
+    List<Voucher> findAllByIsDeleteFalse();
 
     List<Voucher> findVoucherByAmount();
 

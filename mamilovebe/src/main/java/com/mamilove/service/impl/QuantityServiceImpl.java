@@ -34,6 +34,12 @@ public class QuantityServiceImpl implements QuantityService {
     }
 
     @Override
+	public List<Quantity> findAllByIsDeleteFalse() {
+		// TODO Auto-generated method stub
+		return quantityDao.findAllByIsDeleteFalse();
+	}
+    
+    @Override
     public List<Quantity> createQty(CreateQuantityDto createQuantity) {
         List<Quantity> quantities = new ArrayList<>();
         createQuantity.getPropertyrequests().forEach(property -> {
@@ -70,6 +76,5 @@ public class QuantityServiceImpl implements QuantityService {
         Optional<Quantity> quantity = quantityDao.checkQty(idsize, idproperty, idproduct);
         return quantity.orElse(null);
     }
-
 
 }

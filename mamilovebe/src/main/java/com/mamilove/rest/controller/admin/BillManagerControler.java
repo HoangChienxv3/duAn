@@ -38,7 +38,7 @@ public class BillManagerControler {
     BillService billService;
 
     //lấy tất cả đơn hàng
-    @GetMapping("/findAll")
+    @GetMapping("/findAllByIsDeleteFalse")
     @PreAuthorize("hasRole('ROLE_STAFF') or hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> getAllBill() {
         return ResponseEntity.ok(new Res(billDao.findAll(), "Thành công", true));

@@ -18,9 +18,9 @@ public class VoucherController {
     @Autowired
     VoucherService voucherService;
 
-    @GetMapping("/findAll")
+    @GetMapping("/findAllByIsDeleteFalse")
     public ResponseEntity<?> findAll() {
-        return ResponseEntity.ok(new Res(voucherService.findAll(), "", true));
+        return ResponseEntity.ok(new Res(voucherService.findAllByIsDeleteFalse(), "", true));
     }
 
     @GetMapping("/findVoucherByAmount")

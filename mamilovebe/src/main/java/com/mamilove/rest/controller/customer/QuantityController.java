@@ -21,20 +21,21 @@ import com.mamilove.service.service.QuantityService;
 @CrossOrigin("http://localhost:4200/")
 @RequestMapping("/Customer/QuantityController")
 public class QuantityController {
-    @Autowired
-    QuantityService quantityService;
-    @Autowired
-    ProductService productService;
 
-    @GetMapping("/findAll")
-    public ResponseEntity<?> findAll() {
-        return ResponseEntity.ok(new Res(quantityService.findAll(), "success", true));
-    }
+	@Autowired
+	QuantityService quantityService;
+	@Autowired
+	ProductService productService;
+	
+	@GetMapping("/findAllByIsDeleteFalse")
+	public ResponseEntity<?> findAll(){
+		return ResponseEntity.ok(new Res(quantityService.findAllByIsDeleteFalse(),"success",true));
+	}
+	@GetMapping("/findQuantityByProduct/{id}")
+	public ResponseEntity<?> findQuantityByProduct(@PathVariable("id") Long id){
+		Optional<Product> product = Optional.ofNullable(productService.findById(id));
+		List<Quantity> list = quantityService.findByProduct(product.get());
+		return ResponseEntity.ok(new Res(list,"success",true));
+	}
 
-    @GetMapping("/findQuantityByProduct/{id}")
-    public ResponseEntity<?> findQuantityByProduct(@PathVariable("id") Long id) {
-        Optional<Product> product = Optional.ofNullable(productService.findById(id));
-        List<Quantity> list = quantityService.findByProduct(product.get());
-        return ResponseEntity.ok(new Res(list, "success", true));
-    }
 }

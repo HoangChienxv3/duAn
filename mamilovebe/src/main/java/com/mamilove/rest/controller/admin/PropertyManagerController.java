@@ -27,12 +27,12 @@ public class PropertyManagerController {
     @Autowired
     PropertyService propertyService;
 
-    @GetMapping("/findAll")
+    @GetMapping("/findAllByIsDeleteFalse")
     @PreAuthorize("hasRole('ROLE_STAFF') or hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> findAll() {
-        List<Property> entity = propertyService.findAll();
+        List<Property> entity = propertyService.findAllByIsDeleteFalse();
         if (entity.size() > 0)
-            return ResponseEntity.ok(new Res(propertyService.findAll(), "OK", true));
+            return ResponseEntity.ok(new Res(propertyService.findAllByIsDeleteFalse(), "OK", true));
         else
             return ResponseEntity.ok(new Res("Not OK", false));
     }
@@ -71,7 +71,7 @@ public class PropertyManagerController {
                 propertyService.saveAll(deleted);
 //				propertyService.deleteInBatch(deleted);
             }
-            return ResponseEntity.ok(new Res(propertyService.findAll(), "Save success", true));
+            return ResponseEntity.ok(new Res(propertyService.findAllByIsDeleteFalse(), "Save success", true));
         } catch (Exception e) {
             // TODO: handle exception
             return ResponseEntity.ok(new Res("Save failed", false));

@@ -22,8 +22,7 @@ public class CustomersManagerController {
     @Autowired
     AccountService accountService;
 
-    @GetMapping("/findAll")
-    @PreAuthorize("hasRole('ROLE_STAFF') or hasRole('ROLE_ADMIN')")
+    @GetMapping("/findAllByIsDeleteFalse")
     public ResponseEntity<?> getAll() {
         List<Customer> customer = customerService.findAllFalse();
         return ResponseEntity.ok(new Res(customer, "dat", true));

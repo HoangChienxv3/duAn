@@ -37,11 +37,11 @@ public class CategoryManagerController {
         }
     }
 
-    @GetMapping(value = "findAll")
+    @GetMapping(value = "/findAllByIsDeleteFalse")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> getAllListCategory() {
         try {
-            return ResponseEntity.ok(new Res(categoryService.getAllListCategory(), "Danh sách categoy", true));
+            return ResponseEntity.ok(new Res(categoryService.findAllByIsDeleteFalse(), "Danh sách categoy", true));
         } catch (Exception e) {
             return ResponseEntity.ok(new Res("Loi", false));
         }
@@ -118,7 +118,7 @@ public class CategoryManagerController {
                 categoryService.saveAll(deleted);
 //				categoryService.deleteInBatch(deleted);
             }
-            return ResponseEntity.ok(new Res(categoryService.findAll(), "Save success", true));
+            return ResponseEntity.ok(new Res(categoryService.findAllByIsDeleteFalse(), "Save success", true));
         } catch (Exception e) {
             // TODO: handle exception
             return ResponseEntity.ok(new Res("Save failed", false));

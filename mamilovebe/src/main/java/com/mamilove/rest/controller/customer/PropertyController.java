@@ -20,11 +20,11 @@ public class PropertyController {
     @Autowired
     PropertyService propertyService;
 
-    @GetMapping("/findAll")
-    public ResponseEntity<?> findAll() {
+    @GetMapping("/findAllByIsDeleteFalse")
+    public ResponseEntity<?> findAllByIsDeleteFalse() {
         List<Property> entity = propertyService.findAll();
         if (entity.size() > 0)
-            return ResponseEntity.ok(new Res(propertyService.findAll(), "OK", true));
+            return ResponseEntity.ok(new Res(propertyService.findAllByIsDeleteFalse(), "OK", true));
         else
             return ResponseEntity.ok(new Res("Not OK", false));
     }

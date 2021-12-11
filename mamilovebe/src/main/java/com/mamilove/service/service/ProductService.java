@@ -22,5 +22,5 @@ public interface ProductService {
 
     Product create(Product product);
 
-    List<Product> findAllFalse();
+    List<Product> findAllByIsDeleteFalse();
 }

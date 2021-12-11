@@ -52,10 +52,10 @@ public class ProductManagerController {
     @Autowired
     CategoryDetailService categoryDetailService;
 
-    @GetMapping("/findAll")
+    @GetMapping("/findAllByIsDeleteFalse")
     @PreAuthorize("hasRole('ROLE_STAFF') or hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> findAll() {
-        List<Product> entity = productService.findAll();
+        List<Product> entity = productService.findAllByIsDeleteFalse();
         return ResponseEntity.ok(new Res(entity, "Success", true));
     }
 
@@ -78,11 +78,11 @@ public class ProductManagerController {
                 UUID uuid = UUID.randomUUID();
                 filename = uuid.toString() + ".jpg";
                 Files.copy(file.getInputStream(), this.root.resolve(filename));
-                product.setImage(filename);
+                product.setImage("http://localhost:8080/manager/image/get/"+ filename);
             }
             product.setIsDelete(false);
             Product entity = productService.saveAndFlush(product);
-            return ResponseEntity.ok(new Res(entity, "Save success", true));
+            return ResponseEntity.ok(new Res(productService.findAllByIsDeleteFalse(), "Save success", true));
         } catch (Exception e) {
             // TODO: handle exception
             return ResponseEntity.ok(new Res("Save failed", false));
@@ -94,7 +94,7 @@ public class ProductManagerController {
     public ResponseEntity<?> deleteProduct(@RequestBody Product product) {
         try {
             product.setIsDelete(true);
-            return ResponseEntity.ok(new Res(product, "Save success", true));
+            return ResponseEntity.ok(new Res(productService.findAllByIsDeleteFalse(), "Save success", true));
         } catch (Exception e) {
             // TODO: handle exception
             return ResponseEntity.ok(new Res("Save failed", false));
