@@ -13,6 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/Customer/OrderDetailController")
+@CrossOrigin("http://localhost:4200/")
 public class OrderDetailController {
     @Autowired
     OrderDetailService orderDetailService;
@@ -32,7 +33,7 @@ public class OrderDetailController {
 
     @GetMapping("/{idbill}")
     @PreAuthorize("hasRole('ROLE_CUSTOMER')")
-    public ResponseEntity<List<Orderdetail>> getAllOrderdetail(@PathVariable("idbill") String idbill) {
+    public ResponseEntity<List<Orderdetail>> findByIdBill(@PathVariable("idbill") String idbill) {
         return ResponseEntity.ok(orderDetailDao.getListOrderDetail(idbill));
 
     }
