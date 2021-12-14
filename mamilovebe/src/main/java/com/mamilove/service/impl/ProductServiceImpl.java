@@ -54,6 +54,12 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+	public List<Product> findByNameLike(String name) {
+		// TODO Auto-generated method stub
+		return productDao.findByNameLike(name);
+	}
+    
+    @Override
     @Transactional
     public <S extends Product> List<S> saveAll(Iterable<S> entities) {
         // TODO Auto-generated method stub
