@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import com.mamilove.entity.Categorydetail;
 import com.mamilove.entity.Product;
@@ -18,6 +19,9 @@ public interface ProductDao extends JpaRepository<Product, Long> {
     List<Product> findProductNew();
 
     List<Product> findByCategorydetail(Categorydetail categorydetail);
+    
+    @Query("SELECT p FROM Product p WHERE p.name LIKE %:name%")
+    List<Product> findByNameLike(@Param("name") String name);
 
     Product saveAndFlush(Product product);
 
@@ -27,6 +31,5 @@ public interface ProductDao extends JpaRepository<Product, Long> {
 
     void deleteInBatch(Iterable<Product> product);
 
-    @Query("SELECT p FROM Product p where p.isDelete=false and p.categorydetail.isDelete=false ")
-    List<Product> findAllFalse();
+    List<Product> findAllByIsDeleteFalse();
 }

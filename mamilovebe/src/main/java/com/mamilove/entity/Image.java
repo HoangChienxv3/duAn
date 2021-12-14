@@ -28,5 +28,4 @@ public class Image implements Serializable {
     private Product product;
 
 
-
 }

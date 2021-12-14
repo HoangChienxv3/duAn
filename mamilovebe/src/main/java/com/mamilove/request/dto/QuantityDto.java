@@ -15,11 +15,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class QuantityDto {
-	private List<Product> product;
-	
-	private Property property;
-	
-	private Size size;
-	
-	private Double quantity; 
+    private List<Product> product;
+
+    private Property property;
+
+    private Size size;
+
+    private Double quantity;
 }

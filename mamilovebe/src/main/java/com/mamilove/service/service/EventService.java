@@ -1,5 +1,6 @@
 package com.mamilove.service.service;
 
+import com.mamilove.entity.Category;
 import com.mamilove.entity.Event;
 import com.mamilove.request.dto.EventRequest;
 
@@ -15,6 +16,8 @@ public interface EventService {
     Event detele(Long id);
 
     List<Event> findAll();
+    
+    List<Event> findAllByIsDeleteFalse();
 
     Event findById(Long id);
 }

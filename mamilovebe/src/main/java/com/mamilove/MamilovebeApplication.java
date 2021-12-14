@@ -11,15 +11,15 @@ import javax.annotation.Resource;
 @SpringBootApplication
 public class MamilovebeApplication implements CommandLineRunner {
 
-	@Resource
-	FilesSerivce storageService;
+    @Resource
+    FilesSerivce storageService;
 
-	public static void main(String[] args) {
-		SpringApplication.run(MamilovebeApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(MamilovebeApplication.class, args);
+    }
 
-	@Override
-	public void run(String... arg) throws Exception {
-		storageService.init();
-	}
+    @Override
+    public void run(String... arg) throws Exception {
+        storageService.init();
+    }
 }

@@ -24,5 +24,5 @@ public interface AccountDao extends JpaRepository<Account, Long> {
     Boolean existsByPhone(String phone);
 
     @Query("SELECT ac FROM Account ac WHERE ac.isDelete=false ")
-    List<Account> findAllFalse();
+    List<Account> findAllByIsDeleteFalse();
 }

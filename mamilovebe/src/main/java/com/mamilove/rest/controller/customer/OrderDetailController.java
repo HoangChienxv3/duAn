@@ -1,19 +1,25 @@
 package com.mamilove.rest.controller.customer;
 
+import com.mamilove.dao.OrderDetailDao;
 import com.mamilove.entity.Orderdetail;
 import com.mamilove.response.dto.Res;
 import com.mamilove.service.service.OrderDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/orderdetail")
+@RequestMapping("/Customer/OrderDetailController")
+@CrossOrigin("http://localhost:4200/")
 public class OrderDetailController {
     @Autowired
     OrderDetailService orderDetailService;
+    @Autowired
+    OrderDetailDao orderDetailDao;
+
 
     @GetMapping("/list")
     public ResponseEntity<List<Orderdetail>> listOrderdetail() {
@@ -25,5 +31,11 @@ public class OrderDetailController {
         return ResponseEntity.ok(new Res(orderDetailService.AllByCustomer(id), "dat", true));
     }
 
+    @GetMapping("/{idbill}")
+    @PreAuthorize("hasRole('ROLE_CUSTOMER')")
+    public ResponseEntity<List<Orderdetail>> findByIdBill(@PathVariable("idbill") String idbill) {
+        return ResponseEntity.ok(orderDetailDao.getListOrderDetail(idbill));
+
+    }
 
 }

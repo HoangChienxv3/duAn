@@ -28,7 +28,7 @@ public class AccountsController {
     @GetMapping("/all")
     @PreAuthorize("hasRole('ROLE_CUSTOMER') or hasRole('ROLE_STAFF') or hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> getAll() {
-        List<Account> account = accountService.findAllFalse();
+        List<Account> account = accountService.findAllByIsDeleteFalse();
         return ResponseEntity.ok(new Res(account, "dat", true));
     }
 

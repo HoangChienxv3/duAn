@@ -13,7 +13,7 @@ public class Res {
     private String message;
     private Boolean status;
 
-    public Res(String message, Boolean status){
+    public Res(String message, Boolean status) {
         this.message = message;
         this.status = status;
     }
