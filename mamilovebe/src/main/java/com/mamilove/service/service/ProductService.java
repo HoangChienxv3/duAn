@@ -13,6 +13,8 @@ public interface ProductService {
     List<Product> findProductNew();
 
     List<Product> findByCategoryDetail(Categorydetail categoryDetail);
+    
+    List<Product> findByNameLike(String name);
 
     Product saveAndFlush(Product product);
 
