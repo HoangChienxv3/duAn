@@ -50,7 +50,7 @@ public class DateUtils {
     }
 
     //    locaDate
-    public static Date formatLocalDate(LocalDate localDate) {
+    public static Date localDateToDate(LocalDate localDate) {
         return Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
     }
 

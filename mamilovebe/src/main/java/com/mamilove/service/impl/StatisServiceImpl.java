@@ -7,6 +7,7 @@ import com.mamilove.entity.Bill;
 import com.mamilove.response.dto.EveryDayResponse;
 import com.mamilove.response.dto.EveryMonthResponse;
 import com.mamilove.response.dto.EveryYearResponse;
+import com.mamilove.response.dto.SumQtyProductResponse;
 import com.mamilove.service.service.StatisService;
 import com.mamilove.utils.DateUtils;
 import net.time4j.PlainDate;
@@ -63,8 +64,8 @@ public class StatisServiceImpl implements StatisService {
 
         List<EveryDayResponse> everyDayResponses = getRevenueEveryDay(dateList);
 
-        List<Bill> billList = getListBill(DateUtils.formatLocalDate(dateList.get(0)),
-                DateUtils.formatLocalDate(dateList.get(dateList.size() - 1).plusDays(1)), status);
+        List<Bill> billList = getListBill(DateUtils.localDateToDate(dateList.get(0)),
+                DateUtils.localDateToDate(dateList.get(dateList.size() - 1).plusDays(1)), status);
 
 
         billList.forEach(bill -> {
@@ -103,10 +104,10 @@ public class StatisServiceImpl implements StatisService {
     }
 
     public Double getTotalMonth(List<LocalDate> dateList, EnumStatus status) {
-        return status == null ? billDao.sumTotalMonthOfYear(DateUtils.formatLocalDate(dateList.get(0)),
-                DateUtils.formatLocalDate(dateList.get(dateList.size() - 1).plusDays(1)))
-                : billDao.sumTotalMonthOfYear(DateUtils.formatLocalDate(dateList.get(0)),
-                DateUtils.formatLocalDate(dateList.get(dateList.size() - 1).plusDays(1)), status);
+        return status == null ? billDao.sumTotalMonthOfYear(DateUtils.localDateToDate(dateList.get(0)),
+                DateUtils.localDateToDate(dateList.get(dateList.size() - 1).plusDays(1)))
+                : billDao.sumTotalMonthOfYear(DateUtils.localDateToDate(dateList.get(0)),
+                DateUtils.localDateToDate(dateList.get(dateList.size() - 1).plusDays(1)), status);
 
     }
 
@@ -139,9 +140,27 @@ public class StatisServiceImpl implements StatisService {
     }
 
     public Double getTotalStartToEnd(LocalDate start, LocalDate end, EnumStatus status) {
-        return status == null ? billDao.sumTotalMonthOfYear(DateUtils.formatLocalDate(start),
-                DateUtils.formatLocalDate(end.plusDays(1)))
-                : billDao.sumTotalMonthOfYear(DateUtils.formatLocalDate(start),
-                DateUtils.formatLocalDate(end.plusDays(1)), status);
+        return status == null ? billDao.sumTotalMonthOfYear(DateUtils.localDateToDate(start),
+                DateUtils.localDateToDate(end.plusDays(1)))
+                : billDao.sumTotalMonthOfYear(DateUtils.localDateToDate(start),
+                DateUtils.localDateToDate(end.plusDays(1)), status);
+    }
+
+    @Override
+    public List<SumQtyProductResponse> quantityByDay(Date date) {
+        String str = DateUtils.toString(date);
+        LocalDate start = DateUtils.stringToLocalDate(str);
+        LocalDate end = start.plusDays(1);
+
+        List<Object[]> objects = orderDetailDao.getSumQtyProduct(DateUtils.localDateToDate(start), DateUtils.localDateToDate(end));
+
+        return objects.stream().map(o -> {
+            SumQtyProductResponse sumQtyProductResponse = new SumQtyProductResponse();
+            sumQtyProductResponse.setName((String) o[0]);
+            sumQtyProductResponse.setQty((Long) o[1]);
+            sumQtyProductResponse.setIntomoney((Double) o[2]);
+            return sumQtyProductResponse;
+        }).collect(Collectors.toList());
+
     }
 }
