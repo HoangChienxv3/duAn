@@ -1,12 +1,15 @@
 package com.mamilove.rest.controller.admin;
 
 import com.mamilove.common.EnumStatus;
+import com.mamilove.request.dto.QtyByDayRequest;
 import com.mamilove.response.dto.Res;
 import com.mamilove.service.impl.StatisServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Date;
 
 @RestController
 @CrossOrigin("http://localhost:4200/")
@@ -35,6 +38,12 @@ public class StatisController {
     @PreAuthorize("hasRole('ROLE_STAFF') or hasRole('ROLE_ADMIN')")
     public ResponseEntity<Res> getEveryYear(@RequestParam(value = "status", required = false) EnumStatus status) {
         return ResponseEntity.ok(new Res(statisService.getEveryYear(status), "Thành công", true));
+    }
+
+    @GetMapping("/quantityByDay")
+    @PreAuthorize("hasRole('ROLE_STAFF') or hasRole('ROLE_ADMIN')")
+    public ResponseEntity<Res> getQuantityByDay(QtyByDayRequest qtyByDayRequest) {
+        return ResponseEntity.ok(new Res(statisService.quantityByDay(qtyByDayRequest.getDay()), "Thành công", true));
     }
 
 }
