@@ -46,8 +46,8 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public List<Account> findAllFalse() {
-        return accountDao.findAllFalse();
+    public List<Account> findAllByIsDeleteFalse() {
+        return accountDao.findAllByIsDeleteFalse();
     }
 
     @Override

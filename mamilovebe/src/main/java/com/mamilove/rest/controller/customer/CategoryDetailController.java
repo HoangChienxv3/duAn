@@ -19,8 +19,8 @@ public class CategoryDetailController {
     @Autowired
     CategoryDetailService categoryDetailService;
 
-    @GetMapping("/findAll")
+    @GetMapping("/findAllByIsDeleteFalse")
     public ResponseEntity<List<Categorydetail>> findAll() {
-        return ResponseEntity.ok(categoryDetailService.findAll());
+        return ResponseEntity.ok(categoryDetailService.findAllByIsDeleteFalse());
     }
 }

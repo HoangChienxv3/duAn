@@ -21,14 +21,15 @@ import com.mamilove.service.service.QuantityService;
 @CrossOrigin("http://localhost:4200/")
 @RequestMapping("/Customer/QuantityController")
 public class QuantityController {
+
 	@Autowired
 	QuantityService quantityService;
 	@Autowired
 	ProductService productService;
 	
-	@GetMapping("/findAll")
+	@GetMapping("/findAllByIsDeleteFalse")
 	public ResponseEntity<?> findAll(){
-		return ResponseEntity.ok(new Res(quantityService.findAll(),"success",true));
+		return ResponseEntity.ok(new Res(quantityService.findAllByIsDeleteFalse(),"success",true));
 	}
 	@GetMapping("/findQuantityByProduct/{id}")
 	public ResponseEntity<?> findQuantityByProduct(@PathVariable("id") Long id){
@@ -36,4 +37,5 @@ public class QuantityController {
 		List<Quantity> list = quantityService.findByProduct(product.get());
 		return ResponseEntity.ok(new Res(list,"success",true));
 	}
+
 }

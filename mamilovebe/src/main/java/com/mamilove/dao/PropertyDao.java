@@ -8,4 +8,5 @@ import com.mamilove.entity.Property;
 
 public interface PropertyDao extends JpaRepository<Property, Long> {
     List<Property> findAll();
+    List<Property> findAllByIsDeleteFalse();
 }

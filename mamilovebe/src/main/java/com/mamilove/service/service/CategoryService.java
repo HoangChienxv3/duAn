@@ -7,6 +7,8 @@ import com.mamilove.entity.Category;
 
 public interface CategoryService {
     List<Category> findAll();
+    
+    List<Category> findAllByIsDeleteFalse();
 
     List<Category> getAllListCategory();
 

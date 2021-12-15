@@ -22,7 +22,12 @@ public class CategoryServiceImpl implements CategoryService {
     public List<Category> findAll() {
         return categoryDao.findAllByIsDeleteFalse();
     }
-
+    
+    @Override
+	public List<Category> findAllByIsDeleteFalse() {
+		// TODO Auto-generated method stub
+		return categoryDao.findAllByIsDeleteFalse();
+	}
 
     @Override
     @Transactional
@@ -68,6 +73,5 @@ public class CategoryServiceImpl implements CategoryService {
         // TODO Auto-generated method stub
         return categoryDao.findById(id);
     }
-
 
 }

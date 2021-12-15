@@ -17,8 +17,8 @@ public class TypeSizeController {
     @Autowired
     TypeSizeService typeSizeService;
 
-    @GetMapping("/findAll")
+    @GetMapping("/findAllByIsDeleteFalse")
     public ResponseEntity<?> findAll() {
-        return ResponseEntity.ok(new Res(typeSizeService.findAll(), "OK", true));
+        return ResponseEntity.ok(new Res(typeSizeService.findAllByIsDeleteFalse(), "OK", true));
     }
 }

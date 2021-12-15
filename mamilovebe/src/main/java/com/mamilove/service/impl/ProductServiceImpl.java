@@ -37,6 +37,11 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public List<Product> findAllByIsDeleteFalse() {
+        return productDao.findAllByIsDeleteFalse();
+    }
+    
+    @Override
     public Product findById(Long id) {
         // TODO Auto-generated method stub
         return productDao.findById(id).get();
@@ -48,6 +53,12 @@ public class ProductServiceImpl implements ProductService {
         return productDao.findByCategorydetail(categoryDetail);
     }
 
+    @Override
+	public List<Product> findByNameLike(String name) {
+		// TODO Auto-generated method stub
+		return productDao.findByNameLike(name);
+	}
+    
     @Override
     @Transactional
     public <S extends Product> List<S> saveAll(Iterable<S> entities) {
@@ -74,11 +85,5 @@ public class ProductServiceImpl implements ProductService {
     public Product create(Product product) {
         return productDao.save(product);
     }
-
-    @Override
-    public List<Product> findAllFalse() {
-        return productDao.findAllFalse();
-    }
-
 
 }

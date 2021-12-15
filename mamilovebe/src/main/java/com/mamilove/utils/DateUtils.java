@@ -58,7 +58,7 @@ public class DateUtils {
         return date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
     }
 
-    public static LocalDate stringToLocalDate(String dateStr){
+    public static LocalDate stringToLocalDate(String dateStr) {
         Date date = stringToDate(dateStr);
         return dateToLocalDate(date);
     }

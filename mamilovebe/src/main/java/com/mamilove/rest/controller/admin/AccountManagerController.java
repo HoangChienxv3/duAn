@@ -26,10 +26,10 @@ public class AccountManagerController {
     @Autowired
     PasswordEncoder encoder;
 
-    @GetMapping(value = "/findAll")
+    @GetMapping(value = "/findAllByIsDeleteFalse")
     @PreAuthorize("hasRole('ROLE_STAFF') or hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> getUserList() {
-        return ResponseEntity.ok(new Res(accountService.findAll(), "Save Success", true));
+        return ResponseEntity.ok(new Res(accountService.findAllByIsDeleteFalse(), "Save Success", true));
     }
 
     @GetMapping(value = "/{id}")
@@ -77,7 +77,7 @@ public class AccountManagerController {
                 accountDAO.saveAll(deleted);
 //				categoryDetailService.deleteInBatch(deleted);
             }
-            return ResponseEntity.ok(new Res(accountDAO.findAll(), "Save success", true));
+            return ResponseEntity.ok(new Res(accountService.findAllByIsDeleteFalse(), "Save success", true));
         } catch (Exception e) {
             // TODO: handle exception
             return ResponseEntity.ok(new Res("Save failed", false));

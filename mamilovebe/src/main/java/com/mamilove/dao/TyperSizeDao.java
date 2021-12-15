@@ -9,10 +9,11 @@ import com.mamilove.entity.Typesize;
 
 public interface TyperSizeDao extends JpaRepository<Typesize, Long> {
     List<Typesize> findAll();
+    
+    List<Typesize> findAllByIsDeleteFalse();
 
     Optional<Typesize> findById(Long id);
 
     Optional<Typesize> findByName(String name);
 
-    List<Typesize> findAllByIsDeleteFalse();
 }

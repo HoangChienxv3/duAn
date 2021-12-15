@@ -24,6 +24,13 @@ public class CategoryDetailServiceImpl implements CategoryDetailService {
     }
 
     @Override
+	public List<Categorydetail> findAllByIsDeleteFalse() {
+		// TODO Auto-generated method stub
+		return categoryDetailDao.findAllByIsDeleteFalse();
+	}
+
+    
+    @Override
     public Optional<Categorydetail> findById(Long id) {
         // TODO Auto-generated method stub
         return categoryDetailDao.findById(id);
@@ -71,6 +78,5 @@ public class CategoryDetailServiceImpl implements CategoryDetailService {
     public List<Categorydetail> listCategoryDetailById(Long id) {
         return categoryDetailDao.listCategoryDetailById(id);
     }
-
 
 }

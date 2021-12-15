@@ -19,8 +19,8 @@ public class CategoryController {
     @Autowired
     CategoryService categoryService;
 
-    @GetMapping(value = "/findAll", produces = "application/json")
+    @GetMapping(value = "/findAllByIsDeleteFalse", produces = "application/json")
     public ResponseEntity<List<Category>> findAll() {
-        return ResponseEntity.ok(categoryService.findAll());
+        return ResponseEntity.ok(categoryService.findAllByIsDeleteFalse());
     }
 }

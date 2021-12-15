@@ -24,6 +24,12 @@ public class PropertyServiceImpl implements PropertyService {
     }
 
     @Override
+	public List<Property> findAllByIsDeleteFalse() {
+		// TODO Auto-generated method stub
+		return propertyDao.findAllByIsDeleteFalse();
+	}
+    
+    @Override
     @Transactional
     public List<Property> saveAll(List<Property> property) {
         // TODO Auto-generated method stub

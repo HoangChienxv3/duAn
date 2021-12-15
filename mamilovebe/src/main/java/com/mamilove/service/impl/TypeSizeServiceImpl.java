@@ -22,10 +22,15 @@ public class TypeSizeServiceImpl implements TypeSizeService {
     @Override
     public List<Typesize> findAll() {
         // TODO Auto-generated method stub
-//		return typeSizeDao.findAll();
-        return typeSizeDao.findAllByIsDeleteFalse();
+		return typeSizeDao.findAll();
     }
 
+    @Override
+	public List<Typesize> findAllByIsDeleteFalse() {
+		// TODO Auto-generated method stub
+		return typeSizeDao.findAllByIsDeleteFalse();
+	}
+    
     @Override
     public Optional<Typesize> findById(Long id) {
         // TODO Auto-generated method stub
@@ -69,6 +74,5 @@ public class TypeSizeServiceImpl implements TypeSizeService {
         typesize.setIsDelete(true);
         return typeSizeDao.save(typesize);
     }
-
 
 }
