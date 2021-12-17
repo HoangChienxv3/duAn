@@ -31,4 +31,8 @@ public interface BillDao extends JpaRepository<Bill, String> {
             " b.createAt >= ?1 and b.createAt < ?2 and b.status = ?3 order by b.createAt desc ")
     Double sumTotalMonthOfYear(Date star, Date end, EnumStatus status);
 
+    @Query("select b.status, count(b.id) from Bill b" +
+            " where b.updateAts >= ?1 and b.updateAts < ?2 " +
+            " group by b.status")
+    List<Object[]> countBill(Date star, Date end);
 }
