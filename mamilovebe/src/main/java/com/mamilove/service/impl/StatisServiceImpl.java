@@ -153,7 +153,7 @@ public class StatisServiceImpl implements StatisService {
         LocalDate start = DateUtils.stringToLocalDate(str);
         LocalDate end = start.plusDays(1);
 
-        List<Object[]> objects = getSumQty(DateUtils.localDateToDate(start), DateUtils.localDateToDate(end),qtyByDayRequest.getEnumStatus());
+        List<Object[]> objects = getSumQty(DateUtils.localDateToDate(start), DateUtils.localDateToDate(end), qtyByDayRequest.getEnumStatus());
 
         return objects.stream().map(o -> {
             SumQtyProductResponse sumQtyProductResponse = new SumQtyProductResponse();
@@ -164,8 +164,24 @@ public class StatisServiceImpl implements StatisService {
         }).collect(Collectors.toList());
     }
 
+    @Override
+    public List<SumQtyProductResponse> quantityByMonth(EnumStatus status) {
+        LocalDate date = LocalDate.now();
+        List<LocalDate> dateList = getDayOfMonth(date.getYear(), date.getMonthValue());
+
+        List<Object[]> objects = getSumQty(DateUtils.localDateToDate(dateList.get(0)),
+                DateUtils.localDateToDate(dateList.get(dateList.size() - 1)), status);
+        return objects.stream().map(o -> {
+            SumQtyProductResponse sumQtyProductResponse = new SumQtyProductResponse();
+            sumQtyProductResponse.setName((String) o[0]);
+            sumQtyProductResponse.setQty((Long) o[1]);
+            sumQtyProductResponse.setIntomoney((Double) o[2]);
+            return sumQtyProductResponse;
+        }).collect(Collectors.toList());
+    }
+
     public List<Object[]> getSumQty(Date star, Date end, EnumStatus status) {
-        return status == null ? orderDetailDao.getSumQtyProduct(star, end):
+        return status == null ? orderDetailDao.getSumQtyProduct(star, end) :
                 orderDetailDao.getSumQtyProduct(star, end, status);
     }
 }

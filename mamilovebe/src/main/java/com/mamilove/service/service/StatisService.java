@@ -7,7 +7,6 @@ import com.mamilove.response.dto.EveryMonthResponse;
 import com.mamilove.response.dto.SumQtyProductResponse;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
 import java.util.List;
 
 @Service
@@ -17,4 +16,6 @@ public interface StatisService {
     List<EveryMonthResponse> getEveryMonthOfTheYear(Integer year, EnumStatus status);
 
     List<SumQtyProductResponse> quantityByDay(QtyByDayRequest qtyByDayRequest);
+
+    List<SumQtyProductResponse> quantityByMonth(EnumStatus status);
 }
