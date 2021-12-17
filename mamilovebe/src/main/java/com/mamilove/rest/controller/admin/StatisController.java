@@ -43,7 +43,7 @@ public class StatisController {
     @GetMapping("/quantityByDay")
     @PreAuthorize("hasRole('ROLE_STAFF') or hasRole('ROLE_ADMIN')")
     public ResponseEntity<Res> getQuantityByDay(QtyByDayRequest qtyByDayRequest) {
-        return ResponseEntity.ok(new Res(statisService.quantityByDay(qtyByDayRequest.getDay()), "Thành công", true));
+        return ResponseEntity.ok(new Res(statisService.quantityByDay(qtyByDayRequest), "Thành công", true));
     }
 
 }

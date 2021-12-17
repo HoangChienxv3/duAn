@@ -4,6 +4,7 @@ import com.mamilove.common.EnumStatus;
 import com.mamilove.dao.BillDao;
 import com.mamilove.dao.OrderDetailDao;
 import com.mamilove.entity.Bill;
+import com.mamilove.request.dto.QtyByDayRequest;
 import com.mamilove.response.dto.EveryDayResponse;
 import com.mamilove.response.dto.EveryMonthResponse;
 import com.mamilove.response.dto.EveryYearResponse;
@@ -147,12 +148,12 @@ public class StatisServiceImpl implements StatisService {
     }
 
     @Override
-    public List<SumQtyProductResponse> quantityByDay(Date date) {
-        String str = DateUtils.toString(date);
+    public List<SumQtyProductResponse> quantityByDay(QtyByDayRequest qtyByDayRequest) {
+        String str = DateUtils.toString(qtyByDayRequest.getDay());
         LocalDate start = DateUtils.stringToLocalDate(str);
         LocalDate end = start.plusDays(1);
 
-        List<Object[]> objects = orderDetailDao.getSumQtyProduct(DateUtils.localDateToDate(start), DateUtils.localDateToDate(end));
+        List<Object[]> objects = getSumQty(DateUtils.localDateToDate(start), DateUtils.localDateToDate(end),qtyByDayRequest.getEnumStatus());
 
         return objects.stream().map(o -> {
             SumQtyProductResponse sumQtyProductResponse = new SumQtyProductResponse();
@@ -161,6 +162,10 @@ public class StatisServiceImpl implements StatisService {
             sumQtyProductResponse.setIntomoney((Double) o[2]);
             return sumQtyProductResponse;
         }).collect(Collectors.toList());
+    }
 
+    public List<Object[]> getSumQty(Date star, Date end, EnumStatus status) {
+        return status == null ? orderDetailDao.getSumQtyProduct(star, end):
+                orderDetailDao.getSumQtyProduct(star, end, status);
     }
 }

@@ -127,6 +127,7 @@ public class BillServiceImpl extends BaseController implements BillService {
             orderdetail.setDownprice(product.getDiscount() != null ? product.getPrice() * (product.getDiscount() / 100) : 0);
             orderdetail.setIntomoney(product.getPrice() - orderdetail.getDownprice());
             orderdetail.setIdbill(bill.getId());
+            orderdetail.setCreateAt(new Date());
 
             orderdetails.add(orderdetail);
         }

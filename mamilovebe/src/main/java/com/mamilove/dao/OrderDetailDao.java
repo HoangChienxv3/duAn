@@ -1,5 +1,6 @@
 package com.mamilove.dao;
 
+import com.mamilove.common.EnumStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.mamilove.entity.Orderdetail;
@@ -22,8 +23,16 @@ public interface OrderDetailDao extends JpaRepository<Orderdetail, Long> {
 
     @Query("select o.quantity.product.name as name, sum(o.quantitydetail) as qty,sum(o.intomoney) as intomoney " +
             " from Orderdetail o " +
-            " where o.bill.createAt >= ?1 and o.bill.createAt <= ?2 " +
+            " where o.createAt >= ?1 and o.createAt <= ?2 " +
             " group by name " +
             " order by qty desc ")
     List<Object[]> getSumQtyProduct(Date start, Date end);
+
+    @Query("select o.quantity.product.name as name, sum(o.quantitydetail) as qty,sum(o.intomoney) as intomoney " +
+            " from Orderdetail o " +
+            " where o.createAt >= ?1 and o.createAt <= ?2 " +
+            " and o.bill.status = ?3" +
+            " group by name " +
+            " order by qty desc ")
+    List<Object[]> getSumQtyProduct(Date start, Date end, EnumStatus status);
 }
