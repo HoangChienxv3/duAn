@@ -28,7 +28,7 @@ public interface BillService {
 
     Bill confirmBillManager(String idbill) throws MessagingException, UnsupportedEncodingException;
 
-    Bill shipBillManager(String idbill);
+    Bill shipBillManager(String idbill) throws MessagingException, UnsupportedEncodingException;
 
     Bill receivedBillManager(String idbill);
 

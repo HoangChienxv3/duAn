@@ -127,6 +127,7 @@ public class BillServiceImpl extends BaseController implements BillService {
             orderdetail.setDownprice(product.getDiscount() != null ? product.getPrice() * (product.getDiscount() / 100) : 0);
             orderdetail.setIntomoney(product.getPrice() - orderdetail.getDownprice());
             orderdetail.setIdbill(bill.getId());
+            orderdetail.setCreateAt(new Date());
 
             orderdetails.add(orderdetail);
         }
@@ -212,7 +213,7 @@ public class BillServiceImpl extends BaseController implements BillService {
         if (!Objects.equals(customer.getId(), bill.getIdCustomer())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Không có quyền sửa đơn này");
         }
-        if (bill.getStatus() == EnumStatus.CHUA_XAC_NHAN) {
+        if (bill.getStatus() == EnumStatus.CHUA_XAC_NHAN || bill.getStatus() == EnumStatus.DA_XAC_NHAN_VA_DONG_GOI) {
             bill.setStatus(EnumStatus.HUY);
         } else {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Không thể hủy đơn");
@@ -253,7 +254,8 @@ public class BillServiceImpl extends BaseController implements BillService {
         //tim kiem nguoi dung
         Customer customer = bill.getCustomer();
 
-        if (bill.getStatus() == EnumStatus.CHUA_XAC_NHAN) {
+        if (bill.getStatus() == EnumStatus.CHUA_XAC_NHAN || bill.getStatus() == EnumStatus.DA_XAC_NHAN_VA_DONG_GOI)
+        {
             bill.setStatus(EnumStatus.HUY);
         } else {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Không thể hủy đơn");
@@ -282,6 +284,21 @@ public class BillServiceImpl extends BaseController implements BillService {
         } else {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Không thể xác nhận đơn");
         }
+
+        return billDao.save(bill);
+    }
+
+    @Override
+    public Bill shipBillManager(String idbill) throws MessagingException, UnsupportedEncodingException {
+        Bill bill = billDao.findById(idbill).orElseThrow(() -> {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Không tìm thấy đơn hàng");
+        });
+
+        if (bill.getStatus() == EnumStatus.DA_XAC_NHAN_VA_DONG_GOI) {
+            bill.setStatus(EnumStatus.DA_GIAO_BEN_VAN_CHUYEN);
+        } else {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Lỗi chuyển đơn");
+        }
         //hoàn số lượng về kho
         List<Quantity> quantities = new ArrayList<>();
         StringBuilder message = new StringBuilder();
@@ -304,21 +321,6 @@ public class BillServiceImpl extends BaseController implements BillService {
         if (bill.getCustomer().getAccount().getEmail() != null) {
             mailService.sendConfirmManagerBill(bill.getCustomer().getAccount(), bill);
         }
-        return billDao.save(bill);
-    }
-
-    @Override
-    public Bill shipBillManager(String idbill) {
-        Bill bill = billDao.findById(idbill).orElseThrow(() -> {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Không tìm thấy đơn hàng");
-        });
-
-        if (bill.getStatus() == EnumStatus.DA_XAC_NHAN_VA_DONG_GOI) {
-            bill.setStatus(EnumStatus.DA_GIAO_BEN_VAN_CHUYEN);
-        } else {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Lỗi chuyển đơn");
-        }
-
         return billDao.save(bill);
     }
 

@@ -58,7 +58,7 @@ public class BillManagerControler {
 
     @GetMapping("/ship/{idbill}")
     @PreAuthorize("hasRole('ROLE_STAFF') or hasRole('ROLE_ADMIN')")
-    public ResponseEntity<Res> shipBill(@PathVariable("idbill") String idbill) {
+    public ResponseEntity<Res> shipBill(@PathVariable("idbill") String idbill) throws MessagingException, UnsupportedEncodingException {
         return ResponseEntity.ok(new Res(billService.shipBillManager(idbill), "Save success", true));
     }
 
