@@ -16,4 +16,5 @@ public class VoucherRequest {
     private String name;
 
     private long idevent;
+    private Double minimumValue;
 }
