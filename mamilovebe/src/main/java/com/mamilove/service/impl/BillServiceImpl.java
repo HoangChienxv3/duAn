@@ -176,6 +176,7 @@ public class BillServiceImpl extends BaseController implements BillService {
         history.setContent("Thanh toán hóa đơn");
         history.setTrading_code(0L);
         history.setTime(new Date());
+        history.setMamipay(mamipay);
 
         historyDao.save(history);
     }
@@ -241,6 +242,7 @@ public class BillServiceImpl extends BaseController implements BillService {
         history.setContent("Hoàn tiền hóa đơn");
         history.setTrading_code(0L);
         history.setTime(new Date());
+        history.setMamipay(mamipay);
 
         historyDao.save(history);
     }
@@ -394,8 +396,8 @@ public class BillServiceImpl extends BaseController implements BillService {
     public List<String> getAddress() {
         Customer customer = customerService.findByAccount(getAuthUID());
 
-        return billDao.getAddress(customer.getId()).stream().map(objects -> {
-            String add = (String) objects[0];
+        return billDao.getAddress(customer.getId()).stream().map(bill -> {
+            String add = bill.getAddress();
             return add;
         }).collect(Collectors.toList());
 
