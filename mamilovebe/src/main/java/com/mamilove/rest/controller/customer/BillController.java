@@ -76,4 +76,10 @@ public class BillController extends BaseController {
     public ResponseEntity<Res> shipingBill(@PathVariable("idBill") String idBill) throws IOException {
         return ResponseEntity.ok(new Res(billService.getShipingBillCustomer(idBill), "Thành công", true));
     }
+
+    @GetMapping("/get-add")
+    @PreAuthorize("hasRole('ROLE_CUSTOMER')")
+    public ResponseEntity<Res> getAddress() {
+        return ResponseEntity.ok(new Res(billService.getAddress(), "Thành công", true));
+    }
 }
