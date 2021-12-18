@@ -32,6 +32,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Service
 public class BillServiceImpl extends BaseController implements BillService {
@@ -254,8 +255,7 @@ public class BillServiceImpl extends BaseController implements BillService {
         //tim kiem nguoi dung
         Customer customer = bill.getCustomer();
 
-        if (bill.getStatus() == EnumStatus.CHUA_XAC_NHAN || bill.getStatus() == EnumStatus.DA_XAC_NHAN_VA_DONG_GOI)
-        {
+        if (bill.getStatus() == EnumStatus.CHUA_XAC_NHAN || bill.getStatus() == EnumStatus.DA_XAC_NHAN_VA_DONG_GOI) {
             bill.setStatus(EnumStatus.HUY);
         } else {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Không thể hủy đơn");
@@ -388,6 +388,17 @@ public class BillServiceImpl extends BaseController implements BillService {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Không có quyền sửa đơn này");
         }
         return GetBillShiping.getStatusShip(bill.getStatusshipping());
+    }
+
+    @Override
+    public List<String> getAddress() {
+        Customer customer = customerService.findByAccount(getAuthUID());
+
+        return billDao.getAddress(customer.getId()).stream().map(objects -> {
+            String add = (String) objects[0];
+            return add;
+        }).collect(Collectors.toList());
+
     }
 
 
