@@ -26,6 +26,8 @@ public class Voucher implements Serializable {
     @Column(name = "name")
     private String name;
 
+    @Column(name = "minimumValue")
+    private Double minimumValue;
     @Column(name = "isDelete")
     private Boolean isDelete = false;
 
