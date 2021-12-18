@@ -1,8 +1,12 @@
 package com.mamilove.rest.controller.customer;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.mamilove.dao.AccountDao;
+import com.mamilove.dao.CustomerDao;
 import com.mamilove.entity.Account;
+import com.mamilove.entity.Customer;
 import com.mamilove.response.dto.Res;
+import com.mamilove.request.dto.ChangeAccountDto;
 import com.mamilove.request.dto.SignupRequest;
 import com.mamilove.service.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +27,10 @@ public class AccountsController {
     @Autowired
     AccountService accountService;
     @Autowired
+    CustomerDao customerDAO;
+    @Autowired
+    AccountDao accountDAO;
+    @Autowired
     ObjectMapper objectMapper;
 
     @GetMapping("/all")
@@ -31,7 +39,7 @@ public class AccountsController {
         List<Account> account = accountService.findAllByIsDeleteFalse();
         return ResponseEntity.ok(new Res(account, "dat", true));
     }
-
+   
     @GetMapping("/{id}")
     @PreAuthorize("hasRole('ROLE_CUSTOMER') or hasRole('ROLE_STAFF') or hasRole('ROLE_ADMIN')")
     public ResponseEntity<Res> getDetail(@PathVariable("id") Long id) {
@@ -64,5 +72,22 @@ public class AccountsController {
         }
         Account account = accountService.save(ac);
         return ResponseEntity.ok(new Res(account, "xóa thành công", true));
+    }
+    
+    @PostMapping("/UpdateAccount")
+    public ResponseEntity<?> saveAccount(@RequestBody ChangeAccountDto dto){
+    	Customer customer = customerDAO.findByIdaccount(dto.getId());
+    	Account account = accountService.findById(dto.getId());
+    	if(customer != null) {
+    		customer.setFullname(dto.getFullname());
+    		customerDAO.saveAndFlush(customer);
+    	}
+    	if(account != null) {
+    		account.setEmail(dto.getEmail());
+    		account.setUsername(dto.getUsername());
+    		account.setPhone(dto.getSdt());
+    		accountDAO.saveAndFlush(account);
+    	}
+    	return ResponseEntity.ok(new Res(null,"Save success",true));
     }
 }
