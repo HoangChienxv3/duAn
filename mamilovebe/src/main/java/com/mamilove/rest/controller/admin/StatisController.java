@@ -5,6 +5,7 @@ import com.mamilove.request.dto.QtyByDayRequest;
 import com.mamilove.response.dto.Res;
 import com.mamilove.service.impl.StatisServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Description;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -40,10 +41,24 @@ public class StatisController {
         return ResponseEntity.ok(new Res(statisService.getEveryYear(status), "Thành công", true));
     }
 
+    @Description(value = "thong ke so luong sp theo ngay")
     @GetMapping("/quantityByDay")
     @PreAuthorize("hasRole('ROLE_STAFF') or hasRole('ROLE_ADMIN')")
     public ResponseEntity<Res> getQuantityByDay(QtyByDayRequest qtyByDayRequest) {
         return ResponseEntity.ok(new Res(statisService.quantityByDay(qtyByDayRequest), "Thành công", true));
     }
 
+    @Description(value = "thong ke so luong sp theo thang")
+    @GetMapping("/quantityByMonth")
+    @PreAuthorize("hasRole('ROLE_STAFF') or hasRole('ROLE_ADMIN')")
+    public ResponseEntity<Res> getQuantityByMonth(@RequestParam("status")EnumStatus status) {
+        return ResponseEntity.ok(new Res(statisService.quantityByMonth(status), "Thành công", true));
+    }
+
+    @Description(value = "thong ke so luong bill")
+    @GetMapping("/bill-dashboard")
+    @PreAuthorize("hasRole('ROLE_STAFF') or hasRole('ROLE_ADMIN')")
+    public ResponseEntity<Res> getBillDashBoard(QtyByDayRequest qtyByDayRequest) {
+        return ResponseEntity.ok(new Res(statisService.getBillDashBoard(qtyByDayRequest.getDay()), "Thành công", true));
+    }
 }
