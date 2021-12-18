@@ -34,6 +34,6 @@ public interface BillDao extends JpaRepository<Bill, String> {
     @Query("select b.address from Bill b " +
             " where b.idCustomer = ?1 " +
             " group by b.address " +
-            " order by b.createAt desc ")
+            " order by b.id desc ")
     List<Object[]> getAddress(Long idCustomer);
 }

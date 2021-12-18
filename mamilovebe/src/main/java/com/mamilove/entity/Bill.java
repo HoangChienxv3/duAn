@@ -59,6 +59,9 @@ public class Bill implements Serializable {
     @Column(name = "create_at")
     private Date createAt = new Date();
 
+    @Column(name = "update_at")
+    private Date updateAts = new Date();
+
     @Column(name = "full_name")
     private String fullname;//họ tên nhận hàng
 
