@@ -80,6 +80,7 @@ public class AccountsController {
     	Account account = accountService.findById(dto.getId());
     	if(customer != null) {
     		customer.setFullname(dto.getFullname());
+            customer.setAddress(dto.getAddress());
     		customerDAO.saveAndFlush(customer);
     	}
     	if(account != null) {

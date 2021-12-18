@@ -15,4 +15,5 @@ public class ChangeAccountDto {
 	private String email;
 	private String username;
 	private String sdt;
+	private String address;
 }
