@@ -26,6 +26,9 @@ public class Customer implements Serializable {
     @Column(name = "isDelete")
     private Boolean isDelete = false;
 
+    @Column(name = "address")
+    private String address;
+
     @OneToOne
     @JoinColumn(name = "idaccount", updatable = false, insertable = false)
     private Account account;
