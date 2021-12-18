@@ -182,17 +182,17 @@ public class StatisServiceImpl implements StatisService {
         String str = DateUtils.toString(day != null ? day : new Date());
         LocalDate start = DateUtils.stringToLocalDate(str);
         LocalDate end = start.plusDays(1);
-
-        return billDao.countBill(DateUtils.localDateToDate(start), DateUtils.localDateToDate(end))
-                .stream()
-                .map(objects -> {
-                    BillDashboardResponse billDashboardResponse = new BillDashboardResponse();
-
-                    billDashboardResponse.setName(String.valueOf(objects[0]));
-                    billDashboardResponse.setTotal((Double) objects[1]);
-
-                    return billDashboardResponse;
-                }).collect(Collectors.toList());
+        return null;
+//        return billDao.countBill(DateUtils.localDateToDate(start), DateUtils.localDateToDate(end))
+//                .stream()
+//                .map(objects -> {
+//                    BillDashboardResponse billDashboardResponse = new BillDashboardResponse();
+//
+//                    billDashboardResponse.setName(String.valueOf(objects[0]));
+//                    billDashboardResponse.setTotal((Double) objects[1]);
+//
+//                    return billDashboardResponse;
+//                }).collect(Collectors.toList());
     }
 
     public List<Object[]> getSumQty(Date star, Date end, EnumStatus status) {
