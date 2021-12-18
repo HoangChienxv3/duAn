@@ -31,7 +31,6 @@ public class VnpIpnController {
     CustomerDao customerDao;
 
     @GetMapping("/VnPayIPN")
-    @PreAuthorize("hasRole('ROLE_CUSTOMER')")
     public ResponseEntity<?> VnPayIPN(HttpServletRequest req, HttpServletResponse httpServletResponse) throws UnsupportedEncodingException {
         Map fields = new HashMap();
         for (Enumeration params = req.getParameterNames(); params.hasMoreElements(); ) {
@@ -68,7 +67,7 @@ public class VnpIpnController {
                     }
                 }
                 return ResponseEntity.status(HttpStatus.FOUND)
-                        .location(URI.create("http://localhost:4200/history-and-wallet"))
+                        .location(URI.create("http://localhost:4200/account"))
                         .build();
             } else {
                 System.out.print("GD Khong thanh cong");
