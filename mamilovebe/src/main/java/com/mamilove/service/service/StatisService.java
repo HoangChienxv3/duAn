@@ -1,6 +1,8 @@
 package com.mamilove.service.service;
 
 import com.mamilove.common.EnumStatus;
+import com.mamilove.request.dto.QtyByDayRequest;
+import com.mamilove.response.dto.BillDashboardResponse;
 import com.mamilove.response.dto.EveryDayResponse;
 import com.mamilove.response.dto.EveryMonthResponse;
 import com.mamilove.response.dto.SumQtyProductResponse;
@@ -15,5 +17,9 @@ public interface StatisService {
 
     List<EveryMonthResponse> getEveryMonthOfTheYear(Integer year, EnumStatus status);
 
-    List<SumQtyProductResponse> quantityByDay(Date date);
+    List<SumQtyProductResponse> quantityByDay(QtyByDayRequest qtyByDayRequest);
+
+    List<SumQtyProductResponse> quantityByMonth(EnumStatus status);
+
+    List<BillDashboardResponse> getBillDashBoard(Date day);
 }

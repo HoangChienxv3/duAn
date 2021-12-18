@@ -28,7 +28,7 @@ public interface BillService {
 
     Bill confirmBillManager(String idbill) throws MessagingException, UnsupportedEncodingException;
 
-    Bill shipBillManager(String idbill);
+    Bill shipBillManager(String idbill) throws MessagingException, UnsupportedEncodingException;
 
     Bill receivedBillManager(String idbill);
 
@@ -41,4 +41,6 @@ public interface BillService {
     List<BillShiping> getShipingBill(String idBill) throws IOException;
 
     List<BillShiping> getShipingBillCustomer(String idBill) throws IOException;
+
+    List<String> getAddress();
 }

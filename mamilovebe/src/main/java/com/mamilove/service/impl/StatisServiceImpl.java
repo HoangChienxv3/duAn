@@ -4,10 +4,8 @@ import com.mamilove.common.EnumStatus;
 import com.mamilove.dao.BillDao;
 import com.mamilove.dao.OrderDetailDao;
 import com.mamilove.entity.Bill;
-import com.mamilove.response.dto.EveryDayResponse;
-import com.mamilove.response.dto.EveryMonthResponse;
-import com.mamilove.response.dto.EveryYearResponse;
-import com.mamilove.response.dto.SumQtyProductResponse;
+import com.mamilove.request.dto.QtyByDayRequest;
+import com.mamilove.response.dto.*;
 import com.mamilove.service.service.StatisService;
 import com.mamilove.utils.DateUtils;
 import net.time4j.PlainDate;
@@ -147,12 +145,12 @@ public class StatisServiceImpl implements StatisService {
     }
 
     @Override
-    public List<SumQtyProductResponse> quantityByDay(Date date) {
-        String str = DateUtils.toString(date);
+    public List<SumQtyProductResponse> quantityByDay(QtyByDayRequest qtyByDayRequest) {
+        String str = DateUtils.toString(qtyByDayRequest.getDay());
         LocalDate start = DateUtils.stringToLocalDate(str);
         LocalDate end = start.plusDays(1);
 
-        List<Object[]> objects = orderDetailDao.getSumQtyProduct(DateUtils.localDateToDate(start), DateUtils.localDateToDate(end));
+        List<Object[]> objects = getSumQty(DateUtils.localDateToDate(start), DateUtils.localDateToDate(end), qtyByDayRequest.getEnumStatus());
 
         return objects.stream().map(o -> {
             SumQtyProductResponse sumQtyProductResponse = new SumQtyProductResponse();
@@ -161,6 +159,44 @@ public class StatisServiceImpl implements StatisService {
             sumQtyProductResponse.setIntomoney((Double) o[2]);
             return sumQtyProductResponse;
         }).collect(Collectors.toList());
+    }
 
+    @Override
+    public List<SumQtyProductResponse> quantityByMonth(EnumStatus status) {
+        LocalDate date = LocalDate.now();
+        List<LocalDate> dateList = getDayOfMonth(date.getYear(), date.getMonthValue());
+
+        List<Object[]> objects = getSumQty(DateUtils.localDateToDate(dateList.get(0)),
+                DateUtils.localDateToDate(dateList.get(dateList.size() - 1)), status);
+        return objects.stream().map(o -> {
+            SumQtyProductResponse sumQtyProductResponse = new SumQtyProductResponse();
+            sumQtyProductResponse.setName((String) o[0]);
+            sumQtyProductResponse.setQty((Long) o[1]);
+            sumQtyProductResponse.setIntomoney((Double) o[2]);
+            return sumQtyProductResponse;
+        }).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<BillDashboardResponse> getBillDashBoard(Date day) {
+        String str = DateUtils.toString(day != null ? day : new Date());
+        LocalDate start = DateUtils.stringToLocalDate(str);
+        LocalDate end = start.plusDays(1);
+
+        return billDao.countBill(DateUtils.localDateToDate(start), DateUtils.localDateToDate(end))
+                .stream()
+                .map(objects -> {
+                    BillDashboardResponse billDashboardResponse = new BillDashboardResponse();
+
+                    billDashboardResponse.setName(String.valueOf(objects[0]));
+                    billDashboardResponse.setTotal((Double) objects[1]);
+
+                    return billDashboardResponse;
+                }).collect(Collectors.toList());
+    }
+
+    public List<Object[]> getSumQty(Date star, Date end, EnumStatus status) {
+        return status == null ? orderDetailDao.getSumQtyProduct(star, end) :
+                orderDetailDao.getSumQtyProduct(star, end, status);
     }
 }

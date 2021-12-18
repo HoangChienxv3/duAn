@@ -1,6 +1,7 @@
 package com.mamilove.entity;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import javax.persistence.*;
 
@@ -30,6 +31,9 @@ public class Orderdetail implements Serializable {
     private Long quantitydetail;//số lượng mua
 
     private Double intomoney;//thành tiền
+
+    @Column(name = "create_at")
+    private Date createAt = new Date();
 
     @Column(name = "isDelete")
     @Builder.Default
