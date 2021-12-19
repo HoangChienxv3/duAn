@@ -22,4 +22,6 @@ public interface StatisService {
     List<SumQtyProductResponse> quantityByMonth(EnumStatus status);
 
     List<BillDashboardResponse> getBillDashBoard();
+
+    List<BillDashboardResponse> getBillDashBoardRefund();
 }
