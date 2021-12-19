@@ -31,9 +31,17 @@ public interface BillDao extends JpaRepository<Bill, String> {
             " b.createAt >= ?1 and b.createAt < ?2 and b.status = ?3 order by b.createAt desc ")
     Double sumTotalMonthOfYear(Date star, Date end, EnumStatus status);
 
-    @Query("select b.address from Bill b " +
+    @Query("select b from Bill b " +
             " where b.idCustomer = ?1 " +
             " group by b.address " +
             " order by b.id desc ")
-    List<Object[]> getAddress(Long idCustomer);
+    List<Bill> getAddress(Long idCustomer);
+
+    @Query("select count (b.id) from Bill b " +
+            " where b.updateAts >= ?1 and b.updateAts < ?2 and b.status = ?3")
+    Long countBill(Date start, Date end, EnumStatus status);
+
+    @Query("select count (b.id) from Bill b " +
+            " where b.createAt >= ?1 and b.createAt < ?2")
+    Long countBillNew(Date start, Date end);
 }

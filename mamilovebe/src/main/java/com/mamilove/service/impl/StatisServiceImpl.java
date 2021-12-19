@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -178,21 +179,36 @@ public class StatisServiceImpl implements StatisService {
     }
 
     @Override
-    public List<BillDashboardResponse> getBillDashBoard(Date day) {
-        String str = DateUtils.toString(day != null ? day : new Date());
+    public List<BillDashboardResponse> getBillDashBoard() {
+
+        String str = DateUtils.toString(new Date());
         LocalDate start = DateUtils.stringToLocalDate(str);
         LocalDate end = start.plusDays(1);
 
-        return billDao.countBill(DateUtils.localDateToDate(start), DateUtils.localDateToDate(end))
-                .stream()
-                .map(objects -> {
-                    BillDashboardResponse billDashboardResponse = new BillDashboardResponse();
+        List<LocalDate> dateList = getDayOfMonth(start.getYear(), start.getMonthValue());
 
-                    billDashboardResponse.setName(String.valueOf(objects[0]));
-                    billDashboardResponse.setTotal((Double) objects[1]);
+        EnumStatus[] statuses = EnumStatus.values();
+
+        List<BillDashboardResponse> billDashboardResponses = Arrays.stream(statuses)
+                .map(status -> {
+                    Long count = billDao.countBill(DateUtils.localDateToDate(dateList.get(0)),
+                            DateUtils.localDateToDate(dateList.get(dateList.size() - 1)),
+                            status);
+                    BillDashboardResponse billDashboardResponse = new BillDashboardResponse();
+                    billDashboardResponse.setName(status.toString());
+                    billDashboardResponse.setTotal(count);
 
                     return billDashboardResponse;
                 }).collect(Collectors.toList());
+
+        Long count = billDao.countBillNew(DateUtils.localDateToDate(start), DateUtils.localDateToDate(end));
+        BillDashboardResponse billDashboardResponseNew = new BillDashboardResponse();
+        billDashboardResponseNew.setName("DON_MOI");
+        billDashboardResponseNew.setTotal(count);
+
+        billDashboardResponses.add(billDashboardResponseNew);
+
+        return billDashboardResponses;
     }
 
     public List<Object[]> getSumQty(Date star, Date end, EnumStatus status) {

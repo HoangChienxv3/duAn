@@ -97,6 +97,8 @@ public class BillServiceImpl extends BaseController implements BillService {
 
         Bill bill = objectMapper.convertValue(billDto, Bill.class);
         bill.setIdCustomer(customer.getId());
+        bill.setCreateAt(new Date());
+        bill.setUpdateAts(new Date());
 
         bill.setId(RandomStringUtils.randomNumeric(8));
         while (billDao.existsById(bill.getId())) {
@@ -176,6 +178,7 @@ public class BillServiceImpl extends BaseController implements BillService {
         history.setContent("Thanh toán hóa đơn");
         history.setTrading_code(0L);
         history.setTime(new Date());
+        history.setIdmamipay(mamipay.getIdmamipay());
 
         historyDao.save(history);
     }
@@ -198,7 +201,7 @@ public class BillServiceImpl extends BaseController implements BillService {
         bill.setSdt(updateBillCutomer.getSdt());
         bill.setFullname(updateBillCutomer.getFullname());
         bill.setNote(updateBillCutomer.getNote());
-
+        bill.setUpdateAts(new Date());
         return billDao.save(bill);
     }
 
@@ -229,6 +232,7 @@ public class BillServiceImpl extends BaseController implements BillService {
         if (customer.getAccount().getEmail() != null) {
             mailService.sendCancelBill(customer.getAccount(), bill);
         }
+        bill.setUpdateAts(new Date());
         return billDao.save(bill);
     }
 
@@ -241,6 +245,7 @@ public class BillServiceImpl extends BaseController implements BillService {
         history.setContent("Hoàn tiền hóa đơn");
         history.setTrading_code(0L);
         history.setTime(new Date());
+        history.setIdmamipay(mamipay.getIdmamipay());
 
         historyDao.save(history);
     }
@@ -270,6 +275,7 @@ public class BillServiceImpl extends BaseController implements BillService {
         if (customer.getAccount().getEmail() != null) {
             mailService.sendCreateManagerBill(customer.getAccount(), bill);
         }
+        bill.setUpdateAts(new Date());
         return billDao.save(bill);
     }
 
@@ -284,7 +290,7 @@ public class BillServiceImpl extends BaseController implements BillService {
         } else {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Không thể xác nhận đơn");
         }
-
+        bill.setUpdateAts(new Date());
         return billDao.save(bill);
     }
 
@@ -321,6 +327,7 @@ public class BillServiceImpl extends BaseController implements BillService {
         if (bill.getCustomer().getAccount().getEmail() != null) {
             mailService.sendConfirmManagerBill(bill.getCustomer().getAccount(), bill);
         }
+        bill.setUpdateAts(new Date());
         return billDao.save(bill);
     }
 
@@ -335,7 +342,7 @@ public class BillServiceImpl extends BaseController implements BillService {
         } else {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Lỗi chuyển đơn");
         }
-
+        bill.setUpdateAts(new Date());
         return billDao.save(bill);
     }
 
@@ -350,7 +357,7 @@ public class BillServiceImpl extends BaseController implements BillService {
         } else {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Lỗi chuyển đơn");
         }
-
+        bill.setUpdateAts(new Date());
         return billDao.save(bill);
     }
 
@@ -394,8 +401,8 @@ public class BillServiceImpl extends BaseController implements BillService {
     public List<String> getAddress() {
         Customer customer = customerService.findByAccount(getAuthUID());
 
-        return billDao.getAddress(customer.getId()).stream().map(objects -> {
-            String add = (String) objects[0];
+        return billDao.getAddress(customer.getId()).stream().map(bill -> {
+            String add = bill.getAddress();
             return add;
         }).collect(Collectors.toList());
 

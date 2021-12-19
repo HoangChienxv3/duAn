@@ -58,7 +58,7 @@ public class StatisController {
     @Description(value = "thong ke so luong bill")
     @GetMapping("/bill-dashboard")
     @PreAuthorize("hasRole('ROLE_STAFF') or hasRole('ROLE_ADMIN')")
-    public ResponseEntity<Res> getBillDashBoard(QtyByDayRequest qtyByDayRequest) {
-        return ResponseEntity.ok(new Res(statisService.getBillDashBoard(qtyByDayRequest.getDay()), "Thành công", true));
+    public ResponseEntity<Res> getBillDashBoard() {
+        return ResponseEntity.ok(new Res(statisService.getBillDashBoard(), "Thành công", true));
     }
 }

@@ -77,7 +77,7 @@ public class BillController extends BaseController {
         return ResponseEntity.ok(new Res(billService.getShipingBillCustomer(idBill), "Thành công", true));
     }
 
-    @GetMapping("/get-add")
+    @GetMapping("/get-address")
     @PreAuthorize("hasRole('ROLE_CUSTOMER')")
     public ResponseEntity<Res> getAddress() {
         return ResponseEntity.ok(new Res(billService.getAddress(), "Thành công", true));
