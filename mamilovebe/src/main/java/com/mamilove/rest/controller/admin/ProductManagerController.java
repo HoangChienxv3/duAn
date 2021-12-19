@@ -89,11 +89,12 @@ public class ProductManagerController {
         }
     }
 
-    @PostMapping("/deleteProduct")
+    @PostMapping("/delete")
     @PreAuthorize("hasRole('ROLE_STAFF') or hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> deleteProduct(@RequestBody Product product) {
         try {
             product.setIsDelete(true);
+            productService.saveAndFlush(product);
             return ResponseEntity.ok(new Res(productService.findAllByIsDeleteFalse(), "Save success", true));
         } catch (Exception e) {
             // TODO: handle exception
