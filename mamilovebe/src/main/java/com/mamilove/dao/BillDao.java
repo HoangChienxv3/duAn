@@ -1,5 +1,6 @@
 package com.mamilove.dao;
 
+import com.mamilove.common.EnumRefund;
 import com.mamilove.common.EnumStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -44,4 +45,9 @@ public interface BillDao extends JpaRepository<Bill, String> {
     @Query("select count (b.id) from Bill b " +
             " where b.createAt >= ?1 and b.createAt < ?2")
     Long countBillNew(Date start, Date end);
+
+    @Query("select count (b.id) from Bill b " +
+            " where b.updateAts >= ?1 and b.updateAts < ?2 " +
+            " and b.status = ?3 and b.refund = ?4")
+    Long countBillRefund(Date start, Date end, EnumStatus status, EnumRefund refund);
 }
