@@ -36,4 +36,12 @@ public interface BillDao extends JpaRepository<Bill, String> {
             " group by b.address " +
             " order by b.id desc ")
     List<Bill> getAddress(Long idCustomer);
+
+    @Query("select count (b.id) from Bill b " +
+            " where b.updateAts >= ?1 and b.updateAts < ?2 and b.status = ?3")
+    Long countBill(Date start, Date end, EnumStatus status);
+
+    @Query("select count (b.id) from Bill b " +
+            " where b.createAt >= ?1 and b.createAt < ?2")
+    Long countBillNew(Date start, Date end);
 }
