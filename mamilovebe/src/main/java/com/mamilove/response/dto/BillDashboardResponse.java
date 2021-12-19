@@ -11,6 +11,6 @@ import lombok.NoArgsConstructor;
 public class BillDashboardResponse {
 
     private String name;
-    private Double total;
+    private Long total;
 
 }
