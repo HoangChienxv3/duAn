@@ -1,5 +1,6 @@
 package com.mamilove.service.impl;
 
+import com.mamilove.common.EnumRefund;
 import com.mamilove.common.EnumStatus;
 import com.mamilove.dao.BillDao;
 import com.mamilove.dao.OrderDetailDao;
@@ -209,6 +210,29 @@ public class StatisServiceImpl implements StatisService {
         billDashboardResponses.add(billDashboardResponseNew);
 
         return billDashboardResponses;
+    }
+
+    @Override
+    public List<BillDashboardResponse> getBillDashBoardRefund() {
+        LocalDate localDate = LocalDate.now();
+        List<LocalDate> dateList = getDayOfMonth(localDate.getYear(), localDate.getMonthValue());
+
+        EnumRefund[] refunds = EnumRefund.values();
+
+        return Arrays.stream(refunds).map(refund -> {
+            BillDashboardResponse billDashboardResponse = new BillDashboardResponse();
+
+            billDashboardResponse.setName(refund.toString());
+            billDashboardResponse.setTotal(billDao.countBillRefund(
+                    DateUtils.localDateToDate(dateList.get(0)),
+                    DateUtils.localDateToDate(dateList.get(dateList.size() - 1)),
+                    EnumStatus.HOAN_HANG,
+                    refund
+            ));
+
+            return billDashboardResponse;
+        }).collect(Collectors.toList());
+
     }
 
     public List<Object[]> getSumQty(Date star, Date end, EnumStatus status) {

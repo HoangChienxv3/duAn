@@ -61,4 +61,11 @@ public class StatisController {
     public ResponseEntity<Res> getBillDashBoard() {
         return ResponseEntity.ok(new Res(statisService.getBillDashBoard(), "Thành công", true));
     }
+
+    @Description(value = "thong ke so luong bill hoan hang")
+    @GetMapping("/bill-dashboard-refund")
+    @PreAuthorize("hasRole('ROLE_STAFF') or hasRole('ROLE_ADMIN')")
+    public ResponseEntity<Res> getBillDashBoardRefund() {
+        return ResponseEntity.ok(new Res(statisService.getBillDashBoardRefund(), "Thành công", true));
+    }
 }
