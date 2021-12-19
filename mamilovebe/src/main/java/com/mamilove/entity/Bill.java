@@ -7,6 +7,7 @@ import java.util.List;
 import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.mamilove.common.EnumRefund;
 import com.mamilove.common.EnumStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -68,7 +69,13 @@ public class Bill implements Serializable {
     @Column(name = "phone_number")
     private String sdt;
 
-    private Boolean refund;//hoàn hàng
+    @Column(name = "refund")
+    @Enumerated(EnumType.STRING)
+    private EnumRefund refund;//hoàn hàng
+
+    @Column(name = "note_refund")
+    @Length(max = 2000)
+    private String noterefund;
 
     @JsonIgnore
     @ManyToOne

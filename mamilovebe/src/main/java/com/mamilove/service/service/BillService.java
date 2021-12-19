@@ -1,5 +1,6 @@
 package com.mamilove.service.service;
 
+import com.mamilove.common.EnumRefund;
 import com.mamilove.entity.Bill;
 import com.mamilove.request.dto.BillDto;
 import com.mamilove.request.dto.ShipingRequest;
@@ -32,7 +33,7 @@ public interface BillService {
 
     Bill receivedBillManager(String idbill);
 
-    Bill refundBillManager(String idbill);
+    Bill refundBillManager(String idbill, EnumRefund status, String note);
 
     List<Bill> findAllCustomer();
 

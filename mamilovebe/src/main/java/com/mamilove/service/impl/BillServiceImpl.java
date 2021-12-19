@@ -1,7 +1,9 @@
 package com.mamilove.service.impl;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.mamilove.common.EnumRefund;
 import com.mamilove.common.EnumStatus;
+import com.mamilove.common.Message;
 import com.mamilove.controllers.BaseController;
 import com.mamilove.dao.*;
 import com.mamilove.entity.*;
@@ -347,7 +349,8 @@ public class BillServiceImpl extends BaseController implements BillService {
     }
 
     @Override
-    public Bill refundBillManager(String idbill) {
+    @Transactional
+    public Bill refundBillManager(String idbill, EnumRefund status, String note) {
         Bill bill = billDao.findById(idbill).orElseThrow(() -> {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Không tìm thấy đơn hàng");
         });
@@ -357,6 +360,42 @@ public class BillServiceImpl extends BaseController implements BillService {
         } else {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Lỗi chuyển đơn");
         }
+
+        if (status == null || status.toString().length() == 0) {
+            bill.setRefund(EnumRefund.KHAC);
+            bill.setNoterefund(Message.KHONG_RO);
+        } else {
+            bill.setRefund(status);
+            switch (status) {
+                case THAT_BAI:
+                    bill.setNoterefund(Message.THAT_BAI);
+                    break;
+                case SAI_DIA_CHI:
+                    bill.setNoterefund(Message.SAI_DIA_CHI);
+                    break;
+                case KHACH_HUY:
+                    bill.setNoterefund(Message.KHACH_HUY);
+                    break;
+                case SAI_SAN_PHAM:
+                    bill.setNoterefund(Message.SAI_SAN_PHAM);
+                    break;
+                case KHAC:
+                    bill.setNoterefund(note);
+                    break;
+            }
+        }
+
+        //hoan sl ve kho
+        List<Quantity> quantities = new ArrayList<>();
+        List<Orderdetail> orderdetails = bill.getOrderdetails();
+        for (Orderdetail orderdetail : orderdetails) {
+            Quantity quantity = orderdetail.getQuantity();
+
+            quantity.setQuantity(quantity.getQuantity() + orderdetail.getQuantitydetail());
+            quantities.add(quantity);
+        }
+        quantityDao.saveAll(quantities);
+
         bill.setUpdateAts(new Date());
         return billDao.save(bill);
     }
