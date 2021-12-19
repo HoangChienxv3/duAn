@@ -176,7 +176,7 @@ public class BillServiceImpl extends BaseController implements BillService {
         history.setContent("Thanh toán hóa đơn");
         history.setTrading_code(0L);
         history.setTime(new Date());
-        history.setMamipay(mamipay);
+        history.setIdmamipay(mamipay.getIdmamipay());
 
         historyDao.save(history);
     }
@@ -242,7 +242,7 @@ public class BillServiceImpl extends BaseController implements BillService {
         history.setContent("Hoàn tiền hóa đơn");
         history.setTrading_code(0L);
         history.setTime(new Date());
-        history.setMamipay(mamipay);
+        history.setIdmamipay(mamipay.getIdmamipay());
 
         historyDao.save(history);
     }
