@@ -1,6 +1,7 @@
 package com.mamilove.rest.controller.admin;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.mamilove.common.EnumRefund;
 import com.mamilove.dao.BillDao;
 import com.mamilove.entity.Bill;
 import com.mamilove.response.dto.Res;
@@ -70,8 +71,10 @@ public class BillManagerControler {
 
     @GetMapping("/refund/{idbill}")
     @PreAuthorize("hasRole('ROLE_STAFF') or hasRole('ROLE_ADMIN')")
-    public ResponseEntity<Res> refundBill(@PathVariable("idbill") String idbill) {
-        return ResponseEntity.ok(new Res(billService.refundBillManager(idbill), "Save success", true));
+    public ResponseEntity<Res> refundBill(@PathVariable("idbill") String idbill,
+                                          @RequestParam(value = "status", required = false) EnumRefund status,
+                                          @RequestParam(value = "note", required = false) String note) {
+        return ResponseEntity.ok(new Res(billService.refundBillManager(idbill, status, note), "Save success", true));
     }
 
     //thông tin đơn hàng bên vận chuyển

@@ -147,7 +147,7 @@ public class StatisServiceImpl implements StatisService {
 
     @Override
     public List<SumQtyProductResponse> quantityByDay(QtyByDayRequest qtyByDayRequest) {
-        String str = DateUtils.toString(qtyByDayRequest.getDay());
+        String str = DateUtils.toString(qtyByDayRequest.getDay() != null ? qtyByDayRequest.getDay() : new Date());
         LocalDate start = DateUtils.stringToLocalDate(str);
         LocalDate end = start.plusDays(1);
 
