@@ -8,8 +8,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -23,7 +21,7 @@ import com.mamilove.service.service.ProductService;
 @RestController
 @CrossOrigin("http://localhost:4200/")
 @RequestMapping("/Customer/ProductController")
-public class ProductControllers {
+public class ProductController {
     @Autowired
     ProductService productService;
     @Autowired
@@ -62,10 +60,10 @@ public class ProductControllers {
         List<Product> entity = productService.findByCategoryDetail(categories.get());
         return ResponseEntity.ok(new Res(entity, "Success", true));
     }
-    
+
     @GetMapping("/findByNameLike/{name}")
     public ResponseEntity<?> findByNameLike(@PathVariable("name") String name){
-    	List<Product> entity = productService.findByNameLike(name);
+        List<Product> entity = productService.findByNameLike(name);
         return ResponseEntity.ok(new Res(entity, "Success", true));
     }
 }
