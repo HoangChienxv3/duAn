@@ -122,7 +122,7 @@ public class VnpayController extends BaseController {
         Date date = new Date();
         history.setTime(date);
         history.setTrading_code(trading_code);
-        history.setMamipay(mm);
+        history.setIdmamipay(mm.getIdmamipay());
         history.setContent("Nap tien vao vi");
         history.setStatus(false);
         history.setAmounts(amounts);
