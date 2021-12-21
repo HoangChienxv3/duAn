@@ -23,7 +23,7 @@ import com.mamilove.service.service.ProductService;
 @RestController
 @CrossOrigin("http://localhost:4200/")
 @RequestMapping("/Customer/ProductController")
-public class ProductController {
+public class ProductControllers {
     @Autowired
     ProductService productService;
     @Autowired
