@@ -1,6 +1,7 @@
 package com.mamilove;
 
 
+import com.mamilove.seeder.BathSeeder;
 import com.mamilove.service.service.FilesSerivce;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -16,6 +17,7 @@ public class MamilovebeApplication implements CommandLineRunner {
 
     public static void main(String[] args) {
         SpringApplication.run(MamilovebeApplication.class, args);
+        new BathSeeder().seed();
     }
 
     @Override
