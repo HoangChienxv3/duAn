@@ -2,6 +2,7 @@ package com.mamilove.entity;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -22,7 +23,9 @@ public class Authority implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-
+    @Column(name = "isDelete")
+    private Boolean isDelete = false;
+    
     @ManyToOne
     @JoinColumn(name = "idaccount")
     private Account account;
