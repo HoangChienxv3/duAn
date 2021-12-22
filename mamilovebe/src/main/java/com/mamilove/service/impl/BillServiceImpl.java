@@ -159,7 +159,7 @@ public class BillServiceImpl extends BaseController implements BillService {
                 voucher.setAmount(voucher.getAmount() - 1L);
                 voucherDao.save(voucher);
             }
-            mamipay.setSurplus(mamipay.getSurplus() - billDto.getTotal());
+            mamipay.setSurplus(mamipay.getSurplus() - billDto.getDowntotal());
             mamiPayDao.save(mamipay);
             createPayBill(mamipay, bill);
         }
@@ -240,7 +240,7 @@ public class BillServiceImpl extends BaseController implements BillService {
 
     public void refundPayBill(Mamipay mamipay, Bill bill) {
         History history = new History();
-        history.setAmounts(bill.getTotal());
+        history.setAmounts(bill.getDowntotal());
         history.setStatus(true);
         history.setSurplus(mamipay.getSurplus());
         history.setDescription("Hoàn tiền hóa đơn mã " + bill.getId());
@@ -267,10 +267,22 @@ public class BillServiceImpl extends BaseController implements BillService {
         } else {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Không thể hủy đơn");
         }
+        if (bill.getStatus() == EnumStatus.DA_XAC_NHAN_VA_DONG_GOI) {
+            //hoàn số lượng về kho
+            List<Quantity> quantities = new ArrayList<>();
+            List<Orderdetail> orderdetails = bill.getOrderdetails();
+            for (Orderdetail orderdetail : orderdetails) {
+                Quantity quantity = orderdetail.getQuantity();
+
+                quantity.setQuantity(quantity.getQuantity() + orderdetail.getQuantitydetail());
+                quantities.add(quantity);
+            }
+            quantityDao.saveAll(quantities);
+        }
         //hoàn tiền về ví nếu thanh toán qua ví
         if (bill.getPayment()) {
             Mamipay mamipay = mamipayService.ByCustomer(customer.getId());
-            mamipay.setSurplus(mamipay.getSurplus() + bill.getTotal());
+            mamipay.setSurplus(mamipay.getSurplus() + bill.getDowntotal());
             mamiPayDao.save(mamipay);
             refundPayBill(mamipay, bill);
         }
@@ -292,21 +304,6 @@ public class BillServiceImpl extends BaseController implements BillService {
         } else {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Không thể xác nhận đơn");
         }
-        bill.setUpdateAts(new Date());
-        return billDao.save(bill);
-    }
-
-    @Override
-    public Bill shipBillManager(String idbill) throws MessagingException, UnsupportedEncodingException {
-        Bill bill = billDao.findById(idbill).orElseThrow(() -> {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Không tìm thấy đơn hàng");
-        });
-
-        if (bill.getStatus() == EnumStatus.DA_XAC_NHAN_VA_DONG_GOI) {
-            bill.setStatus(EnumStatus.DA_GIAO_BEN_VAN_CHUYEN);
-        } else {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Lỗi chuyển đơn");
-        }
         //hoàn số lượng về kho
         List<Quantity> quantities = new ArrayList<>();
         StringBuilder message = new StringBuilder();
@@ -326,6 +323,41 @@ public class BillServiceImpl extends BaseController implements BillService {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, message.toString());
         }
         quantityDao.saveAll(quantities);
+
+        bill.setUpdateAts(new Date());
+        return billDao.save(bill);
+    }
+
+    @Override
+    public Bill shipBillManager(String idbill) throws MessagingException, UnsupportedEncodingException {
+        Bill bill = billDao.findById(idbill).orElseThrow(() -> {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Không tìm thấy đơn hàng");
+        });
+
+        if (bill.getStatus() == EnumStatus.DA_XAC_NHAN_VA_DONG_GOI) {
+            bill.setStatus(EnumStatus.DA_GIAO_BEN_VAN_CHUYEN);
+        } else {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Lỗi chuyển đơn");
+        }
+        //hoàn số lượng về kho
+//        List<Quantity> quantities = new ArrayList<>();
+//        StringBuilder message = new StringBuilder();
+//        List<Orderdetail> orderdetails = bill.getOrderdetails();
+//        for (Orderdetail orderdetail : orderdetails) {
+//            Quantity quantity = orderdetail.getQuantity();
+//            if (quantity.getQuantity() < orderdetail.getQuantitydetail()) {
+//                String er = "Sản phẩm: " + quantity.getProduct().getName()
+//                        + " Size: " + quantity.getSize().getName() + "-" + quantity.getProperty().getName()
+//                        + " đã hết hàng.";
+//                message.append(er).append("\n");
+//            }
+//            quantity.setQuantity(quantity.getQuantity() - orderdetail.getQuantitydetail());
+//            quantities.add(quantity);
+//        }
+//        if (message.toString().length() > 0) {
+//            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, message.toString());
+//        }
+//        quantityDao.saveAll(quantities);
         if (bill.getCustomer().getAccount().getEmail() != null) {
             mailService.sendConfirmManagerBill(bill.getCustomer().getAccount(), bill);
         }
@@ -384,7 +416,6 @@ public class BillServiceImpl extends BaseController implements BillService {
                     break;
             }
         }
-
         //hoan sl ve kho
         List<Quantity> quantities = new ArrayList<>();
         List<Orderdetail> orderdetails = bill.getOrderdetails();
@@ -395,6 +426,14 @@ public class BillServiceImpl extends BaseController implements BillService {
             quantities.add(quantity);
         }
         quantityDao.saveAll(quantities);
+        //hoàn tiền về ví nếu thanh toán qua ví
+        Customer customer = customerDao.findByIdaccount(bill.getIdCustomer());
+        if (bill.getPayment()) {
+            Mamipay mamipay = mamipayService.ByCustomer(bill.getIdCustomer());
+            mamipay.setSurplus(mamipay.getSurplus() + bill.getTotal());
+            mamiPayDao.save(mamipay);
+            refundPayBill(mamipay, bill);
+        }
 
         bill.setUpdateAts(new Date());
         return billDao.save(bill);

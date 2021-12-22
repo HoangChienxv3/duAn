@@ -46,7 +46,7 @@ public class MailServiceImpl implements MailService {
                 + "<p>Mã đơn hàng: <b>" + bill.getId() + "</b></p>"
                 + "<br>"
                 + "<p>Họ tên người nhận: <b>" + bill.getFullname() + "</b></p>"
-                + "<p>Tổng giá trị đơn hàng: <b>" + FormatMoney.currencyVN(bill.getTotal()) + "</b></p>"
+                + "<p>Tổng giá trị đơn hàng: <b>" + FormatMoney.currencyVN(bill.getDowntotal()) + "</b></p>"
                 + "<p>Địa chỉ nhận hàng: <b>" + bill.getAddress() + "</b></p>"
                 + "<p><b>" + (bill.getPayment() ? "Đã thanh toán" : "Thanh toán khi nhận hàng") + "</b></p>"
                 + "<br>"

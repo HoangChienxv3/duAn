@@ -33,7 +33,7 @@ public interface BillService {
 
     Bill receivedBillManager(String idbill);
 
-    Bill refundBillManager(String idbill, EnumRefund status, String note);
+    Bill refundBillManager(String idbill, EnumRefund status, String note) throws MessagingException, UnsupportedEncodingException;
 
     List<Bill> findAllCustomer();
 
