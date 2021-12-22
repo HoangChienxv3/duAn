@@ -7,6 +7,7 @@ import com.mamilove.dao.CustomerDao;
 import com.mamilove.dao.RoleDao;
 import com.mamilove.entity.Account;
 import com.mamilove.entity.Authority;
+import com.mamilove.entity.Product;
 import com.mamilove.entity.Role;
 import com.mamilove.request.dto.SignupRequest;
 import com.mamilove.response.dto.Res;
@@ -65,7 +66,18 @@ public class AccountManagerController {
         }
         return ResponseEntity.ok(new Res(accountService.findById(id), "thong tin tai khoan", true));
     }
-
+    @PostMapping("/delete")
+    @PreAuthorize("hasRole('ROLE_STAFF') or hasRole('ROLE_ADMIN')")
+    public ResponseEntity<?> deleteProduct(@RequestBody Authority authority) {
+        try {
+        	authority.setIsDelete(true);
+            authorityDAO.saveAndFlush(authority);
+            return ResponseEntity.ok(new Res(accountService.findAllByIsDeleteFalse(), "Save success", true));
+        } catch (Exception e) {
+            // TODO: handle exception
+            return ResponseEntity.ok(new Res("Save failed", false));
+        }
+    }
     @PostMapping(value = "/updateInline")
     @PreAuthorize("hasRole('ROLE_STAFF') or hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> updateInline(@RequestParam(required = false, value = "createdItems") String createdItems,
