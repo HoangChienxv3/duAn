@@ -42,8 +42,7 @@ public class GetBillShiping {
             billDto.setContent(elmInfoBill.text());
             billDtoList.add(billDto);
         }
-        Collections.sort(billDtoList);
-//        billDtoList.forEach(System.out::println);
+
         return billDtoList;
     }
 

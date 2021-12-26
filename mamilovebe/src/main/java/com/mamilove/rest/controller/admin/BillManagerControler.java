@@ -73,7 +73,7 @@ public class BillManagerControler {
     @PreAuthorize("hasRole('ROLE_STAFF') or hasRole('ROLE_ADMIN')")
     public ResponseEntity<Res> refundBill(@PathVariable("idbill") String idbill,
                                           @RequestParam(value = "status", required = false) EnumRefund status,
-                                          @RequestParam(value = "note", required = false) String note) {
+                                          @RequestParam(value = "note", required = false) String note) throws MessagingException, UnsupportedEncodingException {
         return ResponseEntity.ok(new Res(billService.refundBillManager(idbill, status, note), "Save success", true));
     }
 
